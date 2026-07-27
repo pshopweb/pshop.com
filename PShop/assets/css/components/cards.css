@@ -41,28 +41,36 @@
 .pc-cod-badge{display:inline-flex;align-items:center;gap:.35rem;margin-top:.3rem;padding:.25rem .6rem;
   background:var(--success-bg, #ecfdf5);color:var(--success, #059669);border-radius:var(--r-sm);
   font-size:var(--fs-xs);font-weight:700;border:1px solid var(--success, #a7f3d0);}
-.pc-cta{margin-top:.6rem;display:flex;gap:.5rem;}
-.pc-cta .btn{flex:1;padding-inline:.6rem;}
+.pc-cta{margin-top:.5rem;display:flex;gap:.4rem;}
+.pc-cta .btn{flex:1;padding-inline:.5rem;font-size:var(--fs-xs);}
 .pc-buy-btn{font-weight:700;}
 
 /* Mobile: vertical card layout for 2-column grid */
 @media (max-width:767px){
-  .product-card{flex-direction:column;contain-intrinsic-size:280px;}
+  .product-card{flex-direction:column;contain-intrinsic-size:260px;}
   .pc-img{width:100%;flex:none;aspect-ratio:1;}
-  .pc-body{padding:var(--sp-3);}
-  .pc-name{min-height:2.6em;font-size:var(--fs-sm);}
-  .pc-cta{flex-direction:column;gap:.4rem;margin-top:.5rem;}
-  .pc-cta .btn{width:100%;padding:.6rem .8rem;min-height:42px;font-size:var(--fs-sm);}
+  .pc-body{padding:var(--sp-2) var(--sp-3);}
+  .pc-name{min-height:2.4em;font-size:var(--fs-xs);line-height:1.3;}
+  .pc-brand{font-size:9px;}
+  .pc-rating{font-size:10px;}
+  .pc-price .price{font-size:var(--fs-base);}
+  .pc-price .price-mrp,.pc-price .price-off{font-size:var(--fs-xs);}
+  .pc-cta{flex-direction:row;gap:.3rem;margin-top:.4rem;}
+  .pc-cta .btn{flex:1;padding:.45rem .5rem;min-height:36px;font-size:10px;gap:.25rem;}
+  .pc-cta .btn span{display:none;}
+  .pc-cta .btn svg{width:14px;height:14px;}
   .pc-actions{opacity:1;transform:none;}
   .product-card:hover{transform:none;}
-  .pc-buy-btn{padding:.7rem 1rem !important;min-height:44px !important;font-size:var(--fs-sm) !important;width:100%;}
-  .pc-cod-badge{font-size:var(--fs-xs);padding:.3rem .7rem;}
+  .pc-cod-badge{font-size:9px;padding:.2rem .5rem;margin-top:.2rem;}
+  .pc-meta{font-size:9px;}
 }
-/* Very small screens: single column */
+/* Very small screens */
 @media (max-width:420px){
-  .product-card{contain-intrinsic-size:340px;}
-  .pc-cta{flex-direction:row;}
-  .pc-cta .btn{flex:1;}
+  .product-card{contain-intrinsic-size:240px;}
+  .pc-body{padding:var(--sp-2);}
+  .pc-name{font-size:10px;min-height:2.2em;}
+  .pc-price .price{font-size:var(--fs-sm);}
+  .pc-cta .btn{padding:.4rem .4rem;min-height:34px;font-size:9px;}
 }
 /* Compact horizontal scroll rail */
 .rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,1fr);gap:var(--sp-4);

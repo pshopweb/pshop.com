@@ -10,15 +10,33 @@
 .profile-hero .meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:var(--fs-xs);opacity:.9;}
 .profile-hero .actions{margin-left:auto;position:relative;z-index:1;}
 @media (max-width:640px){
-  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-3);padding:var(--sp-5);}
+  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-3);padding:var(--sp-4);}
   .profile-hero .actions{margin:0;} .profile-hero .meta{justify-content:center;}
+  .profile-hero img{width:64px;height:64px;}
+  .profile-hero h1{font-size:1.2rem;}
+  .profile-hero p{font-size:var(--fs-xs);}
+  .profile-hero .meta{gap:.6rem;font-size:10px;}
+  .profile-hero .actions .btn{padding:.5rem 1rem;min-height:38px;font-size:var(--fs-sm);}
 }
 
 .quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-5);}
 @media (max-width:900px){.quick-stats{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:420px){
+  .quick-stats{grid-template-columns:repeat(2,1fr);gap:var(--sp-2);}
+  .quick-stats .stat-card{padding:var(--sp-3);gap:var(--sp-2);}
+  .quick-stats .stat-card .ico{width:36px;height:36px;}
+  .quick-stats .stat-card .ico svg{width:18px;height:18px;}
+  .quick-stats .stat-card .val{font-size:var(--fs-lg);}
+  .quick-stats .stat-card .lbl{font-size:9px;}
+}
 
 .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-4);}
-@media (max-width:640px){.info-grid{grid-template-columns:1fr;}}
+@media (max-width:640px){
+  .info-grid{grid-template-columns:1fr;gap:var(--sp-2);}
+  .info-row{padding:.5rem 0;}
+  .info-row .k{font-size:10px;}
+  .info-row .v{font-size:var(--fs-sm);}
+}
 .info-row{padding:.7rem 0;border-bottom:1px solid var(--border);}
 .info-row:last-child{border-bottom:0;}
 .info-row .k{font-size:var(--fs-xs);color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;}
@@ -43,6 +61,18 @@
   min-height:190px;border:2px dashed var(--border-strong);border-radius:var(--r-lg);
   color:var(--text-3);font-weight:600;transition:all var(--t) var(--ease);background:transparent;}
 .addr-add:hover{border-color:var(--brand-500);color:var(--brand-600);background:var(--brand-50);}
+
+/* Mobile account improvements */
+@media (max-width:640px){
+  .info-card{padding:var(--sp-3) !important;}
+  .info-card h3{font-size:var(--fs-sm);}
+  .info-card .btn-sm{padding:.4rem .8rem;min-height:34px;font-size:10px;}
+  .addr-card{padding:var(--sp-3);}
+  .addr-card h4{font-size:var(--fs-sm);}
+  .addr-card address{font-size:var(--fs-xs);}
+  .setting-row{padding:var(--sp-3);flex-direction:column;align-items:flex-start;gap:var(--sp-2);}
+  .setting-row .txt b{font-size:var(--fs-sm);}
+}
 
 /* Notifications & messages */
 .notif-item{display:flex;gap:var(--sp-3);padding:var(--sp-4);border-radius:var(--r-md);

@@ -30,6 +30,7 @@ page(async () => {
         <span>${icon('calendar', 13)} Member since ${fmtDate(user.createdAt, { day: undefined })}</span>
         ${user.verified ? `<span>${icon('checkCircle', 13)} Verified</span>` : ''}
       </div>
+      ${user.phone ? `<div class="meta" style="margin-top:.3rem"><span style="background:rgba(255,255,255,.2);padding:.2rem .6rem;border-radius:20px;font-weight:700">${icon('phone', 12)} ${esc(user.phone)}</span></div>` : ''}
     </div>
     <div class="actions"><a class="btn btn-sm" style="background:#fff;color:var(--brand-700)"
       href="edit-profile.html">Edit profile</a></div>`;

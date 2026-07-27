@@ -105,14 +105,14 @@
 .cat-tile small{font-size:var(--fs-xs);color:var(--text-3);}
 
 /* Generic info/stat card */
-.info-card{padding:var(--sp-5);background:var(--surface);border:1px solid var(--border);
+.info-card{padding:var(--sp-4);background:var(--surface);border:1px solid var(--border);
   border-radius:var(--r-lg);box-shadow:var(--sh-xs);}
-.stat-card{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-5);border-radius:var(--r-lg);
+.stat-card{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-4);border-radius:var(--r-lg);
   background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-xs);
   transition:transform var(--t) var(--ease),box-shadow var(--t) var(--ease);}
 .stat-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
-.stat-card .ico{width:52px;height:52px;border-radius:var(--r-md);display:grid;place-items:center;flex:none;
+.stat-card .ico{width:44px;height:44px;border-radius:var(--r-md);display:grid;place-items:center;flex:none;
   background:var(--brand-50);color:var(--brand-600);}
-.stat-card .ico svg{width:24px;height:24px;}
-.stat-card .val{font-size:var(--fs-2xl);font-weight:800;line-height:1;letter-spacing:-.02em;}
+.stat-card .ico svg{width:20px;height:20px;}
+.stat-card .val{font-size:var(--fs-xl);font-weight:800;line-height:1;letter-spacing:-.02em;}
 .stat-card .lbl{font-size:var(--fs-xs);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;}

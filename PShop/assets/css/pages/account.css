@@ -1,13 +1,13 @@
 /* ======================= Account area (profile etc.) ====================== */
-.profile-hero{display:flex;align-items:center;gap:var(--sp-5);padding:var(--sp-6);
+.profile-hero{display:flex;align-items:center;gap:var(--sp-5);padding:var(--sp-5);
   border-radius:var(--r-xl);margin-bottom:var(--sp-5);color:#fff;position:relative;overflow:hidden;
   background:linear-gradient(120deg,var(--brand-700),var(--accent-600));}
 .profile-hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;
   background:rgba(255,255,255,.12);right:-70px;top:-90px;}
-.profile-hero img{width:84px;height:84px;border-radius:50%;border:3px solid rgba(255,255,255,.6);flex:none;}
-.profile-hero h1{font-size:clamp(1.3rem,2.6vw,1.8rem);}
+.profile-hero img{width:72px;height:72px;border-radius:50%;border:3px solid rgba(255,255,255,.6);flex:none;}
+.profile-hero h1{font-size:clamp(1.15rem,2.2vw,1.5rem);}
 .profile-hero p{opacity:.9;font-size:var(--fs-sm);}
-.profile-hero .meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:var(--fs-xs);opacity:.9;}
+.profile-hero .meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem;font-size:var(--fs-xs);opacity:.9;}
 .profile-hero .actions{margin-left:auto;position:relative;z-index:1;}
 @media (max-width:640px){
   .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-3);padding:var(--sp-4);}
@@ -19,7 +19,7 @@
   .profile-hero .actions .btn{padding:.5rem 1rem;min-height:38px;font-size:var(--fs-sm);}
 }
 
-.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-5);}
+.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-4);}
 @media (max-width:900px){.quick-stats{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:420px){
   .quick-stats{grid-template-columns:repeat(2,1fr);gap:var(--sp-2);}
@@ -30,7 +30,7 @@
   .quick-stats .stat-card .lbl{font-size:9px;}
 }
 
-.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-4);}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);}
 @media (max-width:640px){
   .info-grid{grid-template-columns:1fr;gap:var(--sp-2);}
   .info-row{padding:.5rem 0;}

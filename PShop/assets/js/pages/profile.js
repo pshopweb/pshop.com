@@ -21,7 +21,7 @@ page(async () => {
   const user = Auth.user();
 
   $('#profile-hero').innerHTML = `
-    <img src="${user.avatar || url('assets/img/misc/avatar.svg')}" alt="Your profile photo" width="84" height="84">
+    <img src="${user.avatar || url('assets/img/misc/avatar.svg')}" alt="Your profile photo" width="72" height="72">
     <div>
       <h1>${esc(user.name)}</h1>
       <p>${esc(user.email)}</p>

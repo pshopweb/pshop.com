@@ -1,6 +1,6 @@
 /* ======================= Account area (profile etc.) ====================== */
 .profile-hero{display:flex;align-items:center;gap:var(--sp-5);padding:var(--sp-5);
-  border-radius:var(--r-xl);margin-bottom:var(--sp-5);color:#fff;position:relative;overflow:hidden;
+  border-radius:var(--r-xl);margin-bottom:var(--sp-4);color:#fff;position:relative;overflow:hidden;
   background:linear-gradient(120deg,var(--brand-700),var(--accent-600));}
 .profile-hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;
   background:rgba(255,255,255,.12);right:-70px;top:-90px;}
@@ -9,32 +9,33 @@
 .profile-hero p{opacity:.9;font-size:var(--fs-sm);}
 .profile-hero .meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem;font-size:var(--fs-xs);opacity:.9;}
 .profile-hero .actions{margin-left:auto;position:relative;z-index:1;}
-@media (max-width:640px){
-  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-3);padding:var(--sp-4);}
-  .profile-hero .actions{margin:0;} .profile-hero .meta{justify-content:center;}
-  .profile-hero img{width:64px;height:64px;}
-  .profile-hero h1{font-size:1.2rem;}
-  .profile-hero p{font-size:var(--fs-xs);}
-  .profile-hero .meta{gap:.6rem;font-size:10px;}
-  .profile-hero .actions .btn{padding:.5rem 1rem;min-height:38px;font-size:var(--fs-sm);}
+@media (max-width:767px){
+  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-2);padding:var(--sp-3);border-radius:var(--r-lg);margin-bottom:var(--sp-3);}
+  .profile-hero::after{width:160px;height:160px;right:-40px;top:-50px;}
+  .profile-hero img{width:56px;height:56px;border-width:2px;}
+  .profile-hero h1{font-size:1.1rem;}
+  .profile-hero p{font-size:11px;}
+  .profile-hero .meta{gap:.5rem;font-size:9px;margin-top:.3rem;}
+  .profile-hero .actions{margin:0;}
+  .profile-hero .actions .btn{padding:.4rem .8rem;min-height:32px;font-size:11px;}
 }
 
 .quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-4);}
 @media (max-width:900px){.quick-stats{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:420px){
-  .quick-stats{grid-template-columns:repeat(2,1fr);gap:var(--sp-2);}
-  .quick-stats .stat-card{padding:var(--sp-3);gap:var(--sp-2);}
-  .quick-stats .stat-card .ico{width:36px;height:36px;}
-  .quick-stats .stat-card .ico svg{width:18px;height:18px;}
-  .quick-stats .stat-card .val{font-size:var(--fs-lg);}
+@media (max-width:767px){
+  .quick-stats{grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-3);}
+  .quick-stats .stat-card{padding:var(--sp-2) var(--sp-3);gap:var(--sp-2);border-radius:var(--r-md);}
+  .quick-stats .stat-card .ico{width:32px;height:32px;border-radius:var(--r-sm);}
+  .quick-stats .stat-card .ico svg{width:16px;height:16px;}
+  .quick-stats .stat-card .val{font-size:var(--fs-base);}
   .quick-stats .stat-card .lbl{font-size:9px;}
 }
 
 .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);}
 @media (max-width:640px){
   .info-grid{grid-template-columns:1fr;gap:var(--sp-2);}
-  .info-row{padding:.5rem 0;}
-  .info-row .k{font-size:10px;}
+  .info-row{padding:.4rem 0;}
+  .info-row .k{font-size:9px;}
   .info-row .v{font-size:var(--fs-sm);}
 }
 .info-row{padding:.7rem 0;border-bottom:1px solid var(--border);}
@@ -63,11 +64,14 @@
 .addr-add:hover{border-color:var(--brand-500);color:var(--brand-600);background:var(--brand-50);}
 
 /* Mobile account improvements */
-@media (max-width:640px){
-  .info-card{padding:var(--sp-3) !important;}
+@media (max-width:767px){
+  .info-card{padding:var(--sp-3) !important;border-radius:var(--r-md);margin-bottom:var(--sp-3) !important;}
   .info-card h3{font-size:var(--fs-sm);}
-  .info-card .btn-sm{padding:.4rem .8rem;min-height:34px;font-size:10px;}
-  .addr-card{padding:var(--sp-3);}
+  .info-card .btn-sm{padding:.35rem .7rem;min-height:30px;font-size:10px;}
+  .info-card .flex.justify-between{margin-bottom:var(--sp-2) !important;}
+  .mb-6{margin-bottom:var(--sp-3) !important;}
+  .mb-4{margin-bottom:var(--sp-2) !important;}
+  .addr-card{padding:var(--sp-3);border-radius:var(--r-md);}
   .addr-card h4{font-size:var(--fs-sm);}
   .addr-card address{font-size:var(--fs-xs);}
   .setting-row{padding:var(--sp-3);flex-direction:column;align-items:flex-start;gap:var(--sp-2);}

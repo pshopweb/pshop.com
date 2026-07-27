@@ -13,7 +13,7 @@
   .shell > .sidebar{display:none;}
 }
 .shell-account{display:grid;grid-template-columns:220px 1fr;gap:var(--sp-5);align-items:start;}
-@media (max-width:1023px){.shell-account{grid-template-columns:1fr;}}
+@media (max-width:1023px){.shell-account{grid-template-columns:1fr;gap:var(--sp-3);}}
 @media (min-width:1024px) and (max-width:1279px){
   .shell-account{grid-template-columns:200px 1fr;gap:var(--sp-4);}
 }
@@ -48,24 +48,35 @@
   border-bottom:1px solid var(--border);margin-bottom:var(--sp-2);}
 .account-head img{width:40px;height:40px;border-radius:50%;}
 @media (max-width:1023px){
-  .account-nav{position:static;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;}
+  .account-nav{position:static;display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;
+    padding:var(--sp-2);border-radius:var(--r-md);margin-bottom:var(--sp-2);}
   .account-nav::-webkit-scrollbar{display:none;}
   .account-nav .account-head{display:none;}
-  .account-nav a{flex:none;white-space:nowrap;}
+  .account-nav a{flex:none;white-space:nowrap;padding:.4rem .6rem;font-size:11px;border-radius:var(--r-full);
+    border:1px solid var(--border);gap:.35rem;}
+  .account-nav a.active{background:var(--brand-600);color:#fff;border-color:var(--brand-600);}
+  .account-nav a svg{width:14px;height:14px;}
 }
 
 /* Breadcrumb */
 .breadcrumb{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;font-size:var(--fs-xs);
-  color:var(--text-3);padding:var(--sp-4) 0;}
+  color:var(--text-3);padding:var(--sp-3) 0;}
 .breadcrumb a{transition:color var(--t-fast) var(--ease);}
 .breadcrumb a:hover{color:var(--brand-600);}
 .breadcrumb .sep{opacity:.5;}
 .breadcrumb [aria-current]{color:var(--text);font-weight:600;}
+@media (max-width:767px){
+  .breadcrumb{padding:var(--sp-2) 0;font-size:10px;gap:.25rem;}
+}
 
 /* Page header band */
 .page-head{padding:var(--sp-4) 0 var(--sp-3);}
 .page-head h1{font-size:clamp(1.2rem,2.5vw,1.6rem);letter-spacing:-.02em;}
 .page-head p{color:var(--text-3);font-size:var(--fs-sm);margin-top:.2rem;}
+@media (max-width:767px){
+  .page-head{padding:var(--sp-2) 0 var(--sp-2);}
+  .page-head h1{font-size:1.15rem;}
+}
 
 /* Sticky action bar (mobile buy bar) */
 .action-bar{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-sticky);display:flex;gap:.6rem;

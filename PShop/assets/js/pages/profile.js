@@ -26,11 +26,11 @@ page(async () => {
       <h1>${esc(user.name)}</h1>
       <p>${esc(user.email)}</p>
       <div class="meta">
-        <span>${icon('phone', 13)} ${esc(user.phone || 'No number added')}</span>
-        <span>${icon('calendar', 13)} Member since ${fmtDate(user.createdAt, { day: undefined })}</span>
-        ${user.verified ? `<span>${icon('checkCircle', 13)} Verified</span>` : ''}
+        <span>${icon('phone', 11)} ${esc(user.phone || 'No number added')}</span>
+        <span>${icon('calendar', 11)} Member since ${fmtDate(user.createdAt, { day: undefined })}</span>
+        ${user.verified ? `<span>${icon('checkCircle', 11)} Verified</span>` : ''}
       </div>
-      ${user.phone ? `<div class="meta" style="margin-top:.3rem"><span style="background:rgba(255,255,255,.2);padding:.2rem .6rem;border-radius:20px;font-weight:700">${icon('phone', 12)} ${esc(user.phone)}</span></div>` : ''}
+      ${user.phone ? `<div class="meta" style="margin-top:.25rem"><span style="background:rgba(255,255,255,.2);padding:.15rem .5rem;border-radius:20px;font-weight:700">${icon('phone', 10)} ${esc(user.phone)}</span></div>` : ''}
     </div>
     <div class="actions"><a class="btn btn-sm" style="background:#fff;color:var(--brand-700)"
       href="edit-profile.html">Edit profile</a></div>`;

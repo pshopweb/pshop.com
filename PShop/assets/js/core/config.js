@@ -33,7 +33,7 @@ export const CONFIG = Object.freeze({
   SHIPPING_FEE: 79,
   EXPRESS_FEE: 129,
   TAX_RATE: 0.18,           // GST shown as inclusive breakdown
-  COD_FEE: 29,
+  COD_FEE: 0,
   MAX_QTY_PER_ITEM: 10,
   MAX_COMPARE: 4,
 

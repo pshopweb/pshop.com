@@ -7,8 +7,9 @@ import { CONFIG, url } from '../core/config.js';
 import { $, $$, el, esc, money, compact, qs, starsHTML, offPct, clamp,
          fmtDate, addDays, V, shareLink } from '../core/utils.js';
 import { API } from '../core/api.js';
-import { Cart, Wishlist, Compare, Recent } from '../core/state.js';
+import { Cart, Wishlist, Compare, Recent, Addresses } from '../core/state.js';
 import { Auth } from '../core/auth.js';
+import { Store } from '../core/storage.js';
 import { renderProducts } from '../components/product-card.js';
 import { icon } from '../components/icons.js';
 import { toast } from '../components/toast.js';
@@ -111,7 +112,7 @@ function render() {
       `Free delivery on orders above ${money(CONFIG.FREE_SHIP_ABOVE)}`],
     [`Returns`, `<b>${p.returnDays}-day</b> easy return & replacement policy`],
     [`Warranty`, `${esc(p.specs.Warranty)} manufacturer warranty`],
-    ...(p.codAvailable ? [['Payment', 'Cash on Delivery available at your doorstep']] : [])
+    ...(p.codAvailable ? [['Payment', '<b style="color:var(--success)">FREE Cash on Delivery</b> — pay when your order arrives']] : [])
   ].map(([t, d]) => `<div class="pd-offer">${icon('checkCircle', 16)}
       <span><b>${t}:</b> ${d}</span></div>`).join('');
 
@@ -271,7 +272,24 @@ function wireCta() {
     if (!product.inStock) return toast.warn('This product is currently out of stock.');
     const qty = +$('#qty-input').value || 1;
     Cart.add(product, qty, chosenColor);
-    if (redirect) { location.href = url('pages/checkout.html'); return; }
+    if (redirect) {
+      // Skip checkout page if user has a saved address — go straight to payment.
+      const addrs = Addresses.all();
+      if (addrs.length) {
+        const addr = Addresses.default() || addrs[0];
+        const user = Auth.user();
+        const totals = Cart.totals();
+        Store.set(CONFIG.KEYS.CHECKOUT, {
+          contact: { name: user?.name || '', email: user?.email || '', phone: user?.phone || '' },
+          address: addr, shipMode: 'standard', coupon: null, totals,
+          items: Cart.all(), createdAt: new Date().toISOString()
+        });
+        location.href = url('pages/payment.html');
+      } else {
+        location.href = url('pages/checkout.html');
+      }
+      return;
+    }
     toast.success(`Added ${qty} × ${product.name.slice(0, 30)}… to cart.`, {
       action: { label: 'Go to cart', onClick: () => location.href = url('pages/cart.html') }
     });

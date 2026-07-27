@@ -32,7 +32,6 @@ page(async () => {
 
   $('#pay-shell').hidden = false;
   $('#secure-badge').innerHTML = `${icon('lock', 12)} Secure`;
-  $('#cod-fee').textContent = money(CONFIG.COD_FEE);
 
   renderMethods();
   renderAddress();
@@ -52,7 +51,7 @@ function renderMethods() {
       <input type="radio" name="pay" value="${m.id}" ${method === m.id ? 'checked' : ''}>
       <img src="${url(m.icon)}" alt="" width="120" height="48">
       <span class="txt"><b>${esc(m.label)}</b><span>${esc(m.desc)}</span></span>
-      ${m.id === 'cod' ? `<span class="badge badge-warning">+${money(CONFIG.COD_FEE)}</span>` : ''}
+      ${m.id === 'cod' ? `<span class="badge badge-success">FREE</span>` : ''}
     </label>`).join('') +
     (!codOk ? `<div class="pay-detail" style="margin-top:.7rem">
       <p class="xs" style="color:var(--warning)">${icon('info', 12)}
@@ -103,7 +102,7 @@ function renderMethods() {
   const total = totalWithFee();
   btn.textContent = method === 'cod' ? `Place order · ${money(total)}` : `Pay ${money(total)} securely`;
   $('#pay-note').innerHTML = method === 'cod'
-    ? `${icon('truck', 12)} Pay in cash when your order arrives.`
+    ? `${icon('truck', 12)} Pay in cash at your doorstep — FREE, no extra charges.`
     : `${icon('lock', 12)} Your payment is encrypted and processed securely.`;
 }
 
@@ -155,7 +154,7 @@ async function onPay() {
   try {
     // Simulate gateway round-trip. COD always succeeds; online payments use a
     // deterministic check so the demo can exercise the failure path too.
-    await sleep(1800);
+    await sleep(800);
 
     const reference = uid('TXN');
     const failed = method !== 'cod' && shouldFail();

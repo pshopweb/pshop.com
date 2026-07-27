@@ -31,14 +31,6 @@ export async function renderHeader(active = '') {
 
   mount.innerHTML = `
   <header class="site-header" id="header">
-    <div class="announce">
-      ${icon('zap', 13)}
-      <span>Free delivery above ${CONFIG.CURRENCY}${CONFIG.FREE_SHIP_ABOVE}
-        &middot; <strong>PSHOP10</strong>: 10% off above ${CONFIG.CURRENCY}999
-        (max ${CONFIG.CURRENCY}300)</span>
-      <a href="${P('shop.html?tag=flash')}">Shop deals</a>
-    </div>
-
     <div class="container header-main">
       <button class="hamburger" id="btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         ${icon('menu', 24)}

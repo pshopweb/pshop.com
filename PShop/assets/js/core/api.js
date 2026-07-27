@@ -58,14 +58,14 @@ if (typeof window !== 'undefined') {
  * Isse product listing browse karte waqt bar-bar call nahi jati.
  */
 const CACHEABLE = {
-  getProducts: 120000,     // 2 min
-  getProduct: 120000,      // 2 min
-  getCategories: 600000,   // 10 min (rarely changes)
-  getFilters: 300000,      // 5 min
-  getBanners: 600000,      // 10 min (rarely changes)
-  getFaqs: 600000,         // 10 min (rarely changes)
-  getCoupons: 300000,      // 5 min
-  searchProducts: 60000    // 1 min
+  getProducts: 300000,     // 5 min
+  getProduct: 300000,      // 5 min
+  getCategories: 900000,   // 15 min (rarely changes)
+  getFilters: 600000,      // 10 min
+  getBanners: 900000,      // 15 min (rarely changes)
+  getFaqs: 900000,         // 15 min (rarely changes)
+  getCoupons: 600000,      // 10 min
+  searchProducts: 120000   // 2 min
 };
 
 const cache = new Map();

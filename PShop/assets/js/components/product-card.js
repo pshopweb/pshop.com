@@ -71,14 +71,15 @@ export function productCard(p, opts = {}) {
       <div class="pc-meta">
         ${lowStock ? `<span class="badge badge-danger">Only ${p.stock} left</span>`
           : p.inStock ? `<span>${icon('truck', 13)} ${p.deliveryDays <= 1 ? 'Tomorrow' : p.deliveryDays + ' days'}</span>` : ''}
-        ${p.codAvailable ? '<span>&middot; COD</span>' : ''}
       </div>
+      ${p.codAvailable ? `<div class="pc-cod-badge">${icon('truck', 13)} Cash on Delivery</div>` : ''}
       <div class="pc-cta">
-        <button class="btn btn-sm btn-primary" data-add-cart="${p.id}" ${!p.inStock ? 'disabled aria-disabled="true"' : ''}>
+        <button class="btn btn-sm btn-primary pc-add-btn" data-add-cart="${p.id}" ${!p.inStock ? 'disabled aria-disabled="true"' : ''}>
           ${icon('cart', 15)} <span>${p.inStock ? 'Add to Cart' : 'Sold out'}</span>
         </button>
-        <button class="btn btn-sm btn-secondary" data-buy-now="${p.id}" ${!p.inStock ? 'disabled aria-disabled="true"' : ''}
-          aria-label="Buy ${esc(p.name)} now">${icon('zap', 15)}</button>
+        <button class="btn btn-sm btn-accent pc-buy-btn" data-buy-now="${p.id}" ${!p.inStock ? 'disabled aria-disabled="true"' : ''}>
+          ${icon('zap', 14)} <span>Buy Now</span>
+        </button>
       </div>
     </div>
   </article>`;
@@ -193,7 +194,24 @@ export function wireCardActions(getProduct) {
       if (!p) return toast.error('Product unavailable.');
       if (!p.inStock) return toast.warn('This product is out of stock.');
       Cart.add(p, 1);
-      location.href = P('checkout.html');
+      // Skip checkout if user has a saved address — go straight to payment.
+      const { Addresses } = await import('../core/state.js');
+      const hasAddr = Addresses.all().length > 0;
+      if (hasAddr) {
+        const { Store } = await import('../core/storage.js');
+        const { CONFIG } = await import('../core/config.js');
+        const { Auth } = await import('../core/auth.js');
+        const addr = Addresses.default() || Addresses.all()[0];
+        const totals = Cart.totals();
+        Store.set(CONFIG.KEYS.CHECKOUT, {
+          contact: { name: Auth.user()?.name || '', email: Auth.user()?.email || '', phone: Auth.user()?.phone || '' },
+          address: addr, shipMode: 'standard', coupon: null, totals,
+          items: Cart.all(), createdAt: new Date().toISOString()
+        });
+        location.href = P('payment.html');
+      } else {
+        location.href = P('checkout.html');
+      }
       return;
     }
 

@@ -563,8 +563,8 @@ function sortProducts(items, sort) {
 export async function mockRequest(action, payload = {}) {
   const fn = handlers[action];
   if (!fn) return fail(`Unknown action: ${action}`, 404);
-  // Minimal latency — fast feel while still async-realistic.
-  await sleep(40 + Math.random() * 60);
+  // Minimal latency — instant feel, still async-correct.
+  await sleep(15 + Math.random() * 25);
   try { return await fn(payload); }
   catch (e) {
     console.error('[PShop mock]', action, e);

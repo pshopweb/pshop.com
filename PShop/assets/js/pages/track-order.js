@@ -47,26 +47,31 @@ async function track(id) {
   const btn = $('#track-btn');
   btn.classList.add('is-loading');
 
-  const res = await API.trackOrder({ id });
+  try {
+    const res = await API.trackOrder({ id });
+    btn.classList.remove('is-loading');
+    setQuery({ id });
 
-  btn.classList.remove('is-loading');
-  setQuery({ id });
+    if (!res.success) {
+      $('#track-result').hidden = true;
+      emptyState($('#track-empty'), {
+        title: 'Order not found',
+        text: `We could not find an order with ID "${id}". Please check the ID and try again.`,
+        actionLabel: Auth.isLoggedIn() ? 'View my orders' : 'Contact support',
+        actionHref: url(Auth.isLoggedIn() ? 'pages/orders.html' : 'pages/contact.html')
+      });
+      return;
+    }
 
-  if (!res.success) {
-    $('#track-result').hidden = true;
-    emptyState($('#track-empty'), {
-      title: 'Order not found',
-      text: `We could not find an order with ID "${id}". Please check the ID and try again.`,
-      actionLabel: Auth.isLoggedIn() ? 'View my orders' : 'Contact support',
-      actionHref: url(Auth.isLoggedIn() ? 'pages/orders.html' : 'pages/contact.html')
-    });
-    return;
+    $('#track-empty').innerHTML = '';
+    $('#track-result').hidden = false;
+    render(res.data.order);
+    $('#track-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (err) {
+    btn.classList.remove('is-loading');
+    toast.error('Tracking failed. Please try again.');
+    console.error('[PShop] track error:', err);
   }
-
-  $('#track-empty').innerHTML = '';
-  $('#track-result').hidden = false;
-  render(res.data.order);
-  $('#track-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function render(o) {

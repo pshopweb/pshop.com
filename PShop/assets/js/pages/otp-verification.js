@@ -30,38 +30,44 @@ page(async () => {
 
 async function sendOtp(id, btn) {
   btn?.classList.add('is-loading');
-  const res = await API.sendOtp({ identifier: id, purpose: 'login' });
-  btn?.classList.remove('is-loading');
+  try {
+    const res = await API.sendOtp({ identifier: id, purpose: 'login' });
+    btn?.classList.remove('is-loading');
 
-  if (!res.success) { toast.error(res.message); setError('identifier', true, res.message); return; }
+    if (!res.success) { toast.error(res.message); setError('identifier', true, res.message); return; }
 
-  identifier = id;
-  $('#send-step').hidden = true;
-  $('#verify-step').hidden = false;
+    identifier = id;
+    $('#send-step').hidden = true;
+    $('#verify-step').hidden = false;
 
-  $('#otp-target').innerHTML =
-    `Code sent to <b>${esc(res.data.masked)}</b>` +
-    // The demo backend surfaces the code so the flow is testable end-to-end.
-    (res.data.demoCode ? `<br><span class="xs muted">Demo code: <b>${esc(res.data.demoCode)}</b></span>` : '');
+    $('#otp-target').innerHTML =
+      `Code sent to <b>${esc(res.data.masked)}</b>` +
+      // The demo backend surfaces the code so the flow is testable end-to-end.
+      (res.data.demoCode ? `<br><span class="xs muted">Demo code: <b>${esc(res.data.demoCode)}</b></span>` : '');
 
-  toast.success(res.message);
+    toast.success(res.message);
 
-  otp = buildOtpInputs('otp-group', () => $('#otp-form').requestSubmit());
-  otp.focus();
-  startTimer();
+    otp = buildOtpInputs('otp-group', () => $('#otp-form').requestSubmit());
+    otp.focus();
+    startTimer();
 
-  $('#otp-form').onsubmit = onVerify;
-  $('#resend').onclick = async () => {
-    otp.clear();
-    await sendOtp(identifier, null);
-    toast.info('A new code is on its way.');
-  };
-  $('#change-id').onclick = () => {
-    timer?.stop();
-    $('#verify-step').hidden = true;
-    $('#send-step').hidden = false;
-    $('#identifier').focus();
-  };
+    $('#otp-form').onsubmit = onVerify;
+    $('#resend').onclick = async () => {
+      otp.clear();
+      await sendOtp(identifier, null);
+      toast.info('A new code is on its way.');
+    };
+    $('#change-id').onclick = () => {
+      timer?.stop();
+      $('#verify-step').hidden = true;
+      $('#send-step').hidden = false;
+      $('#identifier').focus();
+    };
+  } catch (err) {
+    btn?.classList.remove('is-loading');
+    toast.error('Failed to send OTP. Please try again.');
+    console.error('[PShop] sendOtp error:', err);
+  }
 }
 
 function startTimer() {
@@ -83,12 +89,17 @@ async function onVerify(e) {
   const btn = e.target.querySelector('button[type="submit"]');
   btn.classList.add('is-loading');
 
-  const res = await Auth.verifyOtp(code);
+  try {
+    const res = await Auth.verifyOtp(code);
+    btn.classList.remove('is-loading');
+    if (!res.success) { toast.error(res.message); otp.clear(); return; }
 
-  btn.classList.remove('is-loading');
-  if (!res.success) { toast.error(res.message); otp.clear(); return; }
-
-  timer?.stop();
-  toast.success('Verified! Signing you in…');
-  setTimeout(() => location.href = Auth.isLoggedIn() ? Auth.nextUrl() : url('pages/login.html'), 750);
+    timer?.stop();
+    toast.success('Verified! Signing you in…');
+    setTimeout(() => location.href = Auth.isLoggedIn() ? Auth.nextUrl() : url('pages/login.html'), 750);
+  } catch (err) {
+    btn.classList.remove('is-loading');
+    toast.error('Verification failed. Please try again.');
+    console.error('[PShop] verifyOtp error:', err);
+  }
 }

@@ -54,24 +54,39 @@ page(async () => {
     btn.classList.add('is-loading');
     btn.disabled = true;
 
-    const res = await Auth.login($('#identifier').value.trim(), $('#password').value);
+    // Safety timeout — 15s baad loading state auto-hat jaye agar API hang ho
+    const safetyTimer = setTimeout(() => {
+      btn.classList.remove('is-loading');
+      btn.disabled = false;
+    }, 15000);
 
-    btn.classList.remove('is-loading');
-    btn.disabled = false;
+    try {
+      const res = await Auth.login($('#identifier').value.trim(), $('#password').value);
+      clearTimeout(safetyTimer);
 
-    if (!res.success) {
-      toast.error(res.message);
-      // Point the error at the most likely field.
-      if (/password/i.test(res.message)) setError('password', true, res.message);
-      else setError('identifier', true, res.message);
-      return;
+      btn.classList.remove('is-loading');
+      btn.disabled = false;
+
+      if (!res.success) {
+        toast.error(res.message);
+        // Point the error at the most likely field.
+        if (/password/i.test(res.message)) setError('password', true, res.message);
+        else setError('identifier', true, res.message);
+        return;
+      }
+
+      toast.success(res.message);
+      const next = res.data.user.role === 'admin' && qs('admin')
+        ? url('admin/dashboard.html')
+        : Auth.nextUrl();
+      setTimeout(() => location.href = next, 650);
+    } catch (err) {
+      clearTimeout(safetyTimer);
+      btn.classList.remove('is-loading');
+      btn.disabled = false;
+      toast.error('Login failed. Please try again.');
+      console.error('[PShop] login error:', err);
     }
-
-    toast.success(res.message);
-    const next = res.data.user.role === 'admin' && qs('admin')
-      ? url('admin/dashboard.html')
-      : Auth.nextUrl();
-    setTimeout(() => location.href = next, 650);
   });
 
   // Clear errors as the user types.

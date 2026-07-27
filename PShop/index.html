@@ -203,5 +203,8 @@ document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
 </noscript>
 
 <script type="module" src="assets/js/pages/home.js"></script>
+<script>
+setTimeout(function(){var l=document.querySelector('.page-loader');if(l&&!l.classList.contains('done')){l.classList.add('done');setTimeout(function(){l.remove()},500)}},5000);
+</script>
 </body>
 </html>

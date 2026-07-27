@@ -217,18 +217,25 @@ function wireReasonModal() {
     const btn = $('#reason-submit');
     btn.classList.add('is-loading');
 
-    const res = mode === 'cancel'
-      ? await API.cancelOrder({ id: order.id, reason })
-      : await API.returnOrder({ id: order.id, reason, mode });
+    try {
+      const res = mode === 'cancel'
+        ? await API.cancelOrder({ id: order.id, reason })
+        : await API.returnOrder({ id: order.id, reason, mode });
 
-    btn.classList.remove('is-loading');
-    closeReason();
+      btn.classList.remove('is-loading');
+      closeReason();
 
-    if (!res.success) return toast.error(res.message);
+      if (!res.success) return toast.error(res.message);
 
-    order = res.data.order;
-    toast.success(res.message);
-    render();
+      order = res.data.order;
+      toast.success(res.message);
+      render();
+    } catch (err) {
+      btn.classList.remove('is-loading');
+      closeReason();
+      toast.error('Request failed. Please try again.');
+      console.error('[PShop] order action error:', err);
+    }
   });
 }
 

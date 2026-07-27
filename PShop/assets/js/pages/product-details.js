@@ -350,15 +350,21 @@ function renderReviews() {
 
     const btn = form.querySelector('button');
     btn.classList.add('is-loading');
-    const res = await API.addReview({
-      productId: product.id, user: Auth.user()?.name || 'PShop Customer',
-      rating, title: $('#rv-title').value.trim(), comment: text
-    });
-    btn.classList.remove('is-loading');
-    if (!res.success) return toast.error(res.message);
-    reviews.unshift(res.data.review);
-    toast.success(res.message);
-    renderReviews();
+    try {
+      const res = await API.addReview({
+        productId: product.id, user: Auth.user()?.name || 'PShop Customer',
+        rating, title: $('#rv-title').value.trim(), comment: text
+      });
+      btn.classList.remove('is-loading');
+      if (!res.success) return toast.error(res.message);
+      reviews.unshift(res.data.review);
+      toast.success(res.message);
+      renderReviews();
+    } catch (err) {
+      btn.classList.remove('is-loading');
+      toast.error('Review submission failed. Please try again.');
+      console.error('[PShop] addReview error:', err);
+    }
   });
 
   const host = $('#review-list');

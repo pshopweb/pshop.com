@@ -152,54 +152,63 @@ async function onPay() {
   $('#processing').hidden = false;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Simulate gateway round-trip. COD always succeeds; online payments use a
-  // deterministic check so the demo can exercise the failure path too.
-  await sleep(1800);
+  try {
+    // Simulate gateway round-trip. COD always succeeds; online payments use a
+    // deterministic check so the demo can exercise the failure path too.
+    await sleep(1800);
 
-  const reference = uid('TXN');
-  const failed = method !== 'cod' && shouldFail();
+    const reference = uid('TXN');
+    const failed = method !== 'cod' && shouldFail();
 
-  if (failed) {
-    Store.set('pshop_last_attempt', { reference, method, amount: totalWithFee(), at: new Date().toISOString() });
-    location.href = url('pages/payment-failed.html?ref=' + reference);
-    return;
-  }
+    if (failed) {
+      Store.set('pshop_last_attempt', { reference, method, amount: totalWithFee(), at: new Date().toISOString() });
+      location.href = url('pages/payment-failed.html?ref=' + reference);
+      return;
+    }
 
-  const payment = {
-    method,
-    label: CONFIG.PAYMENT_METHODS.find(m => m.id === method)?.label || method,
-    reference,
-    app: method === 'upi' ? upiApp : null,
-    last4: method === 'razorpay' ? $('#card-num').value.replace(/\D/g, '').slice(-4) : null
-  };
+    const payment = {
+      method,
+      label: CONFIG.PAYMENT_METHODS.find(m => m.id === method)?.label || method,
+      reference,
+      app: method === 'upi' ? upiApp : null,
+      last4: method === 'razorpay' ? $('#card-num').value.replace(/\D/g, '').slice(-4) : null
+    };
 
-  const totals = { ...draft.totals, total: totalWithFee(),
-                   codFee: method === 'cod' ? CONFIG.COD_FEE : 0 };
+    const totals = { ...draft.totals, total: totalWithFee(),
+                     codFee: method === 'cod' ? CONFIG.COD_FEE : 0 };
 
-  const res = await API.placeOrder({
-    userId: Auth.id(), items: draft.items, address: draft.address,
-    payment, totals, coupon: draft.coupon, contact: draft.contact, shipMode: draft.shipMode
-  });
+    const res = await API.placeOrder({
+      userId: Auth.id(), items: draft.items, address: draft.address,
+      payment, totals, coupon: draft.coupon, contact: draft.contact, shipMode: draft.shipMode
+    });
 
-  if (!res.success) {
+    if (!res.success) {
+      $('#processing').hidden = true;
+      $('#pay-shell').hidden = false;
+      btn.classList.remove('is-loading');
+      btn.disabled = false;
+      return toast.error(res.message);
+    }
+
+    await API.savePayment({
+      orderId: res.data.order.id, method, amount: totals.total,
+      reference, status: method === 'cod' ? 'Pending' : 'Paid'
+    });
+
+    // Order placed — clear the working state.
+    Cart.clear();
+    Store.remove(CONFIG.KEYS.COUPON);
+    Store.remove(CONFIG.KEYS.CHECKOUT);
+
+    location.href = url('pages/payment-success.html?id=' + res.data.order.id);
+  } catch (err) {
     $('#processing').hidden = true;
     $('#pay-shell').hidden = false;
     btn.classList.remove('is-loading');
     btn.disabled = false;
-    return toast.error(res.message);
+    toast.error('Payment failed. Please try again.');
+    console.error('[PShop] payment error:', err);
   }
-
-  await API.savePayment({
-    orderId: res.data.order.id, method, amount: totals.total,
-    reference, status: method === 'cod' ? 'Pending' : 'Paid'
-  });
-
-  // Order placed — clear the working state.
-  Cart.clear();
-  Store.remove(CONFIG.KEYS.COUPON);
-  Store.remove(CONFIG.KEYS.CHECKOUT);
-
-  location.href = url('pages/payment-success.html?id=' + res.data.order.id);
 }
 
 function validateMethod() {

@@ -29,25 +29,29 @@ export async function initApp(opts = {}) {
 
   Theme.init();
 
-  if (header) await renderHeader(nav);
-  if (footer) renderFooter({ newsletter });
-  if (bottomNav) renderBottomNav(page);
-  if (cardActions) wireCardActions(getProduct);
+  // Har step ko try/catch me wrap karo — ek failure se poora page nahi rukna chahiye.
+  if (header) {
+    try { await renderHeader(nav); } catch (e) { console.warn('[PShop] header error:', e.message); }
+  }
+  try { renderFooter({ newsletter }); } catch (e) { console.warn('[PShop] footer error:', e.message); }
+  try { renderBottomNav(page); } catch (e) { console.warn('[PShop] bottom-nav error:', e.message); }
+  try { wireCardActions(getProduct); } catch (e) { console.warn('[PShop] card-actions error:', e.message); }
 
-  lazyImages();
-  observeReveal();
-  registerServiceWorker();
-  wireShortcuts();
-  wireGlobalA11y();
-  wireSyncIndicator();
-  initConnectionWatch();   // backend down ho to user ko saaf dikhe
+  try { lazyImages(); } catch (e) { /* ignore */ }
+  try { observeReveal(); } catch (e) { /* ignore */ }
+  try { registerServiceWorker(); } catch (e) { /* ignore */ }
+  try { wireShortcuts(); } catch (e) { /* ignore */ }
+  try { wireGlobalA11y(); } catch (e) { /* ignore */ }
+  try { wireSyncIndicator(); } catch (e) { /* ignore */ }
+  try { initConnectionWatch(); } catch (e) { /* ignore */ }
+
   hideLoader();
   updateBadges();
 
   // Logged-in user ka cart/wishlist/address Google Sheet se refresh karo.
   // Background me chalta hai — page render block nahi hota.
   if (Auth.isLoggedIn()) {
-    syncOnLoad().then(() => updateBadges());
+    syncOnLoad().then(() => updateBadges()).catch(() => {});
   }
 
   document.body.dataset.page = page;
@@ -61,6 +65,15 @@ export function hideLoader() {
   l.classList.add('done');
   setTimeout(() => l.remove(), 500);
 }
+
+/** Failsafe — agar JS me koi error aaye to bhi 4 second baad loader auto-hide. */
+setTimeout(() => {
+  const l = $('.page-loader');
+  if (l && !l.classList.contains('done')) {
+    console.warn('[PShop] Loader failsafe triggered — hiding after timeout');
+    hideLoader();
+  }
+}, 4000);
 
 /** Register the service worker for offline/PWA support (https or localhost only). */
 function registerServiceWorker() {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Order Confirmed — PShop</title>
+<meta name="description" content="Your PShop order has been placed successfully.">
+<meta name="keywords" content="order confirmed, payment success">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/payment-success.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Order Confirmed — PShop">
+<meta property="og:description" content="Your PShop order has been placed successfully.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Order Confirmed — PShop">
+<meta name="twitter:description" content="Your PShop order has been placed successfully.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/checkout.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <div class="result-hero">
+      <div class="result-icon ok" id="ok-icon"></div>
+      <h1>Order placed successfully!</h1>
+      <p>Thank you for shopping with PShop. A confirmation has been sent to your email and
+         you can track the delivery any time from your orders page.</p>
+      <div class="order-ref" id="order-ref"></div>
+      <div class="result-actions">
+        <a class="btn btn-primary" id="btn-track">Track this order</a>
+        <a class="btn btn-secondary" id="btn-details">View order details</a>
+        <a class="btn btn-ghost" href="shop.html">Continue shopping</a>
+      </div>
+    </div>
+
+    <div class="shell-checkout" id="ok-shell">
+      <div>
+        <section class="co-panel">
+          <header><h3>Order summary</h3></header>
+          <div class="co-body"><div id="ok-items"></div></div>
+        </section>
+        <section class="co-panel">
+          <header><h3>Delivery details</h3></header>
+          <div class="co-body"><div id="ok-address"></div></div>
+        </section>
+      </div>
+      <aside class="summary">
+        <div class="summary-card">
+          <h3>Payment summary</h3>
+          <div class="summary-body" id="ok-summary"></div>
+          <div class="summary-foot">
+            <button class="btn btn-secondary btn-block" id="btn-invoice">Download invoice</button>
+          </div>
+        </div>
+        <div class="info-card mt-4" id="ok-eta"></div>
+      </aside>
+    </div>
+
+    <section class="section" aria-labelledby="ok-rec">
+      <div class="section-title"><div><h2 id="ok-rec">You might also like</h2></div></div>
+      <div class="rail-wrap"><div class="rail" id="ok-rail"></div></div>
+    </section>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/payment-success.js"></script>
+</body>
+</html>

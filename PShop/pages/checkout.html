@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Checkout — PShop</title>
+<meta name="description" content="Confirm your delivery address and review your order before payment.">
+<meta name="keywords" content="checkout, delivery address">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/checkout.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Checkout — PShop">
+<meta property="og:description" content="Confirm your delivery address and review your order before payment.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Checkout — PShop">
+<meta name="twitter:description" content="Confirm your delivery address and review your order before payment.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/checkout.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <div class="checkout-steps" aria-label="Checkout progress">
+      <div class="cs-step done"><span class="n">1</span><span class="lbl">Cart</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step active"><span class="n">2</span><span class="lbl">Address</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step "><span class="n">3</span><span class="lbl">Payment</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step "><span class="n">4</span><span class="lbl">Done</span></div>
+    </div>
+
+    <div id="co-empty" hidden></div>
+
+    <div class="shell-checkout" id="co-shell" hidden>
+      <div>
+        <!-- 1. Contact -->
+        <section class="co-panel">
+          <header><span class="n">1</span><h3>Contact details</h3></header>
+          <div class="co-body">
+            <div class="info-grid">
+              <div class="field">
+                <label for="c-name">Full name <span class="req">*</span></label>
+                <input class="input" id="c-name" autocomplete="name" required>
+                <p class="err-msg">Please enter your name.</p>
+              </div>
+              <div class="field">
+                <label for="c-email">Email <span class="req">*</span></label>
+                <input class="input" id="c-email" type="email" autocomplete="email" required>
+                <p class="err-msg">Please enter a valid email.</p>
+              </div>
+              <div class="field">
+                <label for="c-phone">Mobile number <span class="req">*</span></label>
+                <input class="input" id="c-phone" type="tel" inputmode="numeric" maxlength="10" required>
+                <p class="err-msg">Enter a valid 10-digit mobile number.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Address -->
+        <section class="co-panel">
+          <header><span class="n">2</span><h3>Delivery address</h3>
+            <button class="btn btn-sm btn-outline" id="btn-add-addr">Add new</button></header>
+          <div class="co-body">
+            <div class="addr-grid" id="addr-list"></div>
+            <div id="addr-none" hidden></div>
+          </div>
+        </section>
+
+        <!-- 3. Delivery speed -->
+        <section class="co-panel">
+          <header><span class="n">3</span><h3>Delivery option</h3></header>
+          <div class="co-body">
+            <div class="pay-methods" id="ship-options"></div>
+          </div>
+        </section>
+
+        <!-- 4. Review -->
+        <section class="co-panel">
+          <header><span class="n">4</span><h3>Review your order</h3></header>
+          <div class="co-body"><div id="review-items"></div></div>
+        </section>
+      </div>
+
+      <aside class="summary">
+        <div class="summary-card">
+          <h3>Price details</h3>
+          <div class="summary-body" id="summary-body"></div>
+          <div id="savings-banner"></div>
+          <div class="coupon-box"><div id="coupon-area"></div></div>
+          <div class="summary-foot">
+            <button class="btn btn-primary btn-lg btn-block" id="btn-continue">Continue to Payment</button>
+            <a class="btn btn-ghost btn-block mt-2" href="cart.html">Back to cart</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Reuse the address modal from the address book -->
+  <div class="modal" id="addr-modal" role="dialog" aria-modal="true" aria-labelledby="addr-modal-title">
+    <div class="overlay"></div>
+    <div class="modal-box lg" style="position:relative;z-index:1">
+      <div class="modal-head"><h3 id="addr-modal-title">Add a delivery address</h3>
+        <button class="btn-icon btn-ghost" id="addr-close" aria-label="Close">&times;</button></div>
+      <form id="addr-form" novalidate>
+        <div class="modal-body">
+          <div class="info-grid">
+            <div class="field"><label for="a-name">Full name <span class="req">*</span></label>
+              <input class="input" id="a-name" required><p class="err-msg">Enter the recipient name.</p></div>
+            <div class="field"><label for="a-phone">Mobile number <span class="req">*</span></label>
+              <input class="input" id="a-phone" inputmode="numeric" maxlength="10" required>
+              <p class="err-msg">Enter a valid 10-digit mobile number.</p></div>
+            <div class="field"><label for="a-pin">Pincode <span class="req">*</span></label>
+              <input class="input" id="a-pin" inputmode="numeric" maxlength="6" required>
+              <p class="err-msg">Enter a valid 6-digit pincode.</p></div>
+            <div class="field"><label for="a-city">City <span class="req">*</span></label>
+              <input class="input" id="a-city" required><p class="err-msg">Please enter your city.</p></div>
+            <div class="field"><label for="a-state">State <span class="req">*</span></label>
+              <select class="select" id="a-state" required></select>
+              <p class="err-msg">Please select your state.</p></div>
+            <div class="field"><label for="a-landmark">Landmark (optional)</label>
+              <input class="input" id="a-landmark"></div>
+          </div>
+          <div class="field"><label for="a-line1">Flat / House no., Building, Street <span class="req">*</span></label>
+            <textarea class="textarea" id="a-line1" rows="2" required></textarea>
+            <p class="err-msg">Please enter your full street address.</p></div>
+          <div class="field"><span class="label">Address type</span>
+            <div class="chip-row">
+              <label class="chip active"><input type="radio" name="atype" value="Home" checked class="sr-only">Home</label>
+              <label class="chip"><input type="radio" name="atype" value="Work" class="sr-only">Work</label>
+              <label class="chip"><input type="radio" name="atype" value="Other" class="sr-only">Other</label>
+            </div></div>
+          <label class="check"><input type="checkbox" id="a-default"><span>Make this my default address</span></label>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-secondary" type="button" id="addr-cancel">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save &amp; use this address</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Upload & Messages — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html" class="">Setup Guide</a>
+    <a href="backend.html" class="">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html" class="active">Upload & Messages</a>
+    <a href="fixes.html" class="">Recent Fixes</a>
+    <a href="errors.html" class="">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Upload & Messages</h1>
+      <p>Image upload, chat aur dates</p>
+    </div>
+    <article class="doc-body">
+<h1 id="pshop-image-upload-messages-dates">PShop — Image Upload, Messages &amp; Dates</h1>
+<p>Aapne 3 cheezein maangi thi. Teeno ho gayi.</p>
+<hr>
+<h2 id="1-product-image-upload-admin-panel-se">1️⃣ Product image upload (admin panel se)</h2>
+<h3 id="pehle-kya-problem-thi">Pehle kya problem thi</h3>
+<p>Backend me <code>uploadImage</code> API <strong>bani hui thi</strong> — par admin panel usko</p>
+<p><strong>call hi nahi karta tha</strong>. Product form me sirf ek textarea tha jisme URL type karna padta tha. Matlab feature adha bana hua tha.</p>
+<h3 id="ab-kya-hai">Ab kya hai</h3>
+<p>Admin → <strong>Products → Add product</strong> me poora upload system:</p>
+<table><thead><tr><th>Feature</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Drag &amp; drop</strong></td><td>Images kheench kar drop kar dein</td></tr><tr><td><strong>Click to browse</strong></td><td>Ya click karke file chunein</td></tr><tr><td><strong>Multiple upload</strong></td><td>Ek saath 6 tak images</td></tr><tr><td><strong>Live preview</strong></td><td>Upload hote hi grid me dikhti hain</td></tr><tr><td><strong>THUMB badge</strong></td><td>Pehli image par — wahi listing me dikhegi</td></tr><tr><td><strong>Drag to reorder</strong></td><td>Images kheench kar order badlein</td></tr><tr><td><strong>Remove</strong></td><td>Har image par × button</td></tr><tr><td><strong>Progress bar</strong></td><td>Kitni upload hui, live dikhta hai</td></tr><tr><td><strong>Manual URL</strong></td><td>Purana tarika bhi hai (collapsed section me)</td></tr></tbody></table>
+<h3 id="5-tb-drive-settings-us-hisaab-se-set-ki-hain">5 TB Drive — settings us hisaab se set ki hain</h3>
+<p>Aapke paas 5 TB hai, isliye quality <strong>badha di</strong>:</p>
+<table><thead><tr><th>Setting</th><th>Pehle</th><th>Ab</th></tr></thead><tbody><tr><td>Upload size</td><td>1200 px</td><td><strong>1600 px</strong></td></tr><tr><td>JPEG quality</td><td>85%</td><td><strong>90%</strong></td></tr><tr><td>Images per product</td><td>6</td><td><strong>8</strong></td></tr></tbody></table>
+<pre><code>
+Original : 4000 × 3000 px, 4.2 MB
+Upload   : 1600 × 1200 px, 320 KB     (JPEG 90%)
+</code></pre>
+<h3 id="par-ek-zaroori-baat-storage-speed">Par ek zaroori baat — storage ≠ speed</h3>
+<p>Ye samajhna important hai: <strong>Drive me jagah hone ka matlab ye nahi ki website tez chalegi.</strong> Agar listing page par 12 products hain aur har image 1600px ki hai, to mobile user ko <strong>4 MB</strong> download karna padega — sirf thumbnails dekhne ke liye.</p>
+<p>Isliye maine Google ka <strong>free image CDN</strong> use kiya hai:</p>
+<table><thead><tr><th>Kahan</th><th>URL</th><th>Size</th></tr></thead><tbody><tr><td>Listing cards</td><td><code>.../ABC=w400</code></td><td>~30 KB</td></tr><tr><td>Tablet / retina</td><td><code>.../ABC=w800</code></td><td>~90 KB</td></tr><tr><td>Product page, zoom</td><td><code>.../ABC</code></td><td>~320 KB</td></tr></tbody></table>
+<p><code>=w400</code> lagane se Google <strong>khud</strong> chhoti copy bana kar deta hai — bilkul free, koi extra storage nahi. Ek hi image se teen size mil jate hain.</p>
+<p><strong>Result:</strong> listing page 4 MB ki jagah <strong>360 KB</strong> load karta hai — 11× tez.</p>
+<p>Ye apne aap hota hai. Product save karte waqt <code>thumb</code> field me <code>=w400</code> wala URL chala jata hai, aur <code>images[]</code> me full-size rehti hai zoom ke liye.</p>
+<p>PNG transparency ko white background milta hai, warna JPEG me kaala aa jata.</p>
+<h3 id="backend-me-kya-better-hua">Backend me kya better hua</h3>
+<p><code>apiUploadImage()</code> ab:</p>
+<ul>
+<li><strong>File type check</strong> — sirf JPG, PNG, WEBP, GIF. PDF bheja to saaf error</li>
+<li><strong>Size limit</strong> — 5 MB. Badi image par: <em>"Image bahut badi hai (6.4 MB)"</em></li>
+<li><strong>Filename sanitize</strong> — special characters hata deta hai</li>
+<li><strong>Drive subfolders</strong> — <code>PShop Uploads/Products</code>, <code>/Avatars</code> — saaf organized</li>
+<li><strong>Behtar URL</strong> — <code>lh3.googleusercontent.com/d/ID</code> (ye <code>&lt;img&gt;</code> me hamesha</li>
+</ul>
+<p>  chalta hai; purana <code>uc?export=view</code> kabhi-kabhi block ho jata tha)</p>
+<p>Naya endpoint <strong><code>uploadImages</code></strong> — ek call me kai images, aur agar koi fail ho to baaki phir bhi upload ho jati hain.</p>
+<hr>
+<h2 id="2-message-reply">2️⃣ Message reply</h2>
+<p>Maine test karke dekha — <strong>ye pehle se sahi kaam kar raha tha</strong>. 19/19 checks pass:</p>
+<table><thead><tr><th>Flow</th><th>Status</th></tr></thead><tbody><tr><td>Customer message bhejta hai</td><td>✅</td></tr><tr><td>Admin inbox me dikhta hai</td><td>✅</td></tr><tr><td>Thread me customer ka naam + email</td><td>✅</td></tr><tr><td>Admin reply karta hai</td><td>✅</td></tr><tr><td>Customer ko reply dikhta hai</td><td>✅</td></tr><tr><td>Unread badge lagta hai</td><td>✅</td></tr><tr><td>Notification banti hai</td><td>✅</td></tr><tr><td><strong>Customer ko email jata hai</strong></td><td>✅</td></tr><tr><td>Customer wapas reply kar sakta hai</td><td>✅</td></tr><tr><td>Ticket close/reopen</td><td>✅</td></tr><tr><td>Guest contact form → admin inbox</td><td>✅</td></tr><tr><td>Admin guest ko reply kar sakta hai</td><td>✅</td></tr></tbody></table>
+<p>Test karne ke liye: <code>admin@pshop.in</code> se login → <strong>Messages</strong> → koi ticket kholein → reply bhejein. Phir <code>demo@pshop.in</code> se login karke <strong>Messages</strong> me dekhein — reply wahan dikhega.</p>
+<hr>
+<h2 id="3-dates-ab-achhi-dikhti-hain">3️⃣ Dates ab achhi dikhti hain</h2>
+<p>Pehle sab jagah ek jaisa boring format tha. Ab context ke hisab se:</p>
+<table><thead><tr><th>Kahan</th><th>Pehle</th><th>Ab</th></tr></thead><tbody><tr><td>Order timeline</td><td><code>25 Jul 2026, 04:30 pm</code></td><td><strong><code>Today, 04:30 pm</code></strong></td></tr><tr><td>Kal ka order</td><td><code>24 Jul 2026, 11:00 am</code></td><td><strong><code>Yesterday, 11:00 am</code></strong></td></tr><tr><td>Delivery date</td><td><code>28 Jul 2026</code></td><td><strong><code>Monday, 28 Jul</code></strong></td></tr><tr><td>Kal aa raha</td><td><code>26 Jul 2026</code></td><td><strong><code>Tomorrow</code></strong></td></tr><tr><td>Purana order</td><td><code>15 Dec 2025, 09:00 am</code></td><td><code>15 Dec 2025</code></td></tr></tbody></table>
+<p>Do naye helpers:</p>
+<p><strong><code>fmtSmart(date)</code></strong> — Today / Yesterday / Tomorrow, phir "25 Jul, 04:30 pm", purana ho to saal ke saath.</p>
+<p><strong><code>fmtDelivery(date)</code></strong> — "Today" / "Tomorrow" / "Monday, 28 Jul". Ek hafte se aage ho to "Sat, 02 Aug".</p>
+<p>Ye order timeline, track order aur payment success page par lage hain.</p>
+<p>Saare date functions ab <strong>invalid date par crash nahi karte</strong> — <code>—</code> dikhate hain.</p>
+<hr>
+<h2 id="testing">🧪 Testing</h2>
+<p><strong>242 backend tests</strong> (50 naye) + <strong>12 browser tests</strong>:</p>
+<pre><code>
+node tests/backend.test.js        # 242/242
+bash tests/run-upload-test.sh     # 12/12 — asli browser me file upload
+bash tests/run-web-test.sh        # website me data aa raha ya nahi
+python3 tests/live-check.py       # 13/13 — aapka live URL
+</code></pre>
+<p>Upload test <strong>asli browser me asli file</strong> upload karta hai, resize verify karta hai, aur remove button bhi test karta hai.</p>
+<p>Testing ke dauran do cheezein pakdi:</p>
+<ol>
+<li><strong>Emulator ka DriveApp mock adhoora tha</strong> — <code>DriveApp.Access</code> define hi</li>
+</ol>
+<p>   nahi tha. Complete kiya, tab upload tests chale.</p>
+<ol>
+<li><strong>Mera pehla test PNG corrupt tha</strong> — aur uploader ne use sahi reject kiya</li>
+</ol>
+<p>   (<em>"Ye valid image nahi hai"</em>). Error handling kaam kar rahi hai, ye confirm    ho gaya. Phir Pillow se asli images banayi.</p>
+<hr>
+<h2 id="deploy-karna-hai">👉 Deploy karna hai</h2>
+<table><thead><tr><th>#</th><th>Kahan</th><th>Kya</th></tr></thead><tbody><tr><td>1</td><td>Apps Script</td><td><code>backend/PShop-Complete.gs</code> <strong>dobara paste</strong> karein</td></tr><tr><td>2</td><td>Apps Script</td><td><strong>Deploy → Manage deployments → ✏️ → New version → Deploy</strong></td></tr><tr><td>3</td><td>Pehli upload par</td><td>Google <strong>Drive permission</strong> maangega — <strong>Allow</strong> karein</td></tr></tbody></table>
+<blockquote><code>setupDemoStore()</code> dobara chalane ki zaroorat nahi.</blockquote>
+<h3 id="pehli-baar-upload-karte-waqt">Pehli baar upload karte waqt</h3>
+<p>Google ye permission maangega:</p>
+<blockquote><em>See, edit, create, and delete all of your Google Drive files</em></blockquote>
+<p>Ye zaroori hai — images aapki hi Drive me <code>PShop Uploads</code> folder me jaati hain. Aapka data kahin bahar nahi jata.</p>
+<hr>
+<h2 id="drive-storage-ka-hisaab-5-tb">Drive storage ka hisaab (5 TB)</h2>
+<table><thead><tr><th>Products</th><th>Images</th><th>Storage</th></tr></thead><tbody><tr><td>500</td><td>1,500</td><td>~480 MB</td></tr><tr><td>5,000</td><td>15,000</td><td>~4.8 GB</td></tr><tr><td>50,000</td><td>150,000</td><td>~48 GB</td></tr><tr><td><strong>1,00,000</strong></td><td><strong>3,00,000</strong></td><td><strong>~96 GB</strong></td></tr></tbody></table>
+<p>5 TB me <strong>1 lakh products</strong> rakhne par bhi sirf 2% storage lagega. Storage aapke liye kabhi problem nahi banegi.</p>
+<h3 id="asli-limits-ye-hain-storage-nahi">Asli limits ye hain (storage nahi)</h3>
+<table><thead><tr><th>Cheez</th><th>Limit</th><th>Kab problem hogi</th></tr></thead><tbody><tr><td>Google Sheet</td><td>1 crore cells</td><td>~3 lakh products</td></tr><tr><td>Apps Script</td><td>6 min/execution</td><td>5,000+ products ek saath padhne par</td></tr><tr><td>Traffic</td><td>~20k requests/din</td><td>Bade traffic par</td></tr></tbody></table>
+<p>Matlab <strong>Sheet</strong> pehle bharegi, Drive nahi. 10,000+ products ho jayein to Firebase ya Supabase par shift karna behtar rahega — <code>api.js</code> ka structure same rahega, sirf URL badlega.</p>
+    </article>
+  </main>
+</div>
+</body>
+</html>

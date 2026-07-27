@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PShop — Test Suite</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<style>
+  .t-wrap{max-width:900px;margin:0 auto;padding:2rem 1rem 4rem;}
+  .t-hero{text-align:center;padding:1.5rem 0 2rem;}
+  .t-hero img{height:40px;margin-bottom:.8rem;}
+  .t-controls{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;}
+  .t-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem;}
+  .t-stat{padding:1rem;border-radius:12px;text-align:center;background:var(--surface);
+    border:1px solid var(--border);}
+  .t-stat .n{font-size:1.8rem;font-weight:800;line-height:1;}
+  .t-stat .l{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--text-3);font-weight:600;margin-top:.25rem;}
+  .t-stat.pass .n{color:var(--success);}
+  .t-stat.fail .n{color:var(--danger);}
+  .t-group{margin-bottom:1.2rem;background:var(--surface);border:1px solid var(--border);
+    border-radius:12px;overflow:hidden;}
+  .t-group h3{padding:.8rem 1.1rem;background:var(--surface-2);font-size:.9rem;
+    border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;}
+  .t-group h3 .badge{margin-left:auto;}
+  .t-row{display:flex;gap:.7rem;padding:.55rem 1.1rem;border-bottom:1px solid var(--border);
+    font-size:.85rem;align-items:flex-start;}
+  .t-row:last-child{border-bottom:0;}
+  .t-row .mark{font-weight:800;flex:none;width:18px;}
+  .t-row.ok .mark{color:var(--success);}
+  .t-row.no .mark{color:var(--danger);}
+  .t-row .extra{color:var(--text-3);font-size:.75rem;margin-left:auto;
+    font-family:ui-monospace,monospace;max-width:45%;text-align:right;word-break:break-all;}
+  .t-running{padding:2rem;text-align:center;color:var(--text-3);}
+</style>
+</head>
+<body>
+<div class="t-wrap">
+  <div class="t-hero">
+    <img src="../assets/img/icons/logo.svg" alt="PShop">
+    <h1>Test Suite</h1>
+    <p class="muted small">Frontend logic, data integrity aur backend connection check karta hai.</p>
+  </div>
+
+  <div class="t-controls">
+    <button class="btn btn-primary" id="run-all">Run all tests</button>
+    <button class="btn btn-secondary" id="run-live">Test live backend</button>
+    <a class="btn btn-ghost" href="../connect-test.html">Connection checker</a>
+  </div>
+
+  <div class="t-summary" id="summary" hidden>
+    <div class="t-stat pass"><div class="n" id="s-pass">0</div><div class="l">Passed</div></div>
+    <div class="t-stat fail"><div class="n" id="s-fail">0</div><div class="l">Failed</div></div>
+    <div class="t-stat"><div class="n" id="s-time">0</div><div class="l">Milliseconds</div></div>
+  </div>
+
+  <div id="results"></div>
+</div>
+
+<script type="module">
+import { CONFIG } from '../assets/js/core/config.js';
+import { PRODUCTS } from '../assets/data/products.js';
+import { CATEGORIES } from '../assets/data/categories.js';
+import { COUPONS } from '../assets/data/coupons.js';
+import { BANNERS } from '../assets/data/banners.js';
+import { REVIEWS } from '../assets/data/reviews.js';
+import { FAQS } from '../assets/data/faqs.js';
+import { V, money, dateKey, fmtDate, fmtSmart, fmtDelivery, slugify,
+         offPct, timeAgo, pwStrength } from '../assets/js/core/utils.js';
+import { api } from '../assets/js/core/api.js';
+
+const $ = s => document.querySelector(s);
+let pass = 0, fail = 0, currentGroup = null;
+
+function group(title) {
+  const el = document.createElement('div');
+  el.className = 't-group';
+  el.innerHTML = `<h3>${title}<span class="badge badge-muted">0</span></h3>`;
+  $('#results').append(el);
+  currentGroup = { el, count: 0, failed: 0 };
+  return currentGroup;
+}
+
+function ck(name, cond, extra = '') {
+  const ok = Boolean(cond);
+  ok ? pass++ : fail++;
+  currentGroup.count++;
+  if (!ok) currentGroup.failed++;
+
+  const row = document.createElement('div');
+  row.className = 't-row ' + (ok ? 'ok' : 'no');
+  row.innerHTML = `<span class="mark">${ok ? '✓' : '✗'}</span>
+    <span>${name}</span>
+    ${extra && !ok ? `<span class="extra">${String(extra).slice(0, 90)}</span>` : ''}`;
+  currentGroup.el.append(row);
+
+  const badge = currentGroup.el.querySelector('.badge');
+  badge.textContent = currentGroup.failed
+    ? `${currentGroup.failed} failed` : `${currentGroup.count} passed`;
+  badge.className = 'badge ' + (currentGroup.failed ? 'badge-danger' : 'badge-success');
+}
+
+/* ============================== TESTS ================================== */
+async function runAll() {
+  $('#results').innerHTML = '';
+  $('#summary').hidden = false;
+  pass = 0; fail = 0;
+  const t0 = performance.now();
+
+  /* ---------------------------- SEED DATA ------------------------------ */
+  group('Seed data');
+  ck('96 products load hue', PRODUCTS.length === 96, PRODUCTS.length);
+  ck('8 categories', CATEGORIES.length === 8, CATEGORIES.length);
+  ck('5 coupons', COUPONS.length === 5, COUPONS.length);
+  ck('4 banners', BANNERS.length === 4, BANNERS.length);
+  ck('reviews load hue', REVIEWS.length > 200, REVIEWS.length);
+  ck('15 FAQs', FAQS.length === 15, FAQS.length);
+
+  ck('har product ka unique id', new Set(PRODUCTS.map(p => p.id)).size === PRODUCTS.length);
+  ck('har product me price', PRODUCTS.every(p => typeof p.price === 'number' && p.price > 0));
+  ck('mrp >= price', PRODUCTS.every(p => p.mrp >= p.price));
+  ck('har product me 3 images', PRODUCTS.every(p => Array.isArray(p.images) && p.images.length === 3));
+  ck('rating 0-5 ke beech', PRODUCTS.every(p => p.rating >= 0 && p.rating <= 5));
+  ck('har product ki category valid hai',
+     PRODUCTS.every(p => CATEGORIES.some(c => c.id === p.categoryId)));
+  ck('reviews valid products se jude', REVIEWS.every(r => PRODUCTS.some(p => p.id === r.productId)));
+  ck('coupon codes unique', new Set(COUPONS.map(c => c.code)).size === COUPONS.length);
+
+  /* ---------------------------- VALIDATION ----------------------------- */
+  group('Validation helpers');
+  ck('valid email pass', V.email('test@pshop.in'));
+  ck('invalid email fail', !V.email('not-an-email'));
+  ck('valid phone pass', V.phone('9876543210'));
+  ck('galat phone fail', !V.phone('1234567890'));
+  ck('valid pincode', V.pin('800001'));
+  ck('galat pincode fail', !V.pin('000000'));
+  ck('valid UPI', V.upi('name@okbank'));
+  ck('short password fail', !V.pw('123'));
+  ck('valid card', V.card('4111111111111111'));
+  ck('expired card fail', !V.expiry('01/20'));
+  ck('future expiry pass', V.expiry('12/30'));
+
+  /* ---------------------------- FORMATTING ----------------------------- */
+  group('Formatting');
+  ck('money me ₹ aur comma', money(125000).includes('₹') && money(125000).includes(','), money(125000));
+  ck('slugify kaam karta hai', slugify('Hello World & More') === 'hello-world-more', slugify('Hello World & More'));
+  ck('discount % sahi', offPct(1000, 750) === 25, offPct(1000, 750));
+  ck('koi discount nahi to 0', offPct(500, 500) === 0);
+
+  ck('dateKey YYYY-MM-DD deta hai', /^\d{4}-\d{2}-\d{2}$/.test(dateKey(new Date())), dateKey(new Date()));
+  ck('dateKey Date object handle karta hai', dateKey(new Date('2026-07-25T10:00:00Z')) === '2026-07-25');
+  ck('dateKey string handle karta hai', dateKey('2026-07-25T10:00:00Z') === '2026-07-25');
+  ck('dateKey galat value par khaali', dateKey('kachra') === '' && dateKey(null) === '');
+
+  ck('fmtDate galat value par —', fmtDate('kachra') === '—');
+  ck('fmtSmart aaj ko Today bolta hai', fmtSmart(new Date()).startsWith('Today'), fmtSmart(new Date()));
+  const yest = new Date(); yest.setDate(yest.getDate() - 1);
+  ck('fmtSmart kal ko Yesterday', fmtSmart(yest).startsWith('Yesterday'), fmtSmart(yest));
+  const tom = new Date(); tom.setDate(tom.getDate() + 1);
+  ck('fmtDelivery kal ko Tomorrow', fmtDelivery(tom) === 'Tomorrow', fmtDelivery(tom));
+  ck('fmtDelivery aaj ko Today', fmtDelivery(new Date()) === 'Today');
+  ck('timeAgo galat value par khaali', timeAgo('kachra') === '');
+
+  ck('password strength meter', pwStrength('abc').label === 'Too short');
+  ck('strong password detect', ['Good', 'Strong'].includes(pwStrength('Abcd1234!@').label),
+     pwStrength('Abcd1234!@').label);
+
+  /* ------------------------------ COUPONS ------------------------------ */
+  group('Coupon rules (announcement bar se match)');
+  const pshop10 = COUPONS.find(c => c.code === 'PSHOP10');
+  ck('PSHOP10 maujood hai', !!pshop10);
+  ck('minOrder ₹999 hai', pshop10.minOrder === 999, pshop10.minOrder);
+  ck('maxDiscount ₹300 hai', pshop10.maxDiscount === 300, pshop10.maxDiscount);
+  ck('10% wala coupon hai', pshop10.value === 10);
+  ck('FREESHIP shipping type ka hai',
+     COUPONS.find(c => c.code === 'FREESHIP')?.type === 'shipping');
+
+  /* -------------------------------- COD -------------------------------- */
+  group('Cash on Delivery data');
+  const codBlocked = PRODUCTS.filter(p => p.codAvailable === false);
+  ck('kuch products COD-blocked hain (testing ke liye)', codBlocked.length > 0, codBlocked.length);
+  ck('zyadatar products COD allow karte hain',
+     PRODUCTS.filter(p => p.codAvailable !== false).length > PRODUCTS.length / 2);
+  ck('COD fee configured hai', CONFIG.COD_FEE > 0, CONFIG.COD_FEE);
+  ck('free shipping limit set hai', CONFIG.FREE_SHIP_ABOVE === 499, CONFIG.FREE_SHIP_ABOVE);
+
+  /* ------------------------------- CONFIG ------------------------------ */
+  group('Config');
+  ck('app ka naam set hai', CONFIG.APP_NAME === 'PShop');
+  ck('currency ₹ hai', CONFIG.CURRENCY === '₹');
+  ck('6 order stages', CONFIG.ORDER_STAGES.length === 6, CONFIG.ORDER_STAGES.length);
+  ck('3 payment methods', CONFIG.PAYMENT_METHODS.length === 3);
+  ck('mock fallback on hai', CONFIG.USE_MOCK_FALLBACK === true);
+
+  /* -------------------------------- API -------------------------------- */
+  group('API layer (mock ya live)');
+  const prodRes = await api('getProducts', { pageSize: 5 });
+  ck('getProducts chalta hai', prodRes.success, prodRes.message);
+  ck('5 products mile', prodRes.data?.items?.length === 5, prodRes.data?.items?.length);
+  ck('total count aata hai', prodRes.data?.total > 0);
+
+  const catRes = await api('getCategories');
+  ck('getCategories chalta hai', catRes.success);
+  ck('categories mili', catRes.data?.items?.length > 0);
+
+  const searchRes = await api('searchProducts', { q: 'phone' });
+  ck('search chalta hai', searchRes.success);
+  ck('search results mile', searchRes.data?.total > 0, searchRes.data?.total);
+
+  const couponRes = await api('verifyCoupon', { code: 'PSHOP10', subtotal: 5000 });
+  ck('coupon verify chalta hai', couponRes.success, couponRes.message);
+  ck('discount cap ₹300 par lagta hai', couponRes.data?.coupon?.discount === 300,
+     couponRes.data?.coupon?.discount);
+  const lowRes = await api('verifyCoupon', { code: 'PSHOP10', subtotal: 500 });
+  ck('₹999 se kam par coupon block', !lowRes.success);
+
+  const badRes = await api('thisActionDoesNotExist');
+  ck('unknown action par saaf error', !badRes.success);
+
+  const t1 = performance.now();
+  $('#s-pass').textContent = pass;
+  $('#s-fail').textContent = fail;
+  $('#s-time').textContent = Math.round(t1 - t0);
+}
+
+/* --------------------------- LIVE BACKEND ------------------------------ */
+async function runLive() {
+  $('#results').innerHTML = '';
+  $('#summary').hidden = false;
+  pass = 0; fail = 0;
+  const t0 = performance.now();
+
+  group('Live backend');
+  if (!CONFIG.API_BASE_URL) {
+    ck('API_BASE_URL set hai', false, 'config.js me URL daalein');
+  } else {
+    try {
+      const res = await fetch(CONFIG.API_BASE_URL, { redirect: 'follow' });
+      const ping = JSON.parse(await res.text());
+      ck('backend chal raha hai', ping.success === true);
+      ck('Google Sheet judi hai', !!ping.data?.spreadsheet?.id,
+         ping.data?.spreadsheet?.name);
+
+      const counts = ping.data?.sheets || {};
+      const total = Object.values(counts).reduce((a, v) => a + (typeof v === 'number' ? v : 0), 0);
+      ck('Sheet me data hai', total > 0, `${total} rows`);
+      ck('products hain', counts.Products > 0, counts.Products);
+      ck('users hain', counts.Users > 0, counts.Users);
+      ck('orders hain', counts.Orders > 0, counts.Orders);
+
+      const login = await api('login', { identifier: 'demo@pshop.in', password: 'demo123' });
+      ck('demo login kaam karta hai', login.success, login.message);
+      ck('password response me nahi aata', login.data?.user?.password === undefined);
+
+      const prods = await api('getProducts', { pageSize: 3 });
+      ck('live products aa rahe hain', prods.success && prods.data.total > 0, prods.data?.total);
+      const p0 = prods.data?.items?.[0];
+      ck('images array parse hui', Array.isArray(p0?.images));
+      ck('specs object parse hua', typeof p0?.specs === 'object');
+
+      const orders = await api('getOrders', {});
+      if (orders.success && orders.data.items?.length) {
+        const o = orders.data.items[0];
+        ck('order dates ISO format me', /^\d{4}-\d{2}-\d{2}T/.test(String(o.placedAt)),
+           String(o.placedAt).slice(0, 30));
+        ck('dateKey order par kaam karta hai', dateKey(o.placedAt).length === 10);
+      }
+    } catch (err) {
+      ck('backend se connect hua', false, err.message);
+    }
+  }
+
+  $('#s-pass').textContent = pass;
+  $('#s-fail').textContent = fail;
+  $('#s-time').textContent = Math.round(performance.now() - t0);
+}
+
+$('#run-all').addEventListener('click', async e => {
+  e.target.classList.add('is-loading');
+  await runAll();
+  e.target.classList.remove('is-loading');
+});
+$('#run-live').addEventListener('click', async e => {
+  e.target.classList.add('is-loading');
+  await runLive();
+  e.target.classList.remove('is-loading');
+});
+
+// Theme
+try {
+  const t = JSON.parse(localStorage.getItem('pshop_theme') || '"auto"');
+  const dark = t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme:dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+} catch {}
+
+// Auto-run
+runAll();
+</script>
+</body>
+</html>

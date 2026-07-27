@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setup Guide — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html" class="active">Setup Guide</a>
+    <a href="backend.html" class="">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html" class="">Upload & Messages</a>
+    <a href="fixes.html" class="">Recent Fixes</a>
+    <a href="errors.html" class="">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Setup Guide</h1>
+      <p>Google Sheet backend 5 minute me</p>
+    </div>
+    <article class="doc-body">
+<h1 id="pshop-single-file-setup-sabse-aasan-tarika">PShop — Single File Setup (Sabse Aasan Tarika)</h1>
+<p>Ab <strong>17 files</strong> paste karne ki zaroorat nahi. Sirf <strong>1 file</strong> hai:</p>
+<pre><code>
+backend/PShop-Complete.gs      ← bas ye ek file
+</code></pre>
+<p>Isme poora backend + demo data generator dono hain.</p>
+<hr>
+<h2 id="aapki-current-situation">Aapki current situation</h2>
+<p>Aapka backend <strong>already live hai</strong> ✅</p>
+<table><thead><tr><th>Cheez</th><th>Status</th></tr></thead><tbody><tr><td>Web App URL</td><td>✅ Chal raha hai (maine test kiya)</td></tr><tr><td>Google Sheet</td><td>✅ <code>pshopdb</code> judi hui hai</td></tr><tr><td>Sheet ID</td><td><code>1wTwksFgwT-cD79l3ccPsR5rvgNZDp3wAxeqI236eD2M</code></td></tr><tr><td>POST requests</td><td>✅ JSON de rahe hain</td></tr><tr><td>Error handling</td><td>✅ Sahi kaam kar raha</td></tr><tr><td><strong>Data</strong></td><td>❌ <strong>Khaali hai — bas yahi karna baaki hai</strong></td></tr></tbody></table>
+<p>Aapka URL <code>config.js</code> me <strong>already daal diya</strong> hai:</p>
+<pre><code>
+https://script.google.com/macros/s/AKfycbxoXbHd5wLLpSF0GppqGpqLVyU2yv547Lu4knDFNJbxgnwXuvTsOck8lsxIk7aWLONV/exec
+</code></pre>
+<p>Isiliye website khali dikh rahi hai. <strong>Neeche wale 3 step</strong> karne hain.</p>
+<hr>
+<h2 id="step-1-purana-code-hatakar-naya-paste-karein">STEP 1 — Purana code hatakar naya paste karein</h2>
+<ol>
+<li>Apni Sheet kholein → <strong>Extensions → Apps Script</strong></li>
+<li>Left sidebar me jitni bhi <code>.gs</code> files hain, <strong>sab delete kar dein</strong></li>
+</ol>
+<p>   (file ke naam par 3 dots ⋮ → Delete)</p>
+<ol>
+<li>Sirf ek <code>Code.gs</code> rehne dein, uska saara code <strong>select karke delete</strong> karein</li>
+<li><code>backend/PShop-Complete.gs</code> ka <strong>poora content</strong> copy karke paste karein</li>
+<li><strong>Ctrl + S</strong> (save)</li>
+</ol>
+<blockquote>File badi hai (~3,750 lines) — paste hone me 5-10 second lag sakte hain. Normal hai.</blockquote>
+<hr>
+<h2 id="step-2-demo-store-banayein">STEP 2 — Demo store banayein ⭐</h2>
+<ol>
+<li>Upar function dropdown me <strong><code>setupDemoStore</code></strong> choose karein</li>
+<li><strong>▶ Run</strong> dabayein</li>
+<li>Permission maange to: **Review permissions → apna account → Advanced →</li>
+</ol>
+<p>   Go to ... (unsafe) → Allow**</p>
+<ol>
+<li>20–40 second lagenge. Execution log me ye dikhega:</li>
+</ol>
+<pre><code>
+🚀 PShop demo store setup shuru...
+   Sheet: "pshopdb"
+   Purana demo data saaf kiya.
+   ✓ 4 users banaye
+   ✓ 48 products banaye
+   ✓ 6 orders banaye (payments + delivery ke saath)
+   ✓ 28 reviews banaye
+   ✓ Notifications aur support tickets banaye
+
+✅ DEMO STORE READY! (18.4s)
+─────────────────────────────────────────────
+  Products      : 48
+  Categories    : 8
+  Users         : 4
+  Orders        : 6
+  Reviews       : 28
+  Coupons       : 5
+─────────────────────────────────────────────
+</code></pre>
+<hr>
+<h2 id="step-3-dobara-deploy-karein-zaroori">STEP 3 — Dobara deploy karein (ZAROORI)</h2>
+<p>Code badla hai, isliye naya version deploy karna hoga:</p>
+<pre><code>
+Deploy → Manage deployments → ✏️ (pencil)
+   → Version: "New version" → Deploy
+</code></pre>
+<blockquote>❗ Sirf save karne se live URL update <strong>nahi</strong> hota. URL wahi rahega, badlega nahi.</blockquote>
+<hr>
+<h2 id="step-4-url-website-me-daalein">STEP 4 — URL website me daalein</h2>
+<p>File: <strong><code>assets/js/core/config.js</code></strong> (line ~22)</p>
+<pre><code>
+  API_BASE_URL: 'https://script.google.com/macros/s/AKfycbwbKk9p8E1e-pSY0YVkJYJ3JpH41DCFbLxBQGyufmt8Uu9uMx1CJEiSwtW8x_efUzKm/exec',
+</code></pre>
+<p>Save karein. <strong>Ho gaya!</strong> 🎉</p>
+<hr>
+<h2 id="check-karein-sab-theek-hai">Check karein sab theek hai</h2>
+<p>Browser me ye URL kholein:</p>
+<pre><code>
+https://script.google.com/macros/s/AKfycbwbKk9p8E1e-pSY0YVkJYJ3JpH41DCFbLxBQGyufmt8Uu9uMx1CJEiSwtW8x_efUzKm/exec
+</code></pre>
+<p>Ab <code>"Products": 48</code> dikhna chahiye (pehle <code>0</code> tha):</p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "spreadsheet": { "name": "pshopdb", "id": "1wTwks..." },
+    "sheets": { "Users": 4, "Products": 48, "Orders": 6, ... }
+  }
+}
+</code></pre>
+<p>Ya phir website me <strong><code>connect-test.html</code></strong> kholkar Test connection dabayein.</p>
+<hr>
+<h2 id="demo-login-details">Demo Login Details</h2>
+<table><thead><tr><th>Role</th><th>Email</th><th>Password</th><th>Kya dekh sakte hain</th></tr></thead><tbody><tr><td><strong>Admin</strong></td><td><code>admin@pshop.in</code></td><td><code>admin123</code></td><td>Pura admin panel, saare orders/users</td></tr><tr><td><strong>Customer</strong></td><td><code>demo@pshop.in</code></td><td><code>demo123</code></td><td>3 orders, 2 addresses, cart + wishlist</td></tr><tr><td>Customer</td><td><code>priya@pshop.in</code></td><td><code>priya123</code></td><td>3 orders, 2 addresses (Patna)</td></tr><tr><td>Customer</td><td><code>rahul@pshop.in</code></td><td><code>rahul123</code></td><td>2 orders (Delhi)</td></tr><tr><td>Customer</td><td><code>sneha@pshop.in</code></td><td><code>sneha123</code></td><td>Return request wala order (Ahmedabad)</td></tr><tr><td>Customer</td><td><code>imran@pshop.in</code></td><td><code>imran123</code></td><td>Replacement request (Kolkata)</td></tr><tr><td>_Blocked_</td><td><code>blocked@pshop.in</code></td><td><code>blocked123</code></td><td>Login nahi hoga — block feature test karne ko</td></tr></tbody></table>
+<hr>
+<h2 id="demo-me-kya-kya-milega">Demo me kya-kya milega</h2>
+<p><strong>Koi bhi sheet khaali nahi rahegi</strong> — har ek me demo rows hongi taaki aap har column ka format dekh sakein.</p>
+<table><thead><tr><th>Sheet</th><th>Rows</th><th>Kya hai isme</th></tr></thead><tbody><tr><td><strong>README</strong></td><td>225</td><td>⭐ Poori guide — har sheet ke har column ka matlab</td></tr><tr><td>Products</td><td>48</td><td>8 categories × 6 products, real prices aur ratings</td></tr><tr><td>Reviews</td><td>48</td><td>Verified purchase badges ke saath</td></tr><tr><td>Notifications</td><td>24</td><td>Offers aur order updates</td></tr><tr><td><strong>Orders</strong></td><td><strong>12</strong></td><td><strong>9 alag status</strong> — har case cover</td></tr><tr><td><strong>Payments</strong></td><td>12</td><td>COD, UPI, Card — refunds bhi</td></tr><tr><td><strong>Delivery</strong></td><td>12</td><td>AWB tracking numbers</td></tr><tr><td>Categories</td><td>8</td><td>Electronics, Fashion, Home, Beauty, Sports, Grocery, Toys, Books</td></tr><tr><td><strong>Users</strong></td><td><strong>7</strong></td><td>1 admin + 5 customers + 1 blocked (testing ke liye)</td></tr><tr><td>Wishlist</td><td>6</td><td>3 users ke saved products</td></tr><tr><td>Newsletter</td><td>6</td><td>Subscribers (ek unsubscribed bhi)</td></tr><tr><td>Coupons</td><td>5</td><td>PSHOP10, FLAT200, NEWUSER, FREESHIP, BIGSAVE50</td></tr><tr><td>Banners</td><td>4</td><td>Homepage slider</td></tr><tr><td>Cart</td><td>3</td><td>2 users ke live cart</td></tr><tr><td>FAQs</td><td>15</td><td>6 categories me</td></tr><tr><td>Settings</td><td>10</td><td>Delivery charge, GST wagairah</td></tr><tr><td>Messages</td><td>2</td><td>Ek open, ek closed support ticket</td></tr><tr><td>OTP</td><td>2</td><td>Format example (ek live, ek expired)</td></tr></tbody></table>
+<h3 id="orders-me-kaunse-status-milenge">Orders me kaunse status milenge?</h3>
+<p><code>Placed</code> · <code>Confirmed</code> · <code>Packed</code> · <code>Shipped</code> · <code>Out for Delivery</code> ·</p>
+<p><code>Delivered</code> · <code>Cancelled</code> · <code>Return requested</code> · <code>Replacement requested</code></p>
+<p>Kuch orders par <strong>coupon bhi laga hua</strong> hai (discount calculation test karne ke liye).</p>
+<p>Har order ka <strong>poora timeline</strong> hai (Placed → Confirmed → Packed → Shipped → Out for Delivery → Delivered), isliye tracking page turant kaam karega.</p>
+<hr>
+<h2 id="column-ka-matlab-kahan-dekhein">Column ka matlab kahan dekhein? 📖</h2>
+<p>Aapne poocha tha ki "1 row me title kya de raha — id, name, email…". Iske liye</p>
+<p><strong>do</strong> cheezein banayi hain:</p>
+<h3 id="1-column-par-hover-karein-sabse-aasan">1. Column par hover karein (sabse aasan)</h3>
+<p>Har sheet ke heading par ek <strong>note</strong> laga hai. Column heading par maus le jaate hi matlab dikh jayega:</p>
+<pre><code>
+┌─ password ──────────────────────────────────┐
+│ password                                    │
+│                                             │
+│ SHA-256 hash. YAHAN KABHI PLAIN PASSWORD    │
+│ MAT LIKHEIN                                 │
+└─────────────────────────────────────────────┘
+</code></pre>
+<p>Kul <strong>202 columns</strong> documented hain — 17 sheets ke saare columns.</p>
+<h3 id="2-readme-sheet-sabse-pehli-tab">2. README sheet (sabse pehli tab)</h3>
+<p>Setup ke baad ek <strong>README</strong> naam ki sheet sabse pehle dikhegi. Usme table format me sab likha hai:</p>
+<table><thead><tr><th>SHEET</th><th>COLUMN</th><th>MATLAB</th></tr></thead><tbody><tr><td><strong>Users — Registered accounts</strong></td><td></td><td>Website par jitne bhi log signup karte hain</td></tr><tr><td></td><td><code>id</code></td><td>Unique user ID. Format: U0001, U0002… (khud banta hai)</td></tr><tr><td></td><td><code>name</code></td><td>Poora naam — jaise "Priya Sharma"</td></tr><tr><td></td><td><code>email</code></td><td>Email address (login ke liye). Duplicate nahi ho sakta</td></tr><tr><td></td><td><code>phone</code></td><td>10-digit mobile number, bina +91 ke</td></tr><tr><td></td><td><code>password</code></td><td>SHA-256 hash. YAHAN KABHI PLAIN PASSWORD MAT LIKHEIN</td></tr><tr><td></td><td><code>role</code></td><td>"customer" ya "admin"</td></tr><tr><td><strong>Products — Aapka catalogue</strong></td><td></td><td>Website par jo saaman dikhta hai</td></tr><tr><td></td><td><code>price</code></td><td>Bechne ka daam, sirf number. ₹ ya comma MAT lagayein</td></tr><tr><td></td><td><code>stock</code></td><td>Kitne units bache. 0 = Out of Stock dikhega</td></tr><tr><td></td><td><code>images</code></td><td>JSON array — ["assets/img/products/p001-1.svg"]</td></tr><tr><td></td><td><code>tags</code></td><td>JSON array — featured / trending / bestseller / flash</td></tr><tr><td></td><td><code>status</code></td><td>"active" = dikhega, "deleted" = chhup jayega</td></tr></tbody></table>
+<p>…aur aise hi saari 17 sheets ke liye.</p>
+<blockquote>README sheet delete kar sakte hain — website par koi asar nahi padega.</blockquote>
+<h3 id="do-zaroori-rules">Do zaroori rules</h3>
+<ol>
+<li><strong>JSON columns</strong> (<code>images</code>, <code>tags</code>, <code>specs</code>, <code>colors</code>, <code>addresses</code>,</li>
+</ol>
+<p>   <code>items</code>, <code>timeline</code>) me <strong>valid JSON</strong> hona chahiye — <code>[</code> ya <code>{</code> se shuru.    Galat likha to plain text ban jayega.</p>
+<ol>
+<li><strong>Price/stock</strong> me sirf <strong>number</strong> — <code>₹1,499</code> nahi, sirf <code>1499</code>.</li>
+</ol>
+<hr>
+<h2 id="kuch-aur-useful-functions">Kuch aur useful functions</h2>
+<p>Function dropdown se choose karke Run karein:</p>
+<table><thead><tr><th>Function</th><th>Kya karta hai</th></tr></thead><tbody><tr><td><strong><code>setupDemoStore</code></strong></td><td>⭐ Sab kuch banata hai (demo data ke saath)</td></tr><tr><td><code>setupDatabase</code></td><td>Sirf khaali tables banata hai (demo data nahi)</td></tr><tr><td><code>whichSheet</code></td><td>Batata hai kaunsi Sheet judi hai</td></tr><tr><td><code>setSheetId</code></td><td>Sheet ID save karta hai (alag project ho to)</td></tr><tr><td><code>clearDemoData</code></td><td>Sirf data hatata hai, tables rehne dete hain</td></tr><tr><td><code>applyColumnNotes</code></td><td>Column headings par matlab (hover note) lagata hai</td></tr><tr><td><code>buildReadmeSheet</code></td><td>README sheet dobara banata hai</td></tr><tr><td><code>cleanupExpiredOtps</code></td><td>Purane OTP saaf karta hai (daily trigger me lagayein)</td></tr></tbody></table>
+<blockquote><code>setupDemoStore</code> dobara chala sakte hain — duplicate nahi banega, purana demo data hatakar fresh bana dega.</blockquote>
+<hr>
+<h2 id="asli-products-kaise-daalein">Asli products kaise daalein?</h2>
+<p>Demo data hata kar apne products daalne ho to:</p>
+<ol>
+<li>Admin panel kholein → <code>admin/products.html</code></li>
+<li><code>admin@pshop.in</code> se login karein</li>
+<li><strong>Add product</strong> button se form bharein</li>
+</ol>
+<p>Ya seedha Google Sheet ke <strong>Products</strong> tab me rows add karein.</p>
+<hr>
+<h2 id="common-problems">Common problems</h2>
+<table><thead><tr><th>Problem</th><th>Solution</th></tr></thead><tbody><tr><td>Website khali dikh rahi hai</td><td><code>setupDemoStore()</code> chalaya? Uske baad <strong>naya version deploy</strong> kiya?</td></tr><tr><td><code>Products: 0</code> aa raha hai</td><td>Seed function nahi chala. STEP 2 dobara karein</td></tr><tr><td>Changes live nahi ho rahe</td><td>Deploy → Manage deployments → ✏️ → <strong>New version</strong></td></tr><tr><td><code>ReferenceError</code> aa raha hai</td><td>Purani <code>.gs</code> files delete karna bhool gaye. Sirf ek file honi chahiye</td></tr><tr><td>Login nahi ho raha</td><td><code>setupDemoStore()</code> hi users banata hai. Pehle wo chalayein</td></tr><tr><td>Site slow hai</td><td>Normal hai — Apps Script pehli request par 2-3 sec leta hai</td></tr></tbody></table>
+<hr>
+<h2 id="live-jaane-se-pehle">Live jaane se pehle</h2>
+<ul>
+<li>[ ] <code>CONFIG.SALT</code> badal dein (<code>Utility</code> section me, file ke shuru me)</li>
+<li>[ ] Admin password <code>admin123</code> se change karein</li>
+<li>[ ] Demo customers (<code>demo@</code>, <code>priya@</code>, <code>rahul@</code>) delete kar dein</li>
+<li>[ ] <code>CONFIG.ADMIN_EMAIL</code> apni email par set karein</li>
+<li>[ ] Demo products hatakar apne products daalein</li>
+</ul>
+<blockquote>⚠️ <strong>SALT users ban jaane ke baad mat badalna</strong> — purane passwords fail ho jayenge.</blockquote>
+    </article>
+  </main>
+</div>
+</body>
+</html>

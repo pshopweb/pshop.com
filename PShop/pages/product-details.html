@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Product Details — PShop</title>
+<meta name="description" content="View full product details, specifications, customer reviews and delivery options on PShop.">
+<meta name="keywords" content="product details, specifications, reviews, buy online">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/product-details.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Product Details — PShop">
+<meta property="og:description" content="View full product details, specifications, customer reviews and delivery options on PShop.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Product Details — PShop">
+<meta name="twitter:description" content="View full product details, specifications, customer reviews and delivery options on PShop.">
+<meta name="robots" content="index,follow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/product.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container has-action-bar">
+    <nav class="breadcrumb" aria-label="Breadcrumb" id="crumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <span aria-current="page">Product</span>
+    </nav>
+
+    <div id="pd-skeleton">
+      <div class="pd-shell">
+        <div><div class="skeleton" style="aspect-ratio:1;border-radius:20px"></div></div>
+        <div>
+          <div class="skeleton sk-text w-40"></div>
+          <div class="skeleton sk-title" style="height:28px"></div>
+          <div class="skeleton sk-text w-60"></div>
+          <div class="skeleton sk-text w-40" style="height:34px;margin-top:1.5rem"></div>
+          <div class="skeleton sk-text w-100" style="margin-top:1.5rem"></div>
+          <div class="skeleton sk-text w-80"></div>
+          <div class="flex gap-3 mt-6"><div class="skeleton sk-btn" style="flex:1"></div>
+            <div class="skeleton sk-btn" style="flex:1"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <article id="pd-content" hidden itemscope itemtype="https://schema.org/Product">
+      <div class="pd-shell">
+        <!-- ============================ GALLERY ========================== -->
+        <div class="pd-gallery">
+          <div class="pd-thumbs" id="pd-thumbs" role="tablist" aria-label="Product images"></div>
+          <div class="pd-main-img" id="pd-main">
+            <img id="pd-img" src="../assets/img/misc/placeholder.svg" alt=""
+                 width="500" height="500" fetchpriority="high" itemprop="image">
+            <div class="pd-gal-actions" id="pd-gal-actions"></div>
+            <span class="pd-zoom-hint desktop-only">Click image to zoom</span>
+          </div>
+        </div>
+
+        <!-- ============================= INFO ============================ -->
+        <div class="pd-info">
+          <div class="pd-brand" id="pd-brand" itemprop="brand"></div>
+          <h1 class="pd-title" id="pd-title" itemprop="name"></h1>
+
+          <div class="pd-rating-row">
+            <span class="rating-pill" id="pd-rating"></span>
+            <span class="muted small" id="pd-rating-count"></span>
+            <a href="#tab-reviews" id="jump-reviews">Read reviews</a>
+            <span id="pd-stock-badge"></span>
+          </div>
+
+          <div class="pd-price-row" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="INR">
+            <span class="pd-price" id="pd-price" itemprop="price"></span>
+            <span class="price-mrp" id="pd-mrp"></span>
+            <span class="price-off" id="pd-off"></span>
+            <link id="pd-avail" itemprop="availability" href="https://schema.org/InStock">
+          </div>
+          <div class="pd-tax-note">Inclusive of all taxes</div>
+          <div id="pd-save"></div>
+
+          <div class="pd-block" id="pd-color-block">
+            <h4>Colour</h4>
+            <div class="color-swatches" id="pd-colors"></div>
+          </div>
+
+          <div class="pd-block">
+            <h4>Available offers</h4>
+            <div class="pd-offers" id="pd-offers"></div>
+          </div>
+
+          <div class="pd-block">
+            <h4>Delivery</h4>
+            <div class="pincode-row">
+              <label class="sr-only" for="pincode">Delivery pincode</label>
+              <input class="input" id="pincode" type="text" inputmode="numeric" maxlength="6"
+                     placeholder="Enter 6-digit pincode" autocomplete="postal-code">
+              <button class="btn btn-outline btn-sm" id="check-pin">Check</button>
+            </div>
+            <div class="pincode-result" id="pin-result"></div>
+          </div>
+
+          <div class="pd-block">
+            <h4>Quantity</h4>
+            <div class="flex items-center gap-4">
+              <div class="qty" id="pd-qty">
+                <button type="button" data-step="-1" aria-label="Decrease quantity">&minus;</button>
+                <label class="sr-only" for="qty-input">Quantity</label>
+                <input type="number" id="qty-input" value="1" min="1" max="10" aria-live="polite">
+                <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+              </div>
+              <span class="small muted" id="stock-note"></span>
+            </div>
+          </div>
+
+          <div class="pd-cta-row">
+            <button class="btn btn-lg btn-primary" id="btn-add">Add to Cart</button>
+            <button class="btn btn-lg btn-accent" id="btn-buy">Buy Now</button>
+          </div>
+
+          <div class="pd-block">
+            <h4>Highlights</h4>
+            <ul class="pd-highlights" id="pd-highlights" role="list"></ul>
+          </div>
+
+          <div class="pd-trust" id="pd-trust"></div>
+        </div>
+      </div>
+
+      <!-- ============================== TABS ============================= -->
+      <section class="pd-tabs">
+        <div class="tab-list" role="tablist" aria-label="Product information">
+          <button class="active" role="tab" aria-selected="true" aria-controls="tab-desc" id="t-desc">Description</button>
+          <button role="tab" aria-selected="false" aria-controls="tab-specs" id="t-specs">Specifications</button>
+          <button role="tab" aria-selected="false" aria-controls="tab-reviews" id="t-reviews">Reviews</button>
+          <button role="tab" aria-selected="false" aria-controls="tab-shipping" id="t-shipping">Shipping &amp; Returns</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-desc" role="tabpanel" aria-labelledby="t-desc">
+          <p id="pd-desc" itemprop="description"></p>
+        </div>
+
+        <div class="tab-panel" id="tab-specs" role="tabpanel" aria-labelledby="t-specs">
+          <table class="spec-table"><caption class="sr-only">Product specifications</caption>
+            <tbody id="pd-specs"></tbody></table>
+        </div>
+
+        <div class="tab-panel" id="tab-reviews" role="tabpanel" aria-labelledby="t-reviews">
+          <div class="review-summary" id="review-summary"></div>
+          <div class="write-review" id="write-review"></div>
+          <div id="review-list"></div>
+        </div>
+
+        <div class="tab-panel" id="tab-shipping" role="tabpanel" aria-labelledby="t-shipping">
+          <div id="pd-shipping"></div>
+        </div>
+      </section>
+
+      <!-- =========================== RELATED ============================ -->
+      <section class="section" aria-labelledby="rel-title">
+        <div class="section-title"><div><h2 id="rel-title">Similar products</h2>
+          <p class="sub">Other options in this category</p></div></div>
+        <div class="rail-wrap"><div class="rail" id="related-rail"></div></div>
+      </section>
+
+      <section class="section" aria-labelledby="rv-title">
+        <div class="section-title"><div><h2 id="rv-title">Recently viewed</h2></div></div>
+        <div class="rail-wrap"><div class="rail" id="recent-rail"></div></div>
+      </section>
+    </article>
+
+    <div id="pd-notfound" hidden></div>
+  </div>
+
+  <!-- Sticky mobile buy bar -->
+  <div class="action-bar" id="mobile-buy" hidden>
+    <button class="btn btn-secondary" id="btn-add-m">Add to Cart</button>
+    <button class="btn btn-primary" id="btn-buy-m">Buy Now</button>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/product-details.js"></script>
+</body>
+</html>

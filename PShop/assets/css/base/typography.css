@@ -1,0 +1,19 @@
+/* ============================== Typography ================================ */
+h1{font-size:var(--fs-3xl);} h2{font-size:var(--fs-2xl);} h3{font-size:var(--fs-xl);}
+h4{font-size:var(--fs-lg);} h5{font-size:var(--fs-md);} h6{font-size:var(--fs-base);}
+@media (max-width:767px){
+  h1{font-size:var(--fs-2xl);} h2{font-size:var(--fs-xl);} h3{font-size:var(--fs-lg);}
+}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);margin-bottom:var(--sp-5);}
+.section-title h2{font-size:clamp(1.15rem,2.4vw,1.6rem);letter-spacing:-.02em;}
+.section-title .sub{color:var(--text-3);font-size:var(--fs-sm);margin-top:2px;}
+.section-title .link{color:var(--brand-600);font-weight:600;font-size:var(--fs-sm);white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;transition:gap var(--t) var(--ease);}
+.section-title .link:hover{gap:11px;}
+.text-gradient{background:linear-gradient(120deg,var(--brand-600),var(--accent-500));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.price{font-weight:800;letter-spacing:-.02em;}
+.price-mrp{color:var(--text-3);text-decoration:line-through;font-weight:500;}
+.price-off{color:var(--success);font-weight:700;}
+.muted{color:var(--text-3);} .small{font-size:var(--fs-sm);} .xs{font-size:var(--fs-xs);}
+.bold{font-weight:700;} .semi{font-weight:600;}

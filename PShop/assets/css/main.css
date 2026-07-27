@@ -1,0 +1,20 @@
+/* ==========================================================================
+   PShop — global stylesheet entry point.
+   Every page loads this file first, then its own page-level stylesheet.
+   ========================================================================== */
+@import url('base/variables.css');
+@import url('base/reset.css');
+@import url('base/typography.css');
+@import url('base/utilities.css');
+@import url('layout/header.css');
+@import url('layout/footer.css');
+@import url('layout/bottom-nav.css');
+@import url('layout/grid.css');
+@import url('components/buttons.css');
+@import url('components/forms.css');
+@import url('components/cards.css');
+@import url('components/badges.css');
+@import url('components/toast.css');
+@import url('components/skeleton.css');
+@import url('components/modal.css');
+@import url('base/polish.css');   /* sabse aakhir me — refinements jeetein */

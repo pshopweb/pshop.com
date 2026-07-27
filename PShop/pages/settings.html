@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Settings — PShop</title>
+<meta name="description" content="Control your PShop theme, notifications, language and account data.">
+<meta name="keywords" content="settings, preferences, account settings">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/settings.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Settings — PShop">
+<meta property="og:description" content="Control your PShop theme, notifications, language and account data.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Settings — PShop">
+<meta name="twitter:description" content="Control your PShop theme, notifications, language and account data.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/account.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <a href="profile.html">My Account</a><span class="sep">/</span>
+      <span aria-current="page">Settings</span>
+    </nav>
+    <div class="shell-account">
+      <aside><nav class="account-nav" id="account-nav" aria-label="Account sections"></nav></aside>
+      <section>
+        <div class="page-head"><h1>Settings</h1></div>
+        <div class="settings-group">
+          <h3 id="ap-title">Appearance</h3>
+          <div class="setting-row">
+            <div class="txt"><b>Theme</b><span>Choose light, dark or match your device.</span></div>
+            <div class="theme-picker" id="theme-picker">
+              <button data-theme-set="light">Light</button>
+              <button data-theme-set="dark">Dark</button>
+              <button data-theme-set="auto">Auto</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Compact product cards</b><span>Fit more products on screen.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="compactCards">
+              <span class="sr-only">Compact product cards</span></label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Notifications</h3>
+          <div class="setting-row">
+            <div class="txt"><b>Order updates</b><span>Push alerts when your order status changes.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="pushOrders">
+              <span class="sr-only">Order updates</span></label>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Offers and deals</b><span>Email me about sales and price drops.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="emailOffers">
+              <span class="sr-only">Offers and deals</span></label>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>SMS alerts</b><span>Delivery updates on your mobile.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="smsAlerts">
+              <span class="sr-only">SMS alerts</span></label>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Newsletter</b><span>Our weekly round-up of the best deals.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="newsletter">
+              <span class="sr-only">Newsletter</span></label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Preferences</h3>
+          <div class="setting-row">
+            <div class="txt"><b>Language</b><span>Interface language.</span></div>
+            <select class="select" data-setting="language" style="max-width:190px">
+              <option value="en-IN">English (India)</option>
+              <option value="hi-IN">हिन्दी</option>
+              <option value="bn-IN">বাংলা</option>
+              <option value="ta-IN">தமிழ்</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Currency</b><span>Prices are shown in this currency.</span></div>
+            <select class="select" data-setting="currency" style="max-width:190px">
+              <option value="INR">₹ Indian Rupee</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Save browsing history</b><span>Powers your "recently viewed" row.</span></div>
+            <label class="switch"><input type="checkbox" data-setting="saveHistory">
+              <span class="sr-only">Save browsing history</span></label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Data and storage</h3>
+          <div class="setting-row">
+            <div class="txt"><b>Local data used</b><span id="storage-used">Calculating…</span></div>
+            <button class="btn btn-sm btn-secondary" id="clear-cache">Clear cached data</button>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Download my data</b><span>Export your profile, orders and addresses as JSON.</span></div>
+            <button class="btn btn-sm btn-secondary" id="export-data">Export</button>
+          </div>
+        </div>
+
+        <div class="settings-group danger-zone">
+          <h3>Danger zone</h3>
+          <div class="setting-row">
+            <div class="txt"><b>Sign out</b><span>Sign out of PShop on this device.</span></div>
+            <button class="btn btn-sm btn-secondary" id="btn-signout">Sign out</button>
+          </div>
+          <div class="setting-row">
+            <div class="txt"><b>Delete account</b>
+              <span>Permanently remove your profile, addresses and saved items.</span></div>
+            <button class="btn btn-sm btn-danger" id="btn-delete">Delete account</button>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/settings.js"></script>
+</body>
+</html>

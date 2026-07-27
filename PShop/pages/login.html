@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sign In — PShop</title>
+<meta name="description" content="Sign in to your PShop account to track orders, manage your wishlist and check out faster.">
+<meta name="keywords" content="login, sign in, pshop account">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/login.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Sign In — PShop">
+<meta property="og:description" content="Sign in to your PShop account to track orders, manage your wishlist and check out faster.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sign In — PShop">
+<meta name="twitter:description" content="Sign in to your PShop account to track orders, manage your wishlist and check out faster.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/auth.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="auth-wrap split">
+    <div class="auth-hero">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56" style="margin-bottom:2rem">
+      <h2 class="text-gradient">Welcome back to PShop</h2>
+      <p>Sign in to track orders, sync your cart across devices and unlock member-only prices.</p>
+      <ul role="list" id="hero-list"></ul>
+    </div>
+    <div class="auth-card">
+      <div class="auth-logo"><img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56"></div>
+      <h1>Sign in</h1>
+      <p class="sub">Use your email or mobile number to continue.</p>
+
+      <div class="auth-tabs" role="tablist" aria-label="Login method">
+        <button class="active" id="tab-pw" role="tab" aria-selected="true">Password</button>
+        <button id="tab-otp" role="tab" aria-selected="false">OTP</button>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="identifier">Email or mobile number <span class="req">*</span></label>
+          <div class="input-group">
+            <span class="ig-icon" id="ico-user"></span>
+            <input class="input" id="identifier" name="identifier" autocomplete="username"
+                   placeholder="you@example.com or 9876543210" required aria-describedby="err-identifier">
+          </div>
+          <p class="err-msg" id="err-identifier">Enter a valid email or 10-digit mobile number.</p>
+        </div>
+
+        <div class="field" id="pw-field">
+          <label for="password">Password <span class="req">*</span></label>
+          <div class="input-group has-action">
+            <span class="ig-icon" id="ico-lock"></span>
+            <input class="input" id="password" name="password" type="password"
+                   autocomplete="current-password" placeholder="Enter your password" required>
+            <button class="ig-action" type="button" id="toggle-pw" aria-label="Show password"></button>
+          </div>
+          <p class="err-msg" id="err-password">Password must be at least 6 characters.</p>
+        </div>
+
+        <a class="forgot-link" href="forgot-password.html">Forgot password?</a>
+
+        <label class="check mb-4"><input type="checkbox" id="remember" checked>
+          <span class="small">Keep me signed in on this device</span></label>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="btn-submit">Sign in</button>
+      </form>
+
+      <div class="auth-or">or</div>
+      <button class="btn btn-secondary btn-block" id="btn-guest">Continue as guest</button>
+
+      <p class="auth-alt">New to PShop? <a href="signup.html">Create an account</a></p>
+
+      <div class="demo-note">
+        <b>Demo account</b> — email <code>demo@pshop.in</code> · password <code>demo123</code><br>
+        <b>Admin</b> — email <code>admin@pshop.in</code> · password <code>admin123</code>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/login.js"></script>
+</body>
+</html>

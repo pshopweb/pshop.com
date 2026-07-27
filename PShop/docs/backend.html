@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Backend Reference — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html" class="">Setup Guide</a>
+    <a href="backend.html" class="active">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html" class="">Upload & Messages</a>
+    <a href="fixes.html" class="">Recent Fixes</a>
+    <a href="errors.html" class="">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Backend Reference</h1>
+      <p>Multi-file setup aur troubleshooting</p>
+    </div>
+    <article class="doc-body">
+<div style="padding:1.1rem 1.3rem;border-radius:12px;background:var(--warning-bg);
+  border:1px solid var(--warning);margin-bottom:1.5rem">
+  <b style="display:block;margin-bottom:.3rem">⚠️ Ye purana multi-file tarika hai</b>
+  <p style="font-size:.88rem;color:var(--text-2);line-height:1.6;margin:0">
+    Ab sirf <b>ek file</b> hai — <code>backend/PShop-Complete.gs</code> — jisme
+    saare latest fixes hain (date handling, COD, image upload, error guards).
+    <a href="setup.html" style="color:var(--brand-600);font-weight:600">Single-file
+    setup guide follow karein →</a> Ye page sirf reference ke liye hai.
+  </p>
+</div>
+
+<h1 id="pshop-google-sheets-apps-script-setup-guide">PShop — Google Sheets + Apps Script Setup Guide</h1>
+<p><strong>Poori guide Hinglish me.</strong> Ye follow karne ke baad aapki website ka data Google Sheets me save hoga — bilkul free, bina kisi server ke.</p>
+<p>Time lagega: <strong>15–20 minute</strong>.</p>
+<hr>
+<h2 id="kya-kya-chahiye">Kya-kya chahiye</h2>
+<ul>
+<li>Ek Google account (Gmail)</li>
+<li><code>PShop/backend/</code> folder ki 17 <code>.gs</code> files</li>
+<li>Bas. Koi paid hosting ya database nahi chahiye.</li>
+</ul>
+<hr>
+<h2 id="step-1-google-sheet-banayein">STEP 1 — Google Sheet banayein</h2>
+<ol>
+<li><a href="https://sheets.new">sheets.new</a> kholein (ya Drive → New → Google Sheets)</li>
+<li>Sheet ka naam upar-left me change karein: <strong><code>PShop Database</code></strong></li>
+<li><strong>Ab address bar se Sheet ID copy kar lein</strong> — aage kaam aayegi:</li>
+</ol>
+<pre><code>
+https://docs.google.com/spreadsheets/d/1AbCdEfGhIjKlMnOpQrStUvWxYz123456/edit#gid=0
+                                       └──────────── ye hi SHEET_ID hai ─────────┘
+</code></pre>
+<p><code>/d/</code> ke baad aur <code>/edit</code> se pehle wala lamba hissa hi Sheet ID hai. Notepad me paste karke rakh lein.</p>
+<blockquote><strong>Note:</strong> Sheets ke andar tabs (Users, Products, etc.) aapko manually banane ki zaroorat <strong>nahi</strong> hai. Step 4 me ek function chalayenge jo saari 17 sheets headers ke saath khud bana dega.</blockquote>
+<hr>
+<h2 id="step-2-apps-script-editor-kholein">STEP 2 — Apps Script editor kholein</h2>
+<p>Usi sheet me:</p>
+<pre><code>
+Extensions  →  Apps Script
+</code></pre>
+<p>Ek naya tab khulega. Usme <code>Code.gs</code> naam ki ek default file hogi jisme</p>
+<p><code>function myFunction() {}</code> likha hoga. <strong>Us saara code delete kar dein.</strong></p>
+<hr>
+<h2 id="step-3-saari-17-files-paste-karein">STEP 3 — Saari 17 files paste karein</h2>
+<p>Ye sabse important step hai. Apps Script me har file alag banani hai.</p>
+<h3 id="3a-pehli-file-codegs">3a. Pehli file — Code.gs</h3>
+<ul>
+<li>Jo <code>Code.gs</code> pehle se khuli hai, usme <code>PShop/backend/Code.gs</code> ka</li>
+</ul>
+<p>  <strong>poora content</strong> copy-paste karein</p>
+<ul>
+<li><code>Ctrl + S</code> (ya Cmd+S) dabakar save karein</li>
+</ul>
+<h3 id="3b-baaki-16-files">3b. Baaki 16 files</h3>
+<p>Har file ke liye ye repeat karein:</p>
+<ol>
+<li>Left sidebar me <strong>Files</strong> ke bagal me <strong><code>+</code></strong> icon dabayein</li>
+<li><strong>Script</strong> choose karein</li>
+<li>File ka naam type karein — <strong><code>.gs</code> extension mat likhein</strong></li>
+</ol>
+<p>   (Apps Script khud lagata hai)</p>
+<ol>
+<li>Andar ka default code delete karke apni file ka content paste karein</li>
+<li>Save karein</li>
+</ol>
+<p><strong>Files ki poori list (isi order me banayein):</strong></p>
+<table><thead><tr><th>#</th><th>Apps Script me naam likhein</th><th>Kaam</th></tr></thead><tbody><tr><td>1</td><td><code>Code</code></td><td>Main router — doGet/doPost, setup</td></tr><tr><td>2</td><td><code>Utility</code></td><td>Helper functions, sheet access</td></tr><tr><td>3</td><td><code>Auth</code></td><td>Login, signup, OTP, password</td></tr><tr><td>4</td><td><code>User</code></td><td>Profile, address book, image upload</td></tr><tr><td>5</td><td><code>Product</code></td><td>Products, filter, search, sort</td></tr><tr><td>6</td><td><code>Category</code></td><td>Categories</td></tr><tr><td>7</td><td><code>Cart</code></td><td>Cart aur totals</td></tr><tr><td>8</td><td><code>Wishlist</code></td><td>Saved products</td></tr><tr><td>9</td><td><code>Order</code></td><td>Order place, track, cancel, return</td></tr><tr><td>10</td><td><code>Payment</code></td><td>Payment record, refund</td></tr><tr><td>11</td><td><code>Coupon</code></td><td>Coupon verify</td></tr><tr><td>12</td><td><code>Review</code></td><td>Product reviews</td></tr><tr><td>13</td><td><code>Message</code></td><td>Support chat, contact form</td></tr><tr><td>14</td><td><code>Notification</code></td><td>In-app notifications</td></tr><tr><td>15</td><td><code>Delivery</code></td><td>Pincode check, shipment</td></tr><tr><td>16</td><td><code>Content</code></td><td>Banners, FAQs</td></tr><tr><td>17</td><td><code>Admin</code></td><td>Admin panel ke saare endpoints</td></tr></tbody></table>
+<blockquote>⚠️ <strong>Zaroori:</strong> Naam bilkul same rakhein (capital letter bhi same). Apps Script me saari files ek hi global scope share karti hain, isliye agar koi file miss ho gayi to "function is not defined" error aayega.</blockquote>
+<hr>
+<h2 id="step-35-sheet-id-batayein-zaroori-kab-hai">STEP 3.5 — Sheet ID batayein (zaroori kab hai?)</h2>
+<p>Aapne poocha tha ki ek folder me multiple files hoti hain — to script ko kaise pata chale ki <strong>kaunsi</strong> Sheet use karni hai. Iska jawab yahi hai.</p>
+<h3 id="pehle-ye-samajh-lein-aapko-ye-step-chahiye-bhi-ya-nahi">Pehle ye samajh lein — aapko ye step chahiye bhi ya nahi?</h3>
+<table><thead><tr><th>Aapne script kaise banaya</th><th>Sheet ID chahiye?</th></tr></thead><tbody><tr><td>Sheet ke andar se: <strong>Extensions → Apps Script</strong></td><td>❌ <strong>Nahi</strong> — script apni Sheet khud dhoond leta hai</td></tr><tr><td>Alag se: <a href="https://script.google.com">script.google.com</a> → New project</td><td>✅ <strong>Haan, zaroori hai</strong></td></tr><tr><td>Ek folder me multiple Sheets/scripts hain</td><td>✅ <strong>Haan</strong> — warna galat Sheet se jud sakta hai</td></tr></tbody></table>
+<p>Confusion ho to <strong>ID de dena hi safe hai</strong> — usse kabhi nuksaan nahi hota.</p>
+<h3 id="sheet-id-dene-ke-2-tarike">Sheet ID dene ke 2 tarike</h3>
+<h4 id="tarika-a-code-me-paste-karein-aasan">Tarika A — Code me paste karein (aasan)</h4>
+<p><code>Utility.gs</code> file kholein. Sabse upar <code>CONFIG</code> me ye line milegi:</p>
+<pre><code>
+var CONFIG = {
+  SHEET_ID: '',        // &lt;-- yahan paste karein
+</code></pre>
+<p>Apni ID daal dein:</p>
+<pre><code>
+  SHEET_ID: '1AbCdEfGhIjKlMnOpQrStUvWxYz123456',
+</code></pre>
+<blockquote>💡 <strong>Poora URL paste kar diya?</strong> Koi baat nahi — code khud usme se ID nikal leta hai. Dono chalega.</blockquote>
+<h4 id="tarika-b-script-properties-behtar">Tarika B — Script Properties (behtar)</h4>
+<p>Isme code chhune ki zaroorat nahi, aur ID code me dikhti bhi nahi:</p>
+<ol>
+<li>Apps Script me <strong><code>Utility.gs</code></strong> kholein</li>
+<li><code>setSheetId()</code> function dhoondein (neeche ki taraf hai)</li>
+<li>Usme apni ID paste karein:</li>
+</ol>
+<p>   ```javascript    var MY_SHEET_ID = '1AbCdEfGhIjKlMnOpQrStUvWxYz123456';</p>
+<p>   ```</p>
+<ol>
+<li>Function dropdown se <strong><code>setSheetId</code></strong> choose karke <strong>▶ Run</strong> dabayein</li>
+<li>Execution log me ye dikhna chahiye:</li>
+</ol>
+<p>   ```    ✅ Sheet connected: "PShop Database"  (ID: 1AbCdEf...)</p>
+<p>   ```</p>
+<p>Ab ID permanently save ho gayi. <code>MY_SHEET_ID</code> line wapas khaali kar sakte hain.</p>
+<blockquote><strong>Dono tarike lagaye to?</strong> Script Properties wali ID jeetegi (Tarika B).</blockquote>
+<h3 id="check-karein-ki-sahi-sheet-judi-hai">Check karein ki sahi Sheet judi hai</h3>
+<p><code>whichSheet()</code> function run karein. Log me dikhega:</p>
+<pre><code>
+Connected Sheet: "PShop Database"
+URL: https://docs.google.com/spreadsheets/d/1AbCdEf.../edit
+Tabs (17): Users, Products, Categories, Orders, ...
+</code></pre>
+<p>Agar galat Sheet ka naam dikhe, to ID galat hai — dobara copy karein.</p>
+<hr>
+<h2 id="step-4-database-setup-function-chalayein">STEP 4 — Database setup function chalayein</h2>
+<p>Ye ek baar chalana hai. Isse saari sheets, headers, demo admin account, categories aur coupons ban jayenge.</p>
+<ol>
+<li>Editor ke upar function dropdown me <strong><code>setupDatabase</code></strong> select karein</li>
+<li><strong>▶ Run</strong> button dabayein</li>
+<li>Pehli baar permission maangega:</li>
+<li><strong>Review permissions</strong> → apna Google account choose karein</li>
+<li>"Google hasn't verified this app" warning aaye to:</li>
+</ol>
+<p>     <strong>Advanced</strong> → <strong>Go to PShop Database (unsafe)</strong> → <strong>Allow</strong></p>
+<ul>
+<li>(Ye warning normal hai — ye aapka hi script hai)</li>
+<li>Execution log me ye dikhna chahiye:</li>
+</ul>
+<p>   ```    ✅ PShop database setup complete. Sheets ready: Users, Products, ...</p>
+<p>   ```</p>
+<p>Ab apni Google Sheet wapas kholein — neeche <strong>17 tabs</strong> ban chuke honge. 🎉</p>
+<p><strong>Jo accounts bane hain:</strong></p>
+<table><thead><tr><th>Role</th><th>Email</th><th>Password</th></tr></thead><tbody><tr><td>Admin</td><td><code>admin@pshop.in</code></td><td><code>admin123</code></td></tr><tr><td>Customer</td><td><code>demo@pshop.in</code></td><td><code>demo123</code></td></tr></tbody></table>
+<blockquote>🔐 Live karne se pehle in dono ka password zaroor badal dena.</blockquote>
+<hr>
+<h2 id="step-5-web-app-deploy-karein">STEP 5 — Web App deploy karein</h2>
+<ol>
+<li>Upar right me <strong>Deploy</strong> → <strong>New deployment</strong></li>
+<li><strong>Select type</strong> ke bagal wale ⚙️ gear icon par click → <strong>Web app</strong></li>
+<li>Settings bilkul aise bharein:</li>
+</ol>
+<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Description</td><td><code>PShop API v1</code></td></tr><tr><td><strong>Execute as</strong></td><td><strong>Me (your@gmail.com)</strong></td></tr><tr><td><strong>Who has access</strong></td><td><strong>Anyone</strong></td></tr></tbody></table>
+<p>   &gt; "Anyone" zaroori hai — warna aapki website backend se baat nahi kar payegi.</p>
+<p>   &gt; Isse aapki sheet public nahi hoti, sirf script chal sakta hai.</p>
+<ol>
+<li><strong>Deploy</strong> dabayein</li>
+<li>Jo <strong>Web app URL</strong> mile use <strong>copy</strong> kar lein. Aisa dikhega:</li>
+</ol>
+<p>   ```    https://script.google.com/macros/s/AKfycbx...............《long》.../exec</p>
+<p>   ```</p>
+<hr>
+<h2 id="step-6-url-website-me-daalein">STEP 6 — URL website me daalein</h2>
+<h3 id="kaunsi-file-kahan">Kaunsi file? Kahan?</h3>
+<pre><code>
+PShop/
+└── assets/
+    └── js/
+        └── core/
+            └── config.js     ← YAHI FILE kholein
+</code></pre>
+<p>File kholte hi upar (line ~22) ye block dikhega:</p>
+<pre><code>
+  /* ======================================================================
+     ⬇⬇⬇  YAHAN APNA GOOGLE APPS SCRIPT URL PASTE KAREIN  ⬇⬇⬇
+     ...
+     ====================================================================== */
+  API_BASE_URL: '',
+</code></pre>
+<p>Bas quotes ke andar apna URL paste karein:</p>
+<pre><code>
+  API_BASE_URL: 'https://script.google.com/macros/s/AKfycbx....../exec',
+</code></pre>
+<p>Save karein. <strong>Bas ho gaya!</strong> Ab website ka saara data Google Sheets me jayega.</p>
+<blockquote>⚠️ Comma (<code>,</code>) end me lagana mat bhoolein, aur URL ke aage-peeche quotes hone chahiye.</blockquote>
+<h3 id="do-url-confuse-mat-karein">Do URL confuse mat karein</h3>
+<table><thead><tr><th>URL</th><th>Kahan use hota hai</th></tr></thead><tbody><tr><td><code>https://docs.google.com/spreadsheets/d/<strong>ID</strong>/edit</code></td><td>Ye <strong>Sheet ID</strong> hai → <code>Utility.gs</code> me (STEP 3.5)</td></tr><tr><td><code>https://script.google.com/macros/s/.../exec</code></td><td>Ye <strong>API URL</strong> hai → <code>config.js</code> me (ye step)</td></tr></tbody></table>
+<p>Dono alag cheezein hain — aur dono ki jagah alag hai.</p>
+<hr>
+<h2 id="step-7-test-karein">STEP 7 — Test karein</h2>
+<h3 id="test-0-connection-checker-sabse-aasan">Test 0: Connection checker (sabse aasan) ⭐</h3>
+<p>Website me ek ready-made test page hai. Browser me kholein:</p>
+<pre><code>
+connect-test.html
+</code></pre>
+<p>URL paste karke <strong>Test connection</strong> dabayein. Ye 7 cheezein check karta hai — URL format, backend zinda hai ya nahi, <strong>kaunsi Sheet judi hai (naam + ID)</strong>, tables bane hain ya nahi, aur products/categories/login sach me chal rahe hain.</p>
+<p>Har fail step ke saath likha hota hai ki <strong>kaise theek karein</strong>.</p>
+<h3 id="test-1-backend-zinda-hai">Test 1: Backend zinda hai?</h3>
+<p>Apna <code>/exec</code> URL seedha browser me kholein. Ye JSON dikhna chahiye:</p>
+<pre><code>
+{
+  "success": true,
+  "data": {
+    "app": "PShop API",
+    "status": "running",
+    "spreadsheet": {
+      "name": "PShop Database",
+      "id": "1AbCdEfGhIjKlMnOpQrStUvWxYz123456"
+    },
+    "sheets": { "Users": 2, "Products": 0, "Categories": 8, ... }
+  },
+  "message": "PShop backend is live."
+}
+</code></pre>
+<blockquote><code>spreadsheet.name</code> dekhkar confirm kar lein ki <strong>sahi</strong> Sheet judi hai.</blockquote>
+<h3 id="test-2-website-se-login">Test 2: Website se login</h3>
+<ol>
+<li>Website kholein → <strong>Login</strong></li>
+<li><code>demo@pshop.in</code> / <code>demo123</code> se login karein</li>
+<li>Login ho jaye to backend connect ho chuka hai ✅</li>
+</ol>
+<h3 id="test-3-order-place-karke-sheet-me-dekhein">Test 3: Order place karke sheet me dekhein</h3>
+<p>Cart me kuch daalein → checkout → order place karein → Google Sheet ke <strong>Orders</strong> tab me naya row aa jayega.</p>
+<hr>
+<h2 id="products-kaise-add-karein">Products kaise add karein</h2>
+<p><strong>Do tarike hain:</strong></p>
+<h3 id="tarika-1-admin-panel-se-aasan">Tarika 1 — Admin panel se (aasan)</h3>
+<ol>
+<li><code>admin@pshop.in</code> se login karein</li>
+<li><code>admin/products.html</code> kholein</li>
+<li><strong>Add Product</strong> button se form bharein</li>
+</ol>
+<h3 id="tarika-2-seedha-sheet-me-bulk-ke-liye">Tarika 2 — Seedha Sheet me (bulk ke liye)</h3>
+<p><strong>Products</strong> tab me row add karein. Zaroori columns:</p>
+<table><thead><tr><th>Column</th><th>Example</th><th>Note</th></tr></thead><tbody><tr><td><code>id</code></td><td><code>P0001</code></td><td>Unique hona chahiye</td></tr><tr><td><code>name</code></td><td><code>AuraTech 5G Phone</code></td><td></td></tr><tr><td><code>brand</code></td><td><code>AuraTech</code></td><td></td></tr><tr><td><code>categoryId</code></td><td><code>c1</code></td><td>Categories tab se</td></tr><tr><td><code>category</code></td><td><code>Electronics</code></td><td></td></tr><tr><td><code>categorySlug</code></td><td><code>electronics</code></td><td></td></tr><tr><td><code>subCategory</code></td><td><code>Smartphones</code></td><td></td></tr><tr><td><code>price</code></td><td><code>18999</code></td><td>Sirf number, ₹ mat likhein</td></tr><tr><td><code>mrp</code></td><td><code>24999</code></td><td></td></tr><tr><td><code>stock</code></td><td><code>50</code></td><td></td></tr><tr><td><code>images</code></td><td><code>["assets/img/products/p001-1.svg"]</code></td><td>JSON array</td></tr><tr><td><code>tags</code></td><td><code>["featured","trending"]</code></td><td>JSON array</td></tr><tr><td><code>specs</code></td><td><code>{"Brand":"AuraTech","Warranty":"1 Year"}</code></td><td>JSON object</td></tr><tr><td><code>status</code></td><td><code>active</code></td><td></td></tr></tbody></table>
+<blockquote>💡 Jo columns <code>[</code> ya <code>{</code> se shuru hote hain unme <strong>valid JSON</strong> likhna zaroori hai, warna wo plain text ban jayega.</blockquote>
+<hr>
+<h2 id="zaroori-settings-badal-lein">Zaroori settings badal lein</h2>
+<p><strong><code>Utility.gs</code></strong> file me upar <code>CONFIG</code> object hai:</p>
+<pre><code>
+var CONFIG = {
+  SALT: 'PShop$2026$SecureSalt',   // ⚠️ Ise apna unique text kar dein
+  ADMIN_EMAIL: 'admin@pshop.in',   // Apni email daalein
+  SUPPORT_EMAIL: 'care@pshop.in',  // Apni support email
+  SEND_EMAILS: true,               // false = OTP email band (testing ke liye)
+  FREE_SHIP_ABOVE: 499,
+  SHIPPING_FEE: 79,
+  COD_FEE: 29
+};
+</code></pre>
+<blockquote>🔐 <strong>SALT zaroor badlein</strong> setup ke turant baad. Ye password hashing me use hota hai. Lekin <strong>users ban jaane ke baad mat badalna</strong> — warna purane passwords kaam karna band kar denge.</blockquote>
+<hr>
+<h2 id="code-update-karne-ke-baad-bahut-important">Code update karne ke baad (bahut important!)</h2>
+<p>Jab bhi aap koi <code>.gs</code> file me change karein:</p>
+<pre><code>
+Deploy  →  Manage deployments  →  ✏️ (pencil icon)
+   →  Version: "New version"  →  Deploy
+</code></pre>
+<blockquote>❗ Sirf save karne se live URL update <strong>nahi</strong> hota. Naya version deploy karna zaroori hai. URL wahi rehta hai, badalta nahi.</blockquote>
+<hr>
+<h2 id="common-problems-aur-solution">Common problems aur solution</h2>
+<table><thead><tr><th>Problem</th><th>Kya karein</th></tr></thead><tbody><tr><td><code>Koi spreadsheet nahi mila</code></td><td>Sheet ID set nahi hai. <strong>STEP 3.5</strong> follow karein</td></tr><tr><td><code>SHEET_ID galat hai ya pahunch nahi hai</code></td><td>ID dobara copy karein. Sheet aapke hi Google account me honi chahiye</td></tr><tr><td>Data <strong>galat Sheet</strong> me jaa raha hai</td><td><code>whichSheet()</code> run karke dekhein kaunsi judi hai, phir sahi ID set karein</td></tr><tr><td>Ek folder me kai Sheets hain, confusion ho raha</td><td>Har script ko uski apni <code>SHEET_ID</code> dein (Tarika B best hai)</td></tr><tr><td><code>ReferenceError: apiLogin is not defined</code></td><td>Koi <code>.gs</code> file paste karna reh gaya. List check karein</td></tr><tr><td>Website me kuch load nahi ho raha</td><td>Browser Console (F12) dekhein. <code>API_BASE_URL</code> sahi hai? URL <code>/exec</code> par khatam hona chahiye, <code>/dev</code> par nahi</td></tr><tr><td><code>Authorization required</code></td><td>Deploy settings me "Who has access" = <strong>Anyone</strong> karein</td></tr><tr><td>Data sheet me nahi aa raha</td><td>Purana deployment chal raha hai — naya version deploy karein</td></tr><tr><td>OTP email nahi aa rahi</td><td>Gmail ka daily limit 100 emails hai. Ya <code>SEND_EMAILS: false</code> karke test karein — code phir bhi verify hoga</td></tr><tr><td>"Exceeded maximum execution time"</td><td>Ek saath 5000+ products mat daalein. 500-1000 theek hai</td></tr><tr><td>Products dikh hi nahi rahe</td><td><code>status</code> column me <code>active</code> likha hai?</td></tr></tbody></table>
+<hr>
+<h2 id="backend-band-ho-jaye-to-kya-hoga">Backend band ho jaye to kya hoga?</h2>
+<p>Kuch nahi bigdega. <code>config.js</code> me <code>USE_MOCK_FALLBACK: true</code> set hai, isliye backend na chale to website apne aap <strong>local demo data</strong> par chalne lagti hai. Aapko blank page kabhi nahi dikhega.</p>
+<p>Sirf backend se chalana ho to:</p>
+<pre><code>
+USE_MOCK_FALLBACK: false
+</code></pre>
+<hr>
+<h2 id="free-limits-google-ki-taraf-se">Free limits (Google ki taraf se)</h2>
+<table><thead><tr><th>Cheez</th><th>Limit</th><th>Matlab</th></tr></thead><tbody><tr><td>Script run time</td><td>6 min / execution</td><td>Kaafi hai</td></tr><tr><td>Emails</td><td>100 / din</td><td>~100 OTP roz</td></tr><tr><td>URL fetches</td><td>20,000 / din</td><td>Bahut zyada hai</td></tr><tr><td>Sheet size</td><td>10 lakh cells</td><td>~30,000 products</td></tr><tr><td>Traffic</td><td>~20k requests/din</td><td>Chhote-medium store ke liye theek</td></tr></tbody></table>
+<p>Small aur medium business ke liye ye <strong>bilkul kaafi</strong> hai. Bahut bada traffic ho jaye to Firebase ya Supabase par shift kar sakte hain —</p>
+<p><code>api.js</code> ka structure same rahega, sirf URL badlega.</p>
+<hr>
+<h2 id="security-checklist-live-karne-se-pehle">Security checklist (live karne se pehle)</h2>
+<ul>
+<li>[ ] <code>CONFIG.SALT</code> badal diya</li>
+<li>[ ] Admin password badal diya (<code>admin123</code> nahi rakhna)</li>
+<li>[ ] Demo customer account delete kar diya</li>
+<li>[ ] <code>ADMIN_EMAIL</code> apni email par set ki</li>
+<li>[ ] Deployment "Execute as: Me" par hai</li>
+<li>[ ] Google Sheet kisi ke saath share nahi ki (script khud access karta hai)</li>
+</ul>
+<hr>
+<h2 id="data-ka-backup">Data ka backup</h2>
+<p>Mahine me ek baar:</p>
+<pre><code>
+File  →  Download  →  Microsoft Excel (.xlsx)
+</code></pre>
+<p>Ya automatic backup ke liye Apps Script me trigger laga sakte hain (<code>Triggers</code> → time-driven → daily).</p>
+<hr>
+<p><strong>Koi dikkat aaye to <code>docs/README.md</code> me poori technical documentation hai.</strong></p>
+    </article>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* ==========================================================================
+   PShop — Design Tokens
+   Single source of truth for colour, spacing, radius, shadow, motion & z-index.
+   Dark mode overrides live at the bottom via [data-theme="dark"].
+   ========================================================================== */
+:root {
+  /* Brand palette */
+  --brand-50:#eff6ff;  --brand-100:#dbeafe; --brand-200:#bfdbfe; --brand-300:#93c5fd;
+  --brand-400:#60a5fa;  --brand-500:#3b82f6; --brand-600:#2563eb; --brand-700:#1d4ed8;
+  --brand-800:#1e40af;  --brand-900:#1e3a8a;
+  --accent-500:#7c3aed; --accent-600:#6d28d9;
+  --saffron:#f59e0b;    --saffron-dark:#b45309;
+
+  /* Semantic */
+  --success:#10b981; --success-bg:#d1fae5;
+  --warning:#f59e0b; --warning-bg:#fef3c7;
+  --danger:#ef4444;  --danger-bg:#fee2e2;
+  --info:#0ea5e9;    --info-bg:#e0f2fe;
+
+  /* Neutrals (light theme) */
+  --bg:#f4f6fb;
+  --bg-alt:#eef2f9;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --surface-3:#f1f5f9;
+  --border:#e2e8f0;
+  --border-strong:#cbd5e1;
+  --text:#0f172a;
+  --text-2:#475569;
+  --text-3:#64748b;
+  --text-inv:#ffffff;
+
+  /* Glassmorphism */
+  --glass-bg:rgba(255,255,255,.72);
+  --glass-bg-strong:rgba(255,255,255,.88);
+  --glass-border:rgba(255,255,255,.55);
+  --glass-blur:16px;
+
+  /* Typography */
+  --font:'Inter','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --font-display:'Poppins','Inter',system-ui,sans-serif;
+  --fs-xs:.75rem; --fs-sm:.8125rem; --fs-base:.9375rem; --fs-md:1rem;
+  --fs-lg:1.125rem; --fs-xl:1.375rem; --fs-2xl:1.75rem; --fs-3xl:2.25rem; --fs-4xl:3rem;
+  --lh-tight:1.2; --lh-normal:1.55;
+
+  /* Spacing scale (4px base) */
+  --sp-1:.25rem; --sp-2:.5rem;  --sp-3:.75rem; --sp-4:1rem;   --sp-5:1.25rem;
+  --sp-6:1.5rem; --sp-8:2rem;   --sp-10:2.5rem; --sp-12:3rem; --sp-16:4rem;
+
+  /* Radius */
+  --r-xs:6px; --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-full:999px;
+
+  /* Elevation */
+  --sh-xs:0 1px 2px rgba(15,23,42,.06);
+  --sh-sm:0 2px 8px rgba(15,23,42,.07);
+  --sh-md:0 6px 20px rgba(15,23,42,.09);
+  --sh-lg:0 14px 40px rgba(15,23,42,.13);
+  --sh-xl:0 24px 64px rgba(15,23,42,.18);
+  --sh-brand:0 10px 30px rgba(37,99,235,.28);
+
+  /* Motion */
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --t-fast:.15s; --t:.25s; --t-slow:.45s;
+
+  /* Layout */
+  --container:1280px;
+  --header-h:132px;
+  --header-h-mobile:114px;
+  --bottomnav-h:62px;
+
+  /* Z-index ladder */
+  --z-base:1; --z-sticky:100; --z-header:600; --z-drawer:700;
+  --z-modal:800; --z-toast:900; --z-loader:1000;
+}
+
+/* --------------------------------- Dark ---------------------------------- */
+[data-theme="dark"] {
+  --bg:#0b1120;
+  --bg-alt:#0f172a;
+  --surface:#151f34;
+  --surface-2:#1b2740;
+  --surface-3:#22304d;
+  --border:#243250;
+  --border-strong:#334669;
+  --text:#e8eefc;
+  --text-2:#a8b8d8;
+  --text-3:#8296bb;
+  --text-inv:#0b1120;
+
+  --glass-bg:rgba(21,31,52,.72);
+  --glass-bg-strong:rgba(21,31,52,.9);
+  --glass-border:rgba(148,163,184,.18);
+
+  --brand-50:#172554; --brand-100:#1e3a8a;
+  --success-bg:#064e3b; --warning-bg:#78350f; --danger-bg:#7f1d1d; --info-bg:#0c4a6e;
+
+  --sh-xs:0 1px 2px rgba(0,0,0,.4);
+  --sh-sm:0 2px 8px rgba(0,0,0,.45);
+  --sh-md:0 6px 20px rgba(0,0,0,.5);
+  --sh-lg:0 14px 40px rgba(0,0,0,.55);
+  --sh-xl:0 24px 64px rgba(0,0,0,.6);
+  --sh-brand:0 10px 30px rgba(37,99,235,.4);
+  color-scheme:dark;
+}

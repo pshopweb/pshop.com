@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connection & Design — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html">Setup Guide</a>
+    <a href="connection.html" class="active">Connection &amp; Design</a>
+    <a href="upload.html">Upload &amp; Messages</a>
+    <a href="fixes.html">Recent Fixes</a>
+    <a href="errors.html">Error Fixes</a>
+    <a href="backend.html">Backend Reference</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../START-HERE.html">Start here</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Connection &amp; Design</h1>
+      <p>Google Sheet se robust connection aur design polish</p>
+    </div>
+
+    <article class="doc-body">
+
+<h2>Ab project me sirf web files hain</h2>
+
+<table>
+<thead><tr><th>Type</th><th>Count</th><th>Kya</th></tr></thead>
+<tbody>
+<tr><td><code>.svg</code></td><td>319</td><td>Product aur category images</td></tr>
+<tr><td><code>.js</code></td><td>73</td><td>Frontend modules + data</td></tr>
+<tr><td><code>.html</code></td><td>49</td><td>Pages, admin, docs, tools</td></tr>
+<tr><td><code>.css</code></td><td>27</td><td>Stylesheets</td></tr>
+<tr><td><code>.gs</code></td><td>1</td><td>Google Apps Script backend</td></tr>
+</tbody>
+</table>
+
+<p>Python, shell, JSON, Markdown — sab hata diye. Sirf browser aur Apps
+Script me chalne wali files bachi hain.</p>
+
+<hr>
+
+<h2>Connection ab bahut better hai</h2>
+
+<h3>Pehle kya problem thi</h3>
+
+<p>Ek bhi request fail hone par backend ko <strong>60 second ke liye "dead"</strong>
+maan liya jata tha. Network ka ek chhota glitch bhi poori site ko demo data
+par daal deta tha — aur user ko pata bhi nahi chalta tha.</p>
+
+<h3>Ab kya hota hai</h3>
+
+<table>
+<thead><tr><th>Feature</th><th>Detail</th></tr></thead>
+<tbody>
+<tr><td><b>Auto retry</b></td><td>Fail hone par 3 koshish — 400ms, 800ms gap (exponential backoff)</td></tr>
+<tr><td><b>Smart retry</b></td><td>Sirf network errors retry hote hain. Galat deployment jaise errors turant report ho jate hain</td></tr>
+<tr><td><b>Request cache</b></td><td>Products 60s, categories 5 min cache. Browsing me bar-bar call nahi jati</td></tr>
+<tr><td><b>Dedupe</b></td><td>Ek hi request do jagah se aaye to ek hi network call jati hai</td></tr>
+<tr><td><b>Auto recovery</b></td><td>Backend down ho to background me check karta rehta hai (15s → 30s → 60s)</td></tr>
+<tr><td><b>Offline detect</b></td><td>Internet jaane par turant pata chal jata hai</td></tr>
+<tr><td><b>Better errors</b></td><td>HTML response aaye to seedha batata hai: "deployment access Anyone karein"</td></tr>
+</tbody>
+</table>
+
+<h3>User ko ab saaf dikhta hai</h3>
+
+<p>Pehle backend down hone par chup-chaap demo data dikhne lagta tha —
+user ko lagta tha website hi kharab hai. Ab neeche ek bar aati hai:</p>
+
+<blockquote>
+<b>Server se connect nahi ho pa rahe</b><br>
+Abhi demo data dikha rahe hain. Background me dobara koshish jaari hai.
+<b>[Retry]</b>
+</blockquote>
+
+<p>Internet jaane par laal bar, backend down par peela. Wapas connect hone
+par apne aap chhup jati hai aur "Connection wapas aa gaya" dikhata hai.</p>
+
+<h3>Kaise test kiya</h3>
+
+<p>Sirf code likhkar nahi chhoda — asli browser me backend block karke,
+internet band karke test kiya. <strong>10/10 pass</strong>:</p>
+
+<ul>
+<li>Backend live → koi bar nahi dikhti</li>
+<li>Backend block → products phir bhi dikhe (fallback), peeli bar aayi</li>
+<li>Internet band → laal bar, sahi message</li>
+<li>Wapas online → bar apne aap chhup gayi</li>
+</ul>
+
+<hr>
+
+<h2>Design polish</h2>
+
+<p>Ek naya layer add kiya — <code>assets/css/base/polish.css</code>. Ye sabse
+aakhir me load hota hai, isliye sirf visual refinement karta hai, layout
+nahi todta.</p>
+
+<h3>Shadows — do layer</h3>
+
+<p>Pehle ek flat shadow thi. Ab har shadow me <b>do layers</b> hain — ek
+tight (definition) aur ek soft spread (depth). Isse cards sach me "float"
+karte lagte hain.</p>
+
+<pre>--sh-md: 0 2px 4px rgba(15,23,42,.04),
+         0 12px 24px -6px rgba(15,23,42,.10);</pre>
+
+<h3>Spring animations</h3>
+
+<p>Linear easing ki jagah spring curve — natural bounce feel:</p>
+
+<pre>--ease-spring: cubic-bezier(.34,1.56,.64,1);</pre>
+
+<table>
+<thead><tr><th>Element</th><th>Interaction</th></tr></thead>
+<tbody>
+<tr><td>Product card</td><td>Hover par 6px lift + image 7% zoom</td></tr>
+<tr><td>Buttons</td><td>Hover par lift, press par squeeze (0.97 scale)</td></tr>
+<tr><td>Primary button</td><td>Hover par gradient shift</td></tr>
+<tr><td>Wishlist heart</td><td>Click par pop animation</td></tr>
+<tr><td>Category tiles</td><td>Hover par lift + icon rotate</td></tr>
+<tr><td>Form errors</td><td>Shake animation</td></tr>
+</tbody>
+</table>
+
+<h3>Typography</h3>
+
+<ul>
+<li>Bade headings par tighter tracking (<code>-.025em</code>) — premium feel</li>
+<li>Prices me <code>tabular-nums</code> — numbers align rehte hain</li>
+</ul>
+
+<h3>Accessibility</h3>
+
+<ul>
+<li>Keyboard users ko clear focus ring, mouse users ko nahi</li>
+<li><code>prefers-reduced-motion</code> respect — motion sensitivity wale
+users ke liye saare animations band</li>
+<li>Print styles — invoice print karne par UI chrome hat jata hai</li>
+</ul>
+
+<hr>
+
+<h2>Testing</h2>
+
+<pre>node tests/backend.test.js     # 242/242 backend
+tests/index.html               # browser me test suite
+connect-test.html              # backend connection check</pre>
+
+<table>
+<thead><tr><th>Test</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Backend logic</td><td>242/242</td></tr>
+<tr><td>Connection handling</td><td>10/10</td></tr>
+<tr><td>Saare pages (14 + 4 admin + 5 docs)</td><td>24/25*</td></tr>
+<tr><td>JS syntax</td><td>72 modules clean</td></tr>
+</tbody>
+</table>
+
+<p><small>* Ek "missing file" flag aaya tha — jaanch ki to wo pichhle
+offline-simulation test ka leftover tha, asli issue nahi. Backend live hai,
+59 products load ho rahe hain, koi failed request nahi.</small></p>
+
+<hr>
+
+<h2>Ek zaroori baat</h2>
+
+<blockquote>
+Website <code>file://</code> se nahi chalti — browser JavaScript modules
+block kar deta hai (security). Ye har modern site ke saath hota hai.<br><br>
+<b>Local server chalayein:</b> <code>python3 -m http.server 8000</code><br>
+Phir kholein: <code>http://localhost:8000</code>
+</blockquote>
+
+<p><a href="../START-HERE.html">START-HERE.html</a> kholne par ye warning
+apne aap dikhti hai, saath me exact command bhi.</p>
+
+    </article>
+  </main>
+</div>
+</body>
+</html>

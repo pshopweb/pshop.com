@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>My Profile — PShop</title>
+<meta name="description" content="Manage your PShop profile, addresses and recent orders in one place.">
+<meta name="keywords" content="profile, my account">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/profile.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="My Profile — PShop">
+<meta property="og:description" content="Manage your PShop profile, addresses and recent orders in one place.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Profile — PShop">
+<meta name="twitter:description" content="Manage your PShop profile, addresses and recent orders in one place.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/account.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <a href="profile.html">My Account</a><span class="sep">/</span>
+      <span aria-current="page">My Profile</span>
+    </nav>
+    <div class="shell-account">
+      <aside><nav class="account-nav" id="account-nav" aria-label="Account sections"></nav></aside>
+      <section>
+        <div class="page-head"><h1>My Profile</h1></div>
+        <div class="profile-hero" id="profile-hero"></div>
+        <div class="quick-stats" id="quick-stats"></div>
+
+        <div class="info-card mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3>Personal information</h3>
+            <a class="btn btn-sm btn-outline" href="edit-profile.html">Edit profile</a>
+          </div>
+          <div class="info-grid" id="info-grid"></div>
+        </div>
+
+        <div class="info-card mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3>Default address</h3>
+            <a class="btn btn-sm btn-ghost" href="address.html">Manage addresses</a>
+          </div>
+          <div id="default-addr"></div>
+        </div>
+
+        <div class="info-card">
+          <div class="flex justify-between items-center mb-4">
+            <h3>Recent orders</h3>
+            <a class="btn btn-sm btn-ghost" href="orders.html">View all orders</a>
+          </div>
+          <div id="recent-orders"></div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/profile.js"></script>
+</body>
+</html>

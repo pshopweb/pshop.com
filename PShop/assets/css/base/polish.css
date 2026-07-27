@@ -1,0 +1,226 @@
+/* ==========================================================================
+   PShop — Design polish layer
+   Ye file baaki sab ke BAAD load hoti hai, isliye yahan ke rules jeetein ge.
+   Yahan sirf visual refinement hai — layout ya behaviour nahi badalta.
+   ========================================================================== */
+
+/* ─────────────────────── Refined shadow system ──────────────────────────
+   Ek hi flat shadow ki jagah do layers — ek tight (definition ke liye) aur
+   ek soft spread (depth ke liye). Isse cards "float" karte lagte hain. */
+:root{
+  --sh-xs: 0 1px 2px rgba(15,23,42,.05),
+           0 1px 3px rgba(15,23,42,.04);
+  --sh-sm: 0 1px 2px rgba(15,23,42,.05),
+           0 4px 12px -2px rgba(15,23,42,.07);
+  --sh-md: 0 2px 4px rgba(15,23,42,.04),
+           0 12px 24px -6px rgba(15,23,42,.10);
+  --sh-lg: 0 4px 8px rgba(15,23,42,.04),
+           0 20px 40px -8px rgba(15,23,42,.13);
+  --sh-xl: 0 8px 16px rgba(15,23,42,.05),
+           0 32px 64px -12px rgba(15,23,42,.18);
+  --sh-brand: 0 2px 4px rgba(37,99,235,.12),
+              0 12px 28px -6px rgba(37,99,235,.35);
+
+  /* Spring easing — bounce ke saath, zyada natural lagta hai */
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+}
+
+[data-theme="dark"]{
+  --sh-xs: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.25);
+  --sh-sm: 0 1px 2px rgba(0,0,0,.35), 0 4px 12px -2px rgba(0,0,0,.4);
+  --sh-md: 0 2px 4px rgba(0,0,0,.3), 0 12px 24px -6px rgba(0,0,0,.5);
+  --sh-lg: 0 4px 8px rgba(0,0,0,.3), 0 20px 40px -8px rgba(0,0,0,.55);
+  --sh-xl: 0 8px 16px rgba(0,0,0,.35), 0 32px 64px -12px rgba(0,0,0,.65);
+  --sh-brand: 0 2px 4px rgba(37,99,235,.2), 0 12px 28px -6px rgba(37,99,235,.45);
+}
+
+/* ──────────────────────────── Typography ────────────────────────────────
+   Bade headings par tighter tracking — premium feel deta hai. */
+h1,h2{letter-spacing:-.025em;}
+h3,h4{letter-spacing:-.015em;}
+.price,.pd-price,.kpi .val,.about-stat .n{
+  font-variant-numeric:tabular-nums;    /* numbers align rahein */
+  letter-spacing:-.02em;
+}
+
+/* ───────────────────────── Product cards ────────────────────────────────
+   Hover par lift + image zoom. Spring easing se natural lagta hai. */
+.product-card{
+  transition:transform .35s var(--ease-spring),
+             box-shadow .35s var(--ease),
+             border-color .25s var(--ease);
+  will-change:transform;
+}
+.product-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--sh-lg);
+  border-color:var(--brand-200);
+}
+[data-theme="dark"] .product-card:hover{border-color:var(--brand-700);}
+
+/* Image par subtle zoom */
+.pc-img img{transition:transform .55s var(--ease-out);}
+.product-card:hover .pc-img img{transform:scale(1.07);}
+
+/* Image ke neeche halka gradient — text ke saath contrast better */
+.pc-img::after{
+  content:"";position:absolute;inset:auto 0 0 0;height:45%;
+  background:linear-gradient(transparent,rgba(15,23,42,.045));
+  pointer-events:none;opacity:0;transition:opacity .35s var(--ease);
+}
+.product-card:hover .pc-img::after{opacity:1;}
+
+/* Badges ko thoda depth */
+.pc-badges .badge{box-shadow:0 2px 6px rgba(15,23,42,.16);backdrop-filter:blur(4px);}
+
+/* ────────────────────────────── Buttons ─────────────────────────────────
+   Press par squeeze, hover par lift — physical feel. */
+.btn{
+  transition:transform .18s var(--ease-spring),
+             box-shadow .25s var(--ease),
+             background .25s var(--ease),
+             opacity .2s var(--ease);
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);}
+.btn:active:not(:disabled){transform:translateY(0) scale(.97);transition-duration:.08s;}
+
+/* Primary button par gradient shine */
+.btn-primary{
+  background:linear-gradient(135deg,var(--brand-600) 0%,var(--accent-500) 100%);
+  background-size:200% 200%;
+  background-position:0% 50%;
+  transition:background-position .5s var(--ease),
+             transform .18s var(--ease-spring),
+             box-shadow .25s var(--ease);
+}
+.btn-primary:hover:not(:disabled){
+  background-position:100% 50%;
+  box-shadow:var(--sh-brand);
+}
+
+.btn-accent{
+  background:linear-gradient(135deg,var(--saffron) 0%,#f97316 100%);
+  box-shadow:0 2px 4px rgba(245,158,11,.15), 0 10px 24px -6px rgba(245,158,11,.4);
+}
+
+/* Icon buttons par ring effect */
+.icon-action{transition:all .25s var(--ease-spring);}
+.icon-action:hover{transform:scale(1.12);box-shadow:var(--sh-sm);}
+.icon-action:active{transform:scale(.94);}
+.icon-action.active{
+  animation:heartPop .45s var(--ease-spring);
+}
+@keyframes heartPop{
+  0%{transform:scale(1);} 40%{transform:scale(1.35);} 100%{transform:scale(1);}
+}
+
+/* ────────────────────────── Category tiles ──────────────────────────────*/
+.cat-tile{transition:transform .35s var(--ease-spring),box-shadow .3s var(--ease),
+          border-color .25s var(--ease);}
+.cat-tile:hover{transform:translateY(-5px) scale(1.02);box-shadow:var(--sh-md);}
+.cat-tile img{transition:transform .4s var(--ease-spring);}
+.cat-tile:hover img{transform:scale(1.1) rotate(-3deg);}
+
+/* ─────────────────────────── Form inputs ────────────────────────────────
+   Focus par smooth ring — jarring border jump nahi. */
+.input,.select,.textarea{
+  transition:border-color .2s var(--ease),
+             box-shadow .25s var(--ease),
+             background .2s var(--ease);
+}
+.input:focus,.select:focus,.textarea:focus{
+  box-shadow:0 0 0 4px rgba(59,130,246,.13), var(--sh-xs);
+}
+.field.error .input,.field.error .select,.field.error .textarea{
+  animation:shake .35s var(--ease);
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-5px);} 40%{transform:translateX(5px);}
+  60%{transform:translateX(-3px);} 80%{transform:translateX(3px);}
+}
+
+/* ──────────────────────────── Surfaces ──────────────────────────────────*/
+.card-surface,.info-card,.side-panel,.summary-card,.co-panel,.admin-panel{
+  transition:box-shadow .3s var(--ease),border-color .25s var(--ease);
+}
+.stat-card:hover,.kpi:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--sh-md);
+}
+.stat-card,.kpi{transition:transform .3s var(--ease-spring),box-shadow .3s var(--ease);}
+
+/* ─────────────────────────── Header polish ──────────────────────────────*/
+.site-header{transition:box-shadow .3s var(--ease),background .3s var(--ease);}
+.site-header.scrolled{box-shadow:var(--sh-md);}
+
+.h-action{transition:all .22s var(--ease-spring);}
+.h-action:hover{transform:translateY(-2px);}
+.h-action:active{transform:translateY(0) scale(.94);}
+
+.nav-link{transition:color .2s var(--ease),background .2s var(--ease);}
+.nav-link::after{transition:transform .25s var(--ease-spring);transform-origin:center;}
+
+/* Search box focus par expand feel */
+.search-box input{transition:box-shadow .28s var(--ease),border-color .2s var(--ease);}
+.search-box input:focus{box-shadow:0 0 0 4px rgba(59,130,246,.13), var(--sh-sm);}
+
+/* ─────────────────────────── Chips & badges ─────────────────────────────*/
+.chip{transition:all .22s var(--ease-spring);}
+.chip:hover{transform:translateY(-1px);}
+.chip:active{transform:scale(.96);}
+.chip.active{box-shadow:0 2px 8px rgba(37,99,235,.28);}
+
+.badge{transition:transform .2s var(--ease);}
+
+/* ──────────────────────────── Skeletons ─────────────────────────────────
+   Shimmer thoda slow — kam distracting lagta hai. */
+.skeleton::after{animation-duration:1.6s;}
+
+/* ────────────────────────── Modals & drawers ────────────────────────────*/
+.modal-box{
+  transition:transform .32s var(--ease-spring),opacity .25s var(--ease);
+}
+.overlay{backdrop-filter:blur(4px) saturate(120%);}
+
+/* ────────────────────────── Scroll reveal ───────────────────────────────
+   Thoda zyada travel — motion clearly noticeable ho. */
+.reveal{transform:translateY(22px);transition:opacity .55s var(--ease-out),
+        transform .55s var(--ease-out);}
+
+/* ───────────────────────── Focus visibility ─────────────────────────────
+   Keyboard users ke liye clear ring, mouse users ko dikhega nahi. */
+body.using-mouse :focus{outline:none;}
+:focus-visible{
+  outline:3px solid var(--brand-500);
+  outline-offset:3px;
+  border-radius:var(--r-xs);
+}
+
+/* ───────────────────────── Selection colour ─────────────────────────────*/
+::selection{background:var(--brand-200);color:var(--brand-900);}
+[data-theme="dark"] ::selection{background:var(--brand-700);color:#fff;}
+
+/* ───────────────────────── Image rendering ──────────────────────────────*/
+img{image-rendering:auto;}
+.pc-img img,.cat-tile img,.pd-main-img img{
+  /* Crisp edges on scaled SVGs */
+  shape-rendering:geometricPrecision;
+}
+
+/* ───────────────────── Reduced motion respect ───────────────────────────*/
+@media (prefers-reduced-motion:reduce){
+  .product-card:hover,.cat-tile:hover,.stat-card:hover,.kpi:hover,
+  .btn:hover:not(:disabled),.h-action:hover,.chip:hover{transform:none;}
+  .product-card:hover .pc-img img,.cat-tile:hover img{transform:none;}
+  .icon-action.active{animation:none;}
+  .field.error .input{animation:none;}
+}
+
+/* ──────────────────────── Print-friendly ────────────────────────────────*/
+@media print{
+  .site-header,.site-footer,.bottom-nav,.to-top,.conn-bar,
+  .sync-pill,.toast-stack{display:none !important;}
+  body{background:#fff;}
+  .card-surface,.info-card{box-shadow:none;border:1px solid #ddd;}
+}

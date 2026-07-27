@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /pages/checkout.html
+Disallow: /pages/payment.html
+Disallow: /pages/payment-success.html
+Disallow: /pages/payment-failed.html
+
+Sitemap: https://pshop.example/sitemap.xml

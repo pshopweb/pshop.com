@@ -1,0 +1,86 @@
+/* ============================ Toast notifications ========================= */
+.toast-stack{position:fixed;top:calc(var(--sp-4) + 70px);right:var(--sp-4);z-index:var(--z-toast);
+  display:flex;flex-direction:column;gap:.65rem;max-width:min(94vw,380px);pointer-events:none;}
+@media (max-width:767px){
+  .toast-stack{top:auto;bottom:calc(var(--bottomnav-h) + var(--sp-4));left:var(--sp-3);right:var(--sp-3);
+    max-width:none;align-items:stretch;}
+}
+.toast{display:flex;align-items:flex-start;gap:.75rem;padding:.85rem 1rem;border-radius:var(--r-md);
+  background:var(--glass-bg-strong);backdrop-filter:blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-border);
+  box-shadow:var(--sh-lg);pointer-events:auto;position:relative;overflow:hidden;
+  animation:toastIn .35s var(--ease-out) both;}
+.toast.out{animation:toastOut .28s var(--ease) forwards;}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.96);}to{opacity:1;transform:none;}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px) scale(.96);}}
+@media (max-width:767px){
+  @keyframes toastIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+  @keyframes toastOut{to{opacity:0;transform:translateY(24px);}}
+}
+.toast .t-ico{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;}
+.toast .t-ico svg{width:15px;height:15px;}
+.toast .t-body{flex:1;min-width:0;}
+.toast .t-title{font-weight:700;font-size:var(--fs-sm);}
+.toast .t-msg{font-size:var(--fs-xs);color:var(--text-2);margin-top:1px;}
+.toast .t-close{color:var(--text-3);padding:2px;border-radius:var(--r-xs);flex:none;}
+.toast .t-close:hover{color:var(--text);background:var(--surface-3);}
+.toast::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;transform-origin:left;
+  animation:toastBar var(--toast-dur,3.2s) linear forwards;}
+@keyframes toastBar{from{transform:scaleX(1);}to{transform:scaleX(0);}}
+.toast.success .t-ico{background:var(--success);} .toast.success::after{background:var(--success);}
+.toast.error   .t-ico{background:var(--danger);}  .toast.error::after{background:var(--danger);}
+.toast.warning .t-ico{background:var(--warning);} .toast.warning::after{background:var(--warning);}
+.toast.info    .t-ico{background:var(--info);}    .toast.info::after{background:var(--info);}
+
+/* ------------------------- Sync status pill ------------------------------- */
+/* Tab dikhta hai jab cart/wishlist Google Sheet ke saath sync ho raha ho. */
+.sync-pill{position:fixed;left:50%;bottom:calc(var(--bottomnav-h) + var(--sp-4));
+  transform:translate(-50%,14px);z-index:var(--z-toast);
+  display:flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-radius:var(--r-full);
+  background:var(--glass-bg-strong);backdrop-filter:blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-border);
+  box-shadow:var(--sh-md);font-size:var(--fs-xs);font-weight:600;color:var(--text-2);
+  opacity:0;visibility:hidden;transition:all var(--t) var(--ease);pointer-events:none;}
+.sync-pill.show{opacity:1;visibility:visible;transform:translate(-50%,0);}
+@media (min-width:768px){.sync-pill{bottom:var(--sp-5);}}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--brand-600);
+  animation:syncPulse 1s ease-in-out infinite;}
+@keyframes syncPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.7);}}
+
+/* ────────────────────── Connection status bar ───────────────────────────── */
+/* Backend down ya internet gone — user ko saaf dikhta hai, chup-chaap fail
+   hone se behtar. Online hone par apne aap chhup jata hai. */
+.conn-bar{position:fixed;left:50%;bottom:calc(var(--bottomnav-h) + var(--sp-4));
+  transform:translate(-50%,20px);z-index:var(--z-toast);
+  display:flex;align-items:center;gap:.8rem;
+  padding:.7rem 1rem .7rem 1.1rem;border-radius:var(--r-full);
+  max-width:min(94vw,520px);
+  background:var(--glass-bg-strong);backdrop-filter:blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(160%);
+  border:1px solid var(--glass-border);box-shadow:var(--sh-lg);
+  opacity:0;visibility:hidden;transition:all var(--t) var(--ease-out);pointer-events:none;}
+.conn-bar.show{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;}
+@media (min-width:768px){.conn-bar{bottom:var(--sp-5);}}
+@media (max-width:520px){
+  .conn-bar{left:var(--sp-3);right:var(--sp-3);transform:translateY(20px);max-width:none;
+    border-radius:var(--r-lg);}
+  .conn-bar.show{transform:none;}
+}
+
+.conn-bar .cb-ico{display:grid;place-items:center;width:30px;height:30px;flex:none;
+  border-radius:50%;color:#fff;}
+.conn-bar.offline .cb-ico{background:var(--danger);}
+.conn-bar.degraded .cb-ico{background:var(--warning);
+  animation:connSpin 2.2s linear infinite;}
+@keyframes connSpin{to{transform:rotate(360deg);}}
+
+.conn-bar .cb-text{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35;}
+.conn-bar .cb-text b{font-size:var(--fs-sm);color:var(--text);}
+.conn-bar .cb-text span{font-size:var(--fs-xs);color:var(--text-3);}
+
+.conn-bar .cb-retry{flex:none;padding:.4rem .9rem;border-radius:var(--r-full);
+  border:1.5px solid var(--border);background:var(--surface);
+  font-size:var(--fs-xs);font-weight:700;color:var(--text-2);
+  transition:all var(--t-fast) var(--ease);}
+.conn-bar .cb-retry:hover:not(:disabled){border-color:var(--brand-500);color:var(--brand-600);}
+.conn-bar .cb-retry:disabled{opacity:.55;cursor:wait;}

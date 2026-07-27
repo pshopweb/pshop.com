@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OTP Verification — PShop</title>
+<meta name="description" content="Verify your identity with a one-time password to sign in to PShop securely.">
+<meta name="keywords" content="otp login, verification code, passwordless login">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/otp-verification.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="OTP Verification — PShop">
+<meta property="og:description" content="Verify your identity with a one-time password to sign in to PShop securely.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OTP Verification — PShop">
+<meta name="twitter:description" content="Verify your identity with a one-time password to sign in to PShop securely.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/auth.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo"><img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56"></div>
+
+      <section id="send-step">
+        <h1>Sign in with OTP</h1>
+        <p class="sub">No password needed — we will text or email you a one-time code.</p>
+        <form id="send-form" novalidate>
+          <div class="field">
+            <label for="identifier">Email or mobile number <span class="req">*</span></label>
+            <div class="input-group"><span class="ig-icon" id="ico-user"></span>
+              <input class="input" id="identifier" autocomplete="username"
+                     placeholder="you@example.com or 9876543210" required></div>
+            <p class="err-msg" id="err-identifier">Enter a valid email or 10-digit mobile number.</p>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Send OTP</button>
+        </form>
+      </section>
+
+      <section id="verify-step" hidden>
+        <h1>Verify your code</h1>
+        <p class="sub">Enter the 6-digit code we just sent you.</p>
+        <div class="otp-target" id="otp-target"></div>
+        <form id="otp-form" novalidate>
+          <div class="otp-group" id="otp-group" role="group" aria-label="6 digit verification code"></div>
+          <p class="err-msg text-center mt-2" id="err-otp">Please enter the complete 6-digit code.</p>
+          <div class="otp-meta">
+            <span class="muted">Expires in <span class="otp-timer" id="otp-timer">05:00</span></span>
+            <button type="button" id="resend" style="color:var(--brand-600);font-weight:700">Resend code</button>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block mt-4" type="submit">Verify &amp; sign in</button>
+          <button class="btn btn-ghost btn-block mt-2" type="button" id="change-id">Use a different number</button>
+        </form>
+      </section>
+
+      <p class="auth-alt">Prefer a password? <a href="login.html">Sign in normally</a></p>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/otp-verification.js"></script>
+</body>
+</html>

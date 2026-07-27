@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recent Fixes — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html" class="">Setup Guide</a>
+    <a href="backend.html" class="">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html" class="">Upload & Messages</a>
+    <a href="fixes.html" class="active">Recent Fixes</a>
+    <a href="errors.html" class="">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Recent Fixes</h1>
+      <p>Date, COD aur coupon fixes</p>
+    </div>
+    <article class="doc-body">
+<h1 id="pshop-latest-fixes-date-cod-coupon">PShop — Latest Fixes (Date, COD, Coupon)</h1>
+<p>Aapne 3 problem batayi thi. Teeno fix ho gayi hain.</p>
+<hr>
+<h2 id="aapka-backend-abhi-live-hai">✅ Aapka backend abhi live hai</h2>
+<p>Maine aapka URL test kiya — <strong><code>setupDemoStore()</code> chal chuka hai</strong>:</p>
+<table><thead><tr><th>Sheet</th><th>Rows</th></tr></thead><tbody><tr><td>Products</td><td>48</td></tr><tr><td>Reviews</td><td>48</td></tr><tr><td>Notifications</td><td>24</td></tr><tr><td>Orders / Payments / Delivery</td><td>12 each</td></tr><tr><td>Users</td><td>7</td></tr><tr><td>Wishlist</td><td>6</td></tr><tr><td>Coupons</td><td>5</td></tr><tr><td>Cart</td><td>3</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>199 rows</strong></td></tr></tbody></table>
+<p>Login bhi kaam kar raha hai (<code>demo@pshop.in</code>, <code>admin@pshop.in</code>). ✅</p>
+<hr>
+<h2 id="problem-1-google-sheet-me-date-nahi-jaa-rahi-thi">🐛 PROBLEM 1 — Google Sheet me date nahi jaa rahi thi</h2>
+<h3 id="kya-ho-raha-tha">Kya ho raha tha</h3>
+<p>Google Sheets <strong>ISO date strings ko apne aap <code>Date</code> object bana leta hai</strong>. Jab data wapas padha jata tha, format bigad chuka hota tha:</p>
+<pre><code>
+Sheet me likha  : 2026-07-25T08:24:31.977Z
+Wapas mila      : Sat Jul 25 2026 08:24:31 GMT+0000   ← Date object!
+
+Frontend code   : String(placedAt).slice(0, 10)
+Milta tha       : "Sat Jul 25"     ❌
+Chahiye tha     : "2026-07-25"     ✅
+</code></pre>
+<p>Iski wajah se <strong>admin dashboard ka revenue chart khaali</strong> dikhta tha, aur date filters kaam nahi karte the.</p>
+<h3 id="kya-fix-kiya">Kya fix kiya</h3>
+<p><strong>Backend (<code>PShop-Complete.gs</code>) — 5 jagah:</strong></p>
+<ol>
+<li><strong><code>parseCell()</code></strong> — Sheet se aane wale har <code>Date</code> object ko turant ISO</li>
+</ol>
+<p>   string bana deta hai. Ye sabse important fix hai — poore backend me    ek hi jagah se sab theek ho gaya.</p>
+<ol>
+<li><strong><code>objectToRow()</code></strong> — Sheet me likhte waqt bhi <code>Date</code> ko ISO text banata</li>
+</ol>
+<p>   hai, taaki locale format (25/07/2026) me save na ho.</p>
+<ol>
+<li><strong><code>toISO(v)</code></strong> — naya helper. Date object, string, ya khaali — teeno</li>
+</ol>
+<p>   safe handle karta hai.</p>
+<ol>
+<li><strong><code>toDateKey(v)</code></strong> — naya helper. <code>YYYY-MM-DD</code> deta hai (charts ke liye).</li>
+</ol>
+<p>   UTC parts use karta hai taaki timezone se din na khisak jaye.</p>
+<ol>
+<li><strong><code>forceTextOnDateColumns()</code></strong> — naya. Setup ke waqt saare date columns</li>
+</ol>
+<p>   ko <strong>"Plain text" format</strong> de deta hai, taaki Sheets unhe touch hi na kare.    16 date columns cover hote hain: <code>createdAt</code>, <code>placedAt</code>, <code>expiresAt</code>, etc.</p>
+<p><strong>Frontend — 3 files:</strong></p>
+<ul>
+<li><strong><code>utils.js</code></strong> — naya <code>dateKey()</code> helper export hota hai</li>
+<li><strong><code>admin/dashboard.js</code></strong> — <code>String(o.placedAt).slice(0,10)</code> → <code>dateKey(o.placedAt)</code></li>
+<li><strong><code>admin/reports.js</code></strong> — wahi fix</li>
+</ul>
+<h3 id="verify-kiya">Verify kiya</h3>
+<p>Live Sheet se test:</p>
+<pre><code>
+placedAt     = 2026-07-25T08:10:47.776Z    OK
+expectedAt   = 2026-07-29T08:10:47.776Z    OK
+slice(0,10)  = '2026-07-25'                OK — chart kaam karega
+timeline     = 6 steps, dates OK
+</code></pre>
+<hr>
+<h2 id="problem-2-cash-on-delivery">🐛 PROBLEM 2 — Cash on Delivery</h2>
+<h3 id="kya-kami-thi">Kya kami thi</h3>
+<p>COD ka data to tha, par <strong>backend check hi nahi karta tha</strong>. Koi seedha API call karke COD-blocked item ka COD order bhej sakta tha. Aur COD fee client ke bheje totals par depend thi — jo trust nahi karni chahiye.</p>
+<h3 id="kya-add-kiya">Kya add kiya</h3>
+<p><strong>1. Server-side COD validation</strong> — <code>placeOrder()</code> me:</p>
+<pre><code>
+"Pulsewave Wireless Earbuds Edge" par Cash on Delivery available nahi hai.
+Please choose UPI or Card payment.
+</code></pre>
+<p>Product ka <strong>naam</strong> bhi batata hai, taaki user samajh sake kaunsa item hatana hai.</p>
+<p><strong>2. COD fee ab server par judti hai</strong> — client ke totals par bharosa nahi:</p>
+<pre><code>
+if (isCod) {
+  totals.codFee = CONFIG.COD_FEE;      // ₹29
+  totals.total  = baseTotal + CONFIG.COD_FEE;
+} else {
+  totals.codFee = 0;
+}
+</code></pre>
+<p><strong>3. Naya endpoint <code>checkCod</code></strong> — checkout page pehle hi pooch sakta hai:</p>
+<pre><code>
+{
+  "eligible": false,
+  "blockedItems": ["Pulsewave Wireless Earbuds Edge"],
+  "codFee": 29,
+  "reason": "1 item(s) par COD available nahi hai"
+}
+</code></pre>
+<p><strong>4. Frontend ab naam dikhata hai</strong> — pehle sirf "one or more items" likha aata tha. Ab exact list:</p>
+<blockquote>⚠️ <strong>Cash on Delivery available nahi hai</strong> in items par: - Pulsewave Wireless Earbuds Edge  In items ko cart se hatakar COD use kar sakte hain, ya UPI / Card se payment karein.</blockquote>
+<p>Aapke demo data me <strong>48 me se 10 products</strong> COD-blocked hain, to ye flow turant test kar sakte hain.</p>
+<hr>
+<h2 id="problem-3-499-par-10-off-wali-line">🐛 PROBLEM 3 — "₹499 par 10% off" wali line</h2>
+<p>Aapne bilkul sahi pakda. Upar wali announcement bar <strong>galat</strong> thi:</p>
+<pre><code>
+❌ PEHLE:
+Free delivery above ₹499 · Use code PSHOP10 for 10% off
+</code></pre>
+<p>Padhne me lagta tha ki ₹499 par 10% off milega. <strong>Par asli rule ye hai:</strong></p>
+<table><thead><tr><th>Cheez</th><th>Rule</th></tr></thead><tbody><tr><td>Free delivery</td><td>₹499 se upar</td></tr><tr><td>PSHOP10 coupon</td><td><strong>₹999</strong> se upar, 10% off, <strong>max ₹300</strong></td></tr></tbody></table>
+<p>Do alag-alag limits ek line me mix ho gayi thi.</p>
+<pre><code>
+✅ AB:
+Free delivery above ₹499 · PSHOP10: 10% off above ₹999 (max ₹300)
+</code></pre>
+<p>Test se confirm kiya:</p>
+<ul>
+<li>₹998 par coupon <strong>block</strong> hota hai</li>
+<li>₹1000 par ₹100 discount (10%)</li>
+<li>₹1,00,000 par bhi sirf ₹300 (max cap)</li>
+</ul>
+<hr>
+<h2 id="testing">🧪 Testing</h2>
+<p><strong>182/182 pass</strong> (pehle 149 the — 33 naye tests add kiye):</p>
+<pre><code>
+node tests/backend.test.js     # backend logic
+python3 tests/live-check.py    # aapka live URL
+</code></pre>
+<p>Naye test sections:</p>
+<ul>
+<li><strong>DATE HANDLING</strong> (14 tests) — Date object bug ko actually reproduce karke</li>
+<li><strong>CASH ON DELIVERY</strong> (15 tests) — validation, fee, blocked items, UPI fallback</li>
+<li><strong>COUPON RULES</strong> (4 tests) — announcement bar se match karta hai ya nahi</li>
+</ul>
+<p>Testing me do purani assertions bhi galat nikli, wo bhi theek ki:</p>
+<ul>
+<li>Checkout test COD-blocked item ka COD order bhej raha tha (ab UPI use karta hai)</li>
+<li>Timeline test <code>=== 6</code> maan raha tha, par cancelled orders me 7 steps hote hain</li>
+</ul>
+<hr>
+<h2 id="ab-aapko-kya-karna-hai">👉 Ab aapko kya karna hai</h2>
+<p>Ye fixes live karne ke liye:</p>
+<table><thead><tr><th>#</th><th>Kahan</th><th>Kya</th></tr></thead><tbody><tr><td>1</td><td>Apps Script</td><td><code>backend/PShop-Complete.gs</code> <strong>dobara paste</strong> karein (purana code delete karke)</td></tr><tr><td>2</td><td>Apps Script</td><td>Deploy → Manage deployments → ✏️ → <strong>New version</strong> → Deploy</td></tr></tbody></table>
+<blockquote>⚠️ <code>setupDemoStore()</code> <strong>dobara chalane ki zaroorat nahi</strong> — aapka data already bhara hua hai. Sirf code update karna hai.</blockquote>
+<p><strong>Agar date columns ko plain-text format bhi chahiye</strong> (recommended, taaki aage kabhi problem na ho), to ek baar <code>setupDatabase()</code> run kar dein — ye existing data ko chhuta nahi, sirf column format set karta hai.</p>
+<p>Deploy ke baad check karein:</p>
+<pre><code>
+python3 tests/live-check.py
+</code></pre>
+<p><code>checkCod</code> endpoint tab kaam karne lagega (abhi 404 deta hai kyunki purana version deployed hai).</p>
+    </article>
+  </main>
+</div>
+</body>
+</html>

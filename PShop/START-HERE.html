@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PShop — Start Here</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+  .sh-wrap{max-width:860px;margin:0 auto;padding:2.5rem 1rem 5rem;}
+  .sh-hero{text-align:center;padding:1rem 0 2.5rem;}
+  .sh-hero img{height:48px;margin-bottom:1rem;}
+  .sh-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.02em;}
+  .sh-hero p{color:var(--text-2);max-width:520px;margin:.6rem auto 0;}
+  .warn{display:flex;gap:1rem;padding:1.2rem 1.4rem;border-radius:14px;
+    background:var(--warning-bg);border:1px solid var(--warning);margin-bottom:2rem;}
+  .warn .ico{font-size:1.6rem;flex:none;line-height:1;}
+  .warn b{display:block;margin-bottom:.3rem;color:var(--text);}
+  .warn p{font-size:.88rem;color:var(--text-2);line-height:1.6;}
+  .step{display:flex;gap:1.1rem;padding:1.3rem 0;border-bottom:1px solid var(--border);}
+  .step:last-child{border-bottom:0;}
+  .step .n{width:34px;height:34px;border-radius:50%;background:var(--brand-600);color:#fff;
+    display:grid;place-items:center;font-weight:800;font-size:.85rem;flex:none;}
+  .step .body{flex:1;min-width:0;}
+  .step h3{font-size:1.05rem;margin-bottom:.3rem;}
+  .step p{font-size:.88rem;color:var(--text-2);margin-bottom:.5rem;line-height:1.6;}
+  .step pre{background:var(--surface-3);border:1px solid var(--border);border-radius:8px;
+    padding:.8rem 1rem;font-size:.82rem;overflow-x:auto;margin:.5rem 0;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:.8rem;margin-top:2.5rem;}
+  .link-card{padding:1.1rem;border-radius:12px;background:var(--surface);
+    border:1px solid var(--border);transition:all .25s;}
+  .link-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);
+    border-color:var(--brand-300);}
+  .link-card b{display:block;font-size:.95rem;margin-bottom:.2rem;}
+  .link-card span{font-size:.78rem;color:var(--text-3);}
+  code{background:var(--surface-3);padding:.12rem .4rem;border-radius:5px;
+    font-family:ui-monospace,monospace;font-size:.85em;color:var(--brand-700);}
+  [data-theme="dark"] code{color:var(--brand-300);}
+  table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.6rem 0;}
+  th,td{padding:.55rem .7rem;border:1px solid var(--border);text-align:left;}
+  th{background:var(--surface-2);font-weight:700;}
+</style>
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="sh-wrap">
+  <div class="sh-hero">
+    <img src="assets/img/icons/logo.svg" alt="PShop">
+    <h1>Welcome to PShop</h1>
+    <p>Complete e-commerce website — HTML, CSS, JavaScript aur Google Apps Script.
+       Neeche 3 step me shuru karein.</p>
+  </div>
+
+  <div class="warn" id="file-warning" hidden>
+    <span class="ico">⚠️</span>
+    <div>
+      <b>Aap file:// se khol rahe hain — website kaam nahi karegi</b>
+      <p>Modern browsers <code>file://</code> par JavaScript modules block kar dete hain
+         (security ki wajah se). Ye har modern website ke saath hota hai, PShop ki
+         galti nahi. <b>Neeche STEP 1 follow karein</b> — 30 second ka kaam hai.</p>
+    </div>
+  </div>
+
+  <div class="card-surface" style="padding:1.8rem">
+    <div class="step">
+      <span class="n">1</span>
+      <div class="body">
+        <h3>Local server chalayein</h3>
+        <p>Website folder me terminal / command prompt kholein aur ye command chalayein:</p>
+        <pre>python3 -m http.server 8000</pre>
+        <p>Python na ho to Node se:</p>
+        <pre>npx serve .</pre>
+        <p>Phir browser me kholein: <code>http://localhost:8000</code></p>
+        <p class="muted" style="font-size:.8rem">
+          Ya VS Code me <b>Live Server</b> extension install karke
+          <code>index.html</code> par right-click → "Open with Live Server".</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="n">2</span>
+      <div class="body">
+        <h3>Google Sheet backend jodein (optional)</h3>
+        <p>Backend ke bina bhi website chalti hai — demo data par. Asli data chahiye to:</p>
+        <table>
+          <tr><th>Kaam</th><th>Kahan</th></tr>
+          <tr><td><code>PShop-Complete.gs</code> paste karein</td><td>Apps Script editor</td></tr>
+          <tr><td><code>setupDemoStore</code> run karein</td><td>Function dropdown → ▶ Run</td></tr>
+          <tr><td>Deploy → Web app</td><td>Access: <b>Anyone</b></td></tr>
+          <tr><td>URL paste karein</td><td><code>assets/js/core/config.js</code> line 22</td></tr>
+        </table>
+        <p><a href="docs/setup.html" style="color:var(--brand-600);font-weight:600">
+          Poori setup guide padhein →</a></p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="n">3</span>
+      <div class="body">
+        <h3>Login karke dekhein</h3>
+        <table>
+          <tr><th>Role</th><th>Email</th><th>Password</th></tr>
+          <tr><td>Admin</td><td><code>admin@pshop.in</code></td><td><code>admin123</code></td></tr>
+          <tr><td>Customer</td><td><code>demo@pshop.in</code></td><td><code>demo123</code></td></tr>
+        </table>
+        <p>Admin panel: <code>admin/dashboard.html</code></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="links">
+    <a class="link-card" href="index.html">
+      <b>🏠 Storefront</b><span>Website kholein</span></a>
+    <a class="link-card" href="admin/dashboard.html">
+      <b>⚙️ Admin Panel</b><span>Products, orders, users</span></a>
+    <a class="link-card" href="docs/setup.html">
+      <b>📖 Setup Guide</b><span>Backend 5 min me</span></a>
+    <a class="link-card" href="connect-test.html">
+      <b>🔌 Connection Test</b><span>Backend check karein</span></a>
+    <a class="link-card" href="tests/index.html">
+      <b>🧪 Test Suite</b><span>Sab kuch verify karein</span></a>
+    <a class="link-card" href="docs/upload.html">
+      <b>📤 Upload & Chat</b><span>Images aur messages</span></a>
+  </div>
+
+  <div class="card-surface" style="padding:1.4rem;margin-top:2rem">
+    <h3 style="font-size:1rem;margin-bottom:.6rem">Project me kya hai</h3>
+    <table>
+      <tr><th>Folder</th><th>Kya hai</th></tr>
+      <tr><td><code>index.html</code></td><td>Homepage</td></tr>
+      <tr><td><code>pages/</code></td><td>30 pages — shop, cart, checkout, orders, profile…</td></tr>
+      <tr><td><code>admin/</code></td><td>10 admin pages</td></tr>
+      <tr><td><code>assets/css/</code></td><td>26 stylesheets</td></tr>
+      <tr><td><code>assets/js/</code></td><td>66 JavaScript modules</td></tr>
+      <tr><td><code>assets/data/</code></td><td>Demo data (JS modules)</td></tr>
+      <tr><td><code>assets/img/</code></td><td>319 SVG images</td></tr>
+      <tr><td><code>backend/</code></td><td>Google Apps Script (.gs)</td></tr>
+      <tr><td><code>docs/</code></td><td>Documentation</td></tr>
+      <tr><td><code>tests/</code></td><td>Test suite</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// file:// se khola hai to warning dikhao
+if (location.protocol === 'file:') {
+  document.getElementById('file-warning').hidden = false;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "PShop — Online Shopping",
+  "short_name": "PShop",
+  "description": "Shop electronics, fashion, home essentials and more with fast delivery across India.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f6fb",
+  "theme_color": "#2563eb",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["shopping", "business", "lifestyle"],
+  "icons": [
+    { "src": "assets/img/icons/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/img/icons/favicon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Shop", "url": "./pages/shop.html", "description": "Browse all products" },
+    { "name": "My Cart", "url": "./pages/cart.html", "description": "Open your cart" },
+    { "name": "My Orders", "url": "./pages/orders.html", "description": "Track your orders" },
+    { "name": "Wishlist", "url": "./pages/wishlist.html", "description": "Saved products" }
+  ]
+}

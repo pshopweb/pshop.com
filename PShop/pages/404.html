@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Page Not Found — PShop</title>
+<meta name="description" content="The page you are looking for could not be found on PShop.">
+<meta name="keywords" content="404, page not found">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/404.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Page Not Found — PShop">
+<meta property="og:description" content="The page you are looking for could not be found on PShop.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Page Not Found — PShop">
+<meta name="twitter:description" content="The page you are looking for could not be found on PShop.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/static.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <div class="err-page">
+      <img src="../assets/img/misc/404.svg" alt="" width="600" height="320">
+      <h1>This page went shopping without us</h1>
+      <p>The page you are looking for does not exist, was moved, or the link has expired.
+         Let us get you back on track.</p>
+
+      <div class="err-actions">
+        <a class="btn btn-primary btn-lg" href="../index.html">Back to home</a>
+        <a class="btn btn-secondary btn-lg" href="shop.html">Browse products</a>
+      </div>
+
+      <div class="search-box" style="max-width:460px;width:100%;margin-top:2rem">
+        <form id="err-search" role="search">
+          <span class="s-ico" id="err-ico"></span>
+          <label class="sr-only" for="err-q">Search products</label>
+          <input type="search" id="err-q" placeholder="Search for a product instead…">
+          <button class="s-btn" type="submit" aria-label="Search" id="err-btn"></button>
+        </form>
+      </div>
+
+      <nav class="err-links" aria-label="Helpful links">
+        <a href="../index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="category.html">Categories</a>
+        <a href="orders.html">My Orders</a>
+        <a href="track-order.html">Track Order</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/404.js"></script>
+</body>
+</html>

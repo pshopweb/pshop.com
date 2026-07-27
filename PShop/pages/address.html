@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>My Addresses — PShop</title>
+<meta name="description" content="Add, edit and manage your PShop delivery addresses.">
+<meta name="keywords" content="address book, delivery address">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/address.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="My Addresses — PShop">
+<meta property="og:description" content="Add, edit and manage your PShop delivery addresses.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Addresses — PShop">
+<meta name="twitter:description" content="Add, edit and manage your PShop delivery addresses.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/account.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <a href="profile.html">My Account</a><span class="sep">/</span>
+      <span aria-current="page">Address Book</span>
+    </nav>
+    <div class="shell-account">
+      <aside><nav class="account-nav" id="account-nav" aria-label="Account sections"></nav></aside>
+      <section>
+        <div class="page-head"><h1>Address Book</h1><p>Saved addresses make checkout a one-tap affair.</p></div>
+        <div class="flex justify-between items-center mb-4" style="flex-wrap:wrap;gap:.75rem">
+          <p class="muted small" id="addr-count"></p>
+          <button class="btn btn-primary btn-sm" id="btn-new-addr">Add new address</button>
+        </div>
+        <div class="addr-grid" id="addr-grid"></div>
+        <div id="addr-empty" hidden></div>
+
+        <!-- Address form modal -->
+        <div class="modal" id="addr-modal" role="dialog" aria-modal="true" aria-labelledby="addr-modal-title">
+          <div class="overlay"></div>
+          <div class="modal-box lg" style="position:relative;z-index:1">
+            <div class="modal-head">
+              <h3 id="addr-modal-title">Add a new address</h3>
+              <button class="btn-icon btn-ghost" id="addr-close" aria-label="Close">&times;</button>
+            </div>
+            <form id="addr-form" novalidate>
+              <div class="modal-body">
+                <div class="info-grid">
+                  <div class="field">
+                    <label for="a-name">Full name <span class="req">*</span></label>
+                    <input class="input" id="a-name" autocomplete="name" required>
+                    <p class="err-msg">Please enter the recipient name.</p>
+                  </div>
+                  <div class="field">
+                    <label for="a-phone">Mobile number <span class="req">*</span></label>
+                    <input class="input" id="a-phone" type="tel" inputmode="numeric" maxlength="10" required>
+                    <p class="err-msg">Enter a valid 10-digit mobile number.</p>
+                  </div>
+                  <div class="field">
+                    <label for="a-pin">Pincode <span class="req">*</span></label>
+                    <input class="input" id="a-pin" inputmode="numeric" maxlength="6" required>
+                    <p class="err-msg">Enter a valid 6-digit pincode.</p>
+                  </div>
+                  <div class="field">
+                    <label for="a-city">City <span class="req">*</span></label>
+                    <input class="input" id="a-city" autocomplete="address-level2" required>
+                    <p class="err-msg">Please enter your city.</p>
+                  </div>
+                  <div class="field">
+                    <label for="a-state">State <span class="req">*</span></label>
+                    <select class="select" id="a-state" required></select>
+                    <p class="err-msg">Please select your state.</p>
+                  </div>
+                  <div class="field">
+                    <label for="a-landmark">Landmark (optional)</label>
+                    <input class="input" id="a-landmark" placeholder="Near the metro station">
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="a-line1">Flat / House no., Building, Street <span class="req">*</span></label>
+                  <textarea class="textarea" id="a-line1" rows="2" required
+                    placeholder="House 12, Rose Apartments, MG Road"></textarea>
+                  <p class="err-msg">Please enter your full street address.</p>
+                </div>
+                <div class="field">
+                  <span class="label">Address type</span>
+                  <div class="chip-row">
+                    <label class="chip"><input type="radio" name="atype" value="Home" checked class="sr-only">Home</label>
+                    <label class="chip"><input type="radio" name="atype" value="Work" class="sr-only">Work</label>
+                    <label class="chip"><input type="radio" name="atype" value="Other" class="sr-only">Other</label>
+                  </div>
+                </div>
+                <label class="check"><input type="checkbox" id="a-default">
+                  <span>Make this my default delivery address</span></label>
+              </div>
+              <div class="modal-foot">
+                <button class="btn btn-secondary" type="button" id="addr-cancel">Cancel</button>
+                <button class="btn btn-primary" type="submit" id="addr-save">Save address</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/address.js"></script>
+</body>
+</html>

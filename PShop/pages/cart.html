@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shopping Cart — PShop</title>
+<meta name="description" content="Review the items in your PShop cart, apply coupons and proceed to a secure checkout.">
+<meta name="keywords" content="shopping cart, checkout, coupons">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/cart.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Shopping Cart — PShop">
+<meta property="og:description" content="Review the items in your PShop cart, apply coupons and proceed to a secure checkout.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shopping Cart — PShop">
+<meta name="twitter:description" content="Review the items in your PShop cart, apply coupons and proceed to a secure checkout.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/cart.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <span aria-current="page">Shopping Cart</span>
+    </nav>
+
+    <div class="page-head">
+      <h1>Shopping Cart</h1>
+      <p id="cart-count-text">Loading your cart…</p>
+    </div>
+
+    <div id="cart-empty" hidden></div>
+
+    <div class="cart-shell" id="cart-shell" hidden>
+      <section aria-label="Cart items">
+        <div class="flex justify-between items-center mb-4">
+          <label class="check"><input type="checkbox" id="select-all" checked>
+            <span class="semi">Select all items</span></label>
+          <button class="btn btn-sm btn-ghost" id="clear-cart">Clear cart</button>
+        </div>
+        <div id="cart-list"></div>
+
+        <div class="card-surface" style="padding:1rem 1.25rem;margin-top:1rem">
+          <label class="check"><input type="checkbox" id="gift-wrap">
+            <span>Add gift wrap &amp; a personalised note (&#8377;49)</span></label>
+        </div>
+      </section>
+
+      <aside class="summary" aria-label="Order summary">
+        <div class="summary-card">
+          <h3>Order Summary</h3>
+          <div class="ship-progress" id="ship-progress"></div>
+          <div class="summary-body" id="summary-body"></div>
+          <div id="savings-banner"></div>
+
+          <div class="coupon-box">
+            <div id="coupon-area"></div>
+            <div class="coupon-list" id="coupon-list"></div>
+          </div>
+
+          <div class="summary-foot">
+            <a class="btn btn-primary btn-lg btn-block" id="btn-checkout" href="checkout.html">
+              Proceed to Checkout</a>
+            <a class="btn btn-ghost btn-block mt-2" href="shop.html">Continue shopping</a>
+          </div>
+        </div>
+
+        <div class="info-card mt-4">
+          <div class="flex gap-3 items-center">
+            <span style="color:var(--success)" id="secure-ico"></span>
+            <div><div class="semi small">Safe and secure payments</div>
+              <div class="xs muted">100% purchase protection · Easy returns</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="section" id="cart-recs" hidden aria-labelledby="rec-title">
+      <div class="section-title"><div><h2 id="rec-title">You may also like</h2></div></div>
+      <div class="rail-wrap"><div class="rail" id="rec-rail"></div></div>
+    </section>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/cart.js"></script>
+</body>
+</html>

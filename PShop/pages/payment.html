@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Payment — PShop</title>
+<meta name="description" content="Complete your PShop order with UPI, card, netbanking or cash on delivery.">
+<meta name="keywords" content="payment, upi, razorpay, cash on delivery">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/payment.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Payment — PShop">
+<meta property="og:description" content="Complete your PShop order with UPI, card, netbanking or cash on delivery.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Payment — PShop">
+<meta name="twitter:description" content="Complete your PShop order with UPI, card, netbanking or cash on delivery.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/checkout.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <div class="checkout-steps" aria-label="Checkout progress">
+      <div class="cs-step done"><span class="n">1</span><span class="lbl">Cart</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step done"><span class="n">2</span><span class="lbl">Address</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step active"><span class="n">3</span><span class="lbl">Payment</span></div>
+      <span class="cs-line"></span>
+      <div class="cs-step "><span class="n">4</span><span class="lbl">Done</span></div>
+    </div>
+
+    <div id="pay-empty" hidden></div>
+
+    <div class="shell-checkout" id="pay-shell" hidden>
+      <div>
+        <section class="co-panel">
+          <header><h3>Choose a payment method</h3>
+            <span class="badge badge-success" id="secure-badge">Secure</span></header>
+          <div class="co-body">
+            <div class="pay-methods" id="pay-methods"></div>
+
+            <!-- UPI -->
+            <div class="pay-detail" id="detail-upi" hidden>
+              <div class="upi-apps" id="upi-apps"></div>
+              <div class="field">
+                <label for="upi-id">Or enter your UPI ID</label>
+                <input class="input" id="upi-id" placeholder="yourname@upi" autocomplete="off">
+                <p class="err-msg">Enter a valid UPI ID (e.g. name@okbank).</p>
+              </div>
+              <p class="xs muted">You will receive a payment request in your UPI app. Approve it to complete the order.</p>
+            </div>
+
+            <!-- Razorpay / card -->
+            <div class="pay-detail" id="detail-razorpay" hidden>
+              <div class="field">
+                <label for="card-num">Card number</label>
+                <input class="input" id="card-num" inputmode="numeric" maxlength="19"
+                       placeholder="4111 1111 1111 1111" autocomplete="cc-number">
+                <p class="err-msg">Enter a valid card number.</p>
+              </div>
+              <div class="field">
+                <label for="card-name">Name on card</label>
+                <input class="input" id="card-name" autocomplete="cc-name" placeholder="As printed on the card">
+                <p class="err-msg">Enter the cardholder name.</p>
+              </div>
+              <div class="card-row">
+                <div class="field"><label for="card-exp">Expiry (MM/YY)</label>
+                  <input class="input" id="card-exp" maxlength="5" placeholder="12/28" autocomplete="cc-exp">
+                  <p class="err-msg">Enter a valid future expiry date.</p></div>
+                <div class="field"><label for="card-cvv">CVV</label>
+                  <input class="input" id="card-cvv" type="password" inputmode="numeric" maxlength="4"
+                         placeholder="123" autocomplete="cc-csc">
+                  <p class="err-msg">Enter the 3 or 4 digit CVV.</p></div>
+              </div>
+              <p class="xs muted">Test card: 4111 1111 1111 1111 · any future expiry · any CVV.</p>
+            </div>
+
+            <!-- COD -->
+            <div class="pay-detail" id="detail-cod" hidden>
+              <p class="small">Pay in cash when your order is delivered. A convenience fee of
+                <b id="cod-fee"></b> applies to cash-on-delivery orders.</p>
+              <p class="xs muted mt-2">Please keep exact change ready. Our delivery partner also accepts UPI at the door.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="co-panel">
+          <header><h3>Delivering to</h3>
+            <a class="btn btn-sm btn-ghost" href="checkout.html">Change</a></header>
+          <div class="co-body"><div id="pay-address"></div></div>
+        </section>
+      </div>
+
+      <aside class="summary">
+        <div class="summary-card">
+          <h3>Amount payable</h3>
+          <div class="summary-body" id="summary-body"></div>
+          <div class="summary-foot">
+            <button class="btn btn-primary btn-lg btn-block" id="btn-pay">Pay now</button>
+            <p class="xs muted text-center mt-3" id="pay-note"></p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Processing overlay -->
+    <div id="processing" hidden>
+      <div class="pay-processing">
+        <div class="pay-spinner"></div>
+        <h2>Processing your payment…</h2>
+        <p class="muted">Please do not close this window or press the back button.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/payment.js"></script>
+</body>
+</html>

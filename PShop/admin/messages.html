@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Messages — PShop Admin</title>
+<meta name="description" content="PShop admin panel">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin/admin.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#admin-main">Skip to main content</a>
+
+<!-- Access gate: non-admins ko yahi rok diya jata hai -->
+<div class="admin-gate" id="admin-gate" hidden>
+  <div class="box">
+    <div class="ico" id="gate-ico"></div>
+    <h1 style="font-size:1.3rem">Admin access required</h1>
+    <p class="muted small mt-2" id="gate-msg">
+      This area is restricted to PShop administrators.</p>
+    <a class="btn btn-primary btn-block mt-6" id="gate-login" href="../pages/login.html?admin=1">
+      Sign in as admin</a>
+    <a class="btn btn-ghost btn-block mt-2" href="../index.html">Back to store</a>
+    <p class="xs muted mt-4">Demo admin — <b>admin@pshop.in</b> / <b>admin123</b></p>
+  </div>
+</div>
+
+<div class="admin-shell" id="admin-shell" hidden>
+  <aside class="admin-side" id="admin-side">
+    <div class="admin-brand">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56">
+      <span class="tag">Admin</span>
+    </div>
+    <nav class="admin-nav" id="admin-nav" aria-label="Admin navigation"></nav>
+    <div class="admin-foot">
+      <button class="btn btn-sm btn-ghost btn-block" data-theme-toggle
+              aria-label="Toggle theme"></button>
+      <a class="btn btn-sm btn-ghost btn-block mt-1" href="../index.html">View store</a>
+      <button class="btn btn-sm btn-ghost btn-block mt-1" id="admin-logout">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-top">
+      <button class="btn-icon btn-ghost admin-burger" id="admin-burger"
+              aria-label="Open menu"></button>
+      <h1>Support Messages</h1>
+      <div class="right">
+        <span class="badge badge-muted" id="backend-badge"></span>
+        <span class="small semi" id="admin-name"></span>
+      </div>
+    </header>
+    <main class="admin-body" id="admin-main">
+      <div class="admin-toolbar">
+        <div class="chip-row">
+          <button class="chip active" data-mstatus="all">All tickets</button>
+          <button class="chip" data-mstatus="open">Open</button>
+          <button class="chip" data-mstatus="closed">Closed</button>
+        </div>
+        <p class="muted small" id="m-count" style="margin-left:auto"></p>
+      </div>
+
+      <div class="msg-shell">
+        <div class="thread-pane">
+          <div class="thread-list" id="m-threads"></div>
+        </div>
+        <div class="chat-pane" id="m-chat">
+          <div class="chat-head" id="m-head"></div>
+          <div class="chat-body" id="m-body" aria-live="polite"></div>
+          <form class="chat-foot" id="m-form">
+            <label class="sr-only" for="m-input">Reply</label>
+            <input class="input" id="m-input" placeholder="Type your reply…" autocomplete="off">
+            <button class="btn btn-primary btn-icon" type="submit" id="m-send" aria-label="Send reply"></button>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<div class="overlay" id="admin-overlay"></div>
+
+<script type="module" src="../assets/js/admin/messages.js"></script>
+</body>
+</html>

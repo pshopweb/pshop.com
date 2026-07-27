@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Products — PShop Admin</title>
+<meta name="description" content="PShop admin panel">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin/admin.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#admin-main">Skip to main content</a>
+
+<!-- Access gate: non-admins ko yahi rok diya jata hai -->
+<div class="admin-gate" id="admin-gate" hidden>
+  <div class="box">
+    <div class="ico" id="gate-ico"></div>
+    <h1 style="font-size:1.3rem">Admin access required</h1>
+    <p class="muted small mt-2" id="gate-msg">
+      This area is restricted to PShop administrators.</p>
+    <a class="btn btn-primary btn-block mt-6" id="gate-login" href="../pages/login.html?admin=1">
+      Sign in as admin</a>
+    <a class="btn btn-ghost btn-block mt-2" href="../index.html">Back to store</a>
+    <p class="xs muted mt-4">Demo admin — <b>admin@pshop.in</b> / <b>admin123</b></p>
+  </div>
+</div>
+
+<div class="admin-shell" id="admin-shell" hidden>
+  <aside class="admin-side" id="admin-side">
+    <div class="admin-brand">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56">
+      <span class="tag">Admin</span>
+    </div>
+    <nav class="admin-nav" id="admin-nav" aria-label="Admin navigation"></nav>
+    <div class="admin-foot">
+      <button class="btn btn-sm btn-ghost btn-block" data-theme-toggle
+              aria-label="Toggle theme"></button>
+      <a class="btn btn-sm btn-ghost btn-block mt-1" href="../index.html">View store</a>
+      <button class="btn btn-sm btn-ghost btn-block mt-1" id="admin-logout">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-top">
+      <button class="btn-icon btn-ghost admin-burger" id="admin-burger"
+              aria-label="Open menu"></button>
+      <h1>Manage Products</h1>
+      <div class="right">
+        <span class="badge badge-muted" id="backend-badge"></span>
+        <span class="small semi" id="admin-name"></span>
+      </div>
+    </header>
+    <main class="admin-body" id="admin-main">
+      <div class="admin-toolbar">
+        <div class="input-group search">
+          <span class="ig-icon" id="ico-search"></span>
+          <label class="sr-only" for="p-search">Search products</label>
+          <input class="input" id="p-search" type="search" placeholder="Search by name, brand or SKU">
+        </div>
+        <label class="sr-only" for="p-cat">Filter by category</label>
+        <select class="select" id="p-cat" style="max-width:190px"><option value="">All categories</option></select>
+        <label class="sr-only" for="p-stock">Filter by stock</label>
+        <select class="select" id="p-stock" style="max-width:170px">
+          <option value="">All stock</option>
+          <option value="in">In stock</option>
+          <option value="low">Low stock (&lt;10)</option>
+          <option value="out">Out of stock</option>
+        </select>
+        <button class="btn btn-primary" id="btn-add-product" style="margin-left:auto">Add product</button>
+      </div>
+
+      <section class="admin-panel">
+        <header><h3 id="p-count">Products</h3></header>
+        <div class="panel-body flush"><div class="table-wrap">
+          <table class="data-table"><thead><tr>
+            <th>Product</th><th>Category</th><th>Price</th><th>Stock</th>
+            <th>Rating</th><th>Status</th><th>Actions</th>
+          </tr></thead><tbody id="p-rows"></tbody></table>
+        </div></div>
+        <div id="p-empty" hidden></div>
+      </section>
+      <div class="pagination" id="p-pager"></div>
+
+      <!-- Add / edit product modal -->
+      <div class="modal" id="p-modal" role="dialog" aria-modal="true" aria-labelledby="p-modal-title">
+        <div class="overlay"></div>
+        <div class="modal-box xl" style="position:relative;z-index:1">
+          <div class="modal-head"><h3 id="p-modal-title">Add product</h3>
+            <button class="btn-icon btn-ghost" id="p-close" aria-label="Close">&times;</button></div>
+          <form id="p-form" novalidate>
+            <div class="modal-body">
+              <div class="info-grid">
+                <div class="field"><label for="f-name">Product name <span class="req">*</span></label>
+                  <input class="input" id="f-name" required><p class="err-msg">Name is required.</p></div>
+                <div class="field"><label for="f-brand">Brand <span class="req">*</span></label>
+                  <input class="input" id="f-brand" required><p class="err-msg">Brand is required.</p></div>
+                <div class="field"><label for="f-cat">Category <span class="req">*</span></label>
+                  <select class="select" id="f-cat" required></select>
+                  <p class="err-msg">Choose a category.</p></div>
+                <div class="field"><label for="f-sub">Sub category</label>
+                  <select class="select" id="f-sub"></select></div>
+                <div class="field"><label for="f-price">Selling price (&#8377;) <span class="req">*</span></label>
+                  <input class="input" id="f-price" type="number" min="1" required>
+                  <p class="err-msg">Enter a valid price.</p></div>
+                <div class="field"><label for="f-mrp">MRP (&#8377;)</label>
+                  <input class="input" id="f-mrp" type="number" min="1"></div>
+                <div class="field"><label for="f-stock">Stock quantity</label>
+                  <input class="input" id="f-stock" type="number" min="0" value="0"></div>
+                <div class="field"><label for="f-delivery">Delivery days</label>
+                  <input class="input" id="f-delivery" type="number" min="1" value="3"></div>
+                <div class="field"><label for="f-return">Return window (days)</label>
+                  <input class="input" id="f-return" type="number" min="0" value="7"></div>
+                <div class="field"><label for="f-warranty">Warranty</label>
+                  <input class="input" id="f-warranty" value="1 Year"></div>
+              </div>
+
+              <div class="field"><label for="f-desc">Description</label>
+                <textarea class="textarea" id="f-desc" rows="3"></textarea></div>
+
+              <div class="field">
+                <span class="label">Product images</span>
+
+                <!-- Drag &amp; drop / click to upload -->
+                <div class="upload-zone" id="upload-zone" tabindex="0" role="button"
+                     aria-label="Click or drop images to upload">
+                  <input type="file" id="f-file" accept="image/*" multiple class="sr-only">
+                  <div class="uz-inner">
+                    <span class="uz-icon" id="uz-icon"></span>
+                    <b>Click karein ya images yahan drop karein</b>
+                    <span class="uz-hint">JPG, PNG, WEBP &middot; max 5 MB each &middot; up to 6 images</span>
+                  </div>
+                  <div class="uz-progress" id="uz-progress" hidden>
+                    <div class="uz-bar"><span id="uz-bar-fill"></span></div>
+                    <span class="uz-status" id="uz-status">Uploading…</span>
+                  </div>
+                </div>
+
+                <!-- Preview grid: pehli image = thumbnail -->
+                <div class="img-grid mt-3" id="img-preview"></div>
+
+                <details class="mt-3">
+                  <summary class="small semi" style="cursor:pointer;color:var(--brand-600)">
+                    Ya image URLs manually daalein</summary>
+                  <textarea class="textarea mt-2" id="f-images" rows="3"
+                    placeholder="assets/img/products/p001-1.svg&#10;https://example.com/photo.jpg"></textarea>
+                  <p class="hint">Ek line me ek URL. Pehli image thumbnail banegi.</p>
+                </details>
+              </div>
+
+              <div class="info-grid">
+                <div class="field"><label for="f-colors">Colours (comma separated)</label>
+                  <input class="input" id="f-colors" placeholder="Black, White, Blue"></div>
+                <div class="field"><label for="f-tags">Tags (comma separated)</label>
+                  <input class="input" id="f-tags" placeholder="featured, trending, flash"></div>
+              </div>
+
+              <div class="flex gap-4 wrap">
+                <label class="check"><input type="checkbox" id="f-cod" checked>
+                  <span>Cash on delivery available</span></label>
+                <label class="check"><input type="checkbox" id="f-active" checked>
+                  <span>Active (visible in store)</span></label>
+              </div>
+            </div>
+            <div class="modal-foot">
+              <button class="btn btn-secondary" type="button" id="p-cancel">Cancel</button>
+              <button class="btn btn-primary" type="submit" id="p-save">Save product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<div class="overlay" id="admin-overlay"></div>
+
+<script type="module" src="../assets/js/admin/products.js"></script>
+</body>
+</html>

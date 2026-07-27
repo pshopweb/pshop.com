@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Order Details — PShop</title>
+<meta name="description" content="Full details, timeline and invoice for your PShop order.">
+<meta name="keywords" content="order details, invoice, order timeline">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/order-details.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Order Details — PShop">
+<meta property="og:description" content="Full details, timeline and invoice for your PShop order.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Order Details — PShop">
+<meta name="twitter:description" content="Full details, timeline and invoice for your PShop order.">
+<meta name="robots" content="noindex,nofollow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/checkout.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <a href="orders.html">My Orders</a><span class="sep">/</span>
+      <span aria-current="page" id="crumb-id">Order</span>
+    </nav>
+
+    <div id="od-loading">
+      <div class="skeleton sk-title" style="height:26px;width:40%"></div>
+      <div class="skeleton sk-text w-60 mt-4"></div>
+      <div class="skeleton" style="height:200px;border-radius:16px;margin-top:1.5rem"></div>
+    </div>
+
+    <div id="od-notfound" hidden></div>
+
+    <div id="od-content" hidden>
+      <div class="page-head flex justify-between items-center" style="flex-wrap:wrap;gap:1rem">
+        <div>
+          <h1 id="od-title">Order details</h1>
+          <p id="od-sub"></p>
+        </div>
+        <div class="flex gap-2" style="flex-wrap:wrap">
+          <button class="btn btn-sm btn-secondary" id="btn-invoice">Download invoice</button>
+          <a class="btn btn-sm btn-outline" id="btn-track-link">Track order</a>
+        </div>
+      </div>
+
+      <div class="shell-checkout">
+        <div>
+          <section class="co-panel">
+            <header><h3>Order timeline</h3><span id="od-status-badge"></span></header>
+            <div class="co-body"><div class="timeline" id="od-timeline"></div></div>
+          </section>
+
+          <section class="co-panel">
+            <header><h3>Items in this order</h3></header>
+            <div class="co-body"><div id="od-items"></div></div>
+          </section>
+
+          <section class="co-panel">
+            <header><h3>Delivery address</h3></header>
+            <div class="co-body"><div id="od-address"></div></div>
+          </section>
+        </div>
+
+        <aside class="summary">
+          <div class="summary-card">
+            <h3>Payment summary</h3>
+            <div class="summary-body" id="od-summary"></div>
+          </div>
+
+          <div class="info-card mt-4" id="od-actions"></div>
+          <div class="info-card mt-4" id="od-help"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancel / return modal -->
+  <div class="modal" id="reason-modal" role="dialog" aria-modal="true" aria-labelledby="reason-title">
+    <div class="overlay"></div>
+    <div class="modal-box" style="position:relative;z-index:1">
+      <div class="modal-head"><h3 id="reason-title">Cancel this order</h3>
+        <button class="btn-icon btn-ghost" id="reason-close" aria-label="Close">&times;</button></div>
+      <form id="reason-form">
+        <div class="modal-body">
+          <p class="small muted mb-4" id="reason-help"></p>
+          <div class="field">
+            <label for="reason-select">Please choose a reason <span class="req">*</span></label>
+            <select class="select" id="reason-select" required></select>
+          </div>
+          <div class="field">
+            <label for="reason-note">Additional comments (optional)</label>
+            <textarea class="textarea" id="reason-note" rows="3"
+              placeholder="Tell us a little more…"></textarea>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-secondary" type="button" id="reason-cancel">Go back</button>
+          <button class="btn btn-danger" type="submit" id="reason-submit">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/order-details.js"></script>
+</body>
+</html>

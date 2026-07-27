@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Coupons — PShop Admin</title>
+<meta name="description" content="PShop admin panel">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin/admin.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#admin-main">Skip to main content</a>
+
+<!-- Access gate: non-admins ko yahi rok diya jata hai -->
+<div class="admin-gate" id="admin-gate" hidden>
+  <div class="box">
+    <div class="ico" id="gate-ico"></div>
+    <h1 style="font-size:1.3rem">Admin access required</h1>
+    <p class="muted small mt-2" id="gate-msg">
+      This area is restricted to PShop administrators.</p>
+    <a class="btn btn-primary btn-block mt-6" id="gate-login" href="../pages/login.html?admin=1">
+      Sign in as admin</a>
+    <a class="btn btn-ghost btn-block mt-2" href="../index.html">Back to store</a>
+    <p class="xs muted mt-4">Demo admin — <b>admin@pshop.in</b> / <b>admin123</b></p>
+  </div>
+</div>
+
+<div class="admin-shell" id="admin-shell" hidden>
+  <aside class="admin-side" id="admin-side">
+    <div class="admin-brand">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="220" height="56">
+      <span class="tag">Admin</span>
+    </div>
+    <nav class="admin-nav" id="admin-nav" aria-label="Admin navigation"></nav>
+    <div class="admin-foot">
+      <button class="btn btn-sm btn-ghost btn-block" data-theme-toggle
+              aria-label="Toggle theme"></button>
+      <a class="btn btn-sm btn-ghost btn-block mt-1" href="../index.html">View store</a>
+      <button class="btn btn-sm btn-ghost btn-block mt-1" id="admin-logout">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-top">
+      <button class="btn-icon btn-ghost admin-burger" id="admin-burger"
+              aria-label="Open menu"></button>
+      <h1>Manage Coupons</h1>
+      <div class="right">
+        <span class="badge badge-muted" id="backend-badge"></span>
+        <span class="small semi" id="admin-name"></span>
+      </div>
+    </header>
+    <main class="admin-body" id="admin-main">
+      <div class="admin-toolbar">
+        <p class="muted small" id="cp-count"></p>
+        <button class="btn btn-primary" id="btn-add-coupon" style="margin-left:auto">Create coupon</button>
+      </div>
+
+      <section class="admin-panel">
+        <div class="panel-body flush"><div class="table-wrap">
+          <table class="data-table"><thead><tr>
+            <th>Code</th><th>Type</th><th>Value</th><th>Min order</th>
+            <th>Used</th><th>Expiry</th><th>Status</th><th>Actions</th>
+          </tr></thead><tbody id="cp-rows"></tbody></table>
+        </div></div>
+      </section>
+
+      <div class="modal" id="cp-modal" role="dialog" aria-modal="true" aria-labelledby="cp-modal-title">
+        <div class="overlay"></div>
+        <div class="modal-box" style="position:relative;z-index:1">
+          <div class="modal-head"><h3 id="cp-modal-title">Create coupon</h3>
+            <button class="btn-icon btn-ghost" id="cp-close" aria-label="Close">&times;</button></div>
+          <form id="cp-form" novalidate>
+            <div class="modal-body">
+              <div class="field"><label for="cpf-code">Coupon code <span class="req">*</span></label>
+                <input class="input" id="cpf-code" required style="text-transform:uppercase"
+                  placeholder="SAVE20"><p class="err-msg">Code is required.</p></div>
+              <div class="info-grid">
+                <div class="field"><label for="cpf-type">Discount type</label>
+                  <select class="select" id="cpf-type">
+                    <option value="percent">Percentage off</option>
+                    <option value="flat">Flat amount off</option>
+                    <option value="shipping">Free shipping</option>
+                  </select></div>
+                <div class="field"><label for="cpf-value">Value</label>
+                  <input class="input" id="cpf-value" type="number" min="0" value="10"></div>
+                <div class="field"><label for="cpf-min">Minimum order (&#8377;)</label>
+                  <input class="input" id="cpf-min" type="number" min="0" value="0"></div>
+                <div class="field"><label for="cpf-max">Max discount (&#8377;)</label>
+                  <input class="input" id="cpf-max" type="number" min="0" value="500"></div>
+                <div class="field"><label for="cpf-limit">Usage limit</label>
+                  <input class="input" id="cpf-limit" type="number" min="1" value="1000"></div>
+                <div class="field"><label for="cpf-expiry">Expiry date</label>
+                  <input class="input" id="cpf-expiry" type="date"></div>
+              </div>
+              <div class="field"><label for="cpf-desc">Description</label>
+                <input class="input" id="cpf-desc" placeholder="10% off on orders above &#8377;999"></div>
+              <label class="check"><input type="checkbox" id="cpf-active" checked>
+                <span>Active</span></label>
+            </div>
+            <div class="modal-foot">
+              <button class="btn btn-secondary" type="button" id="cp-cancel">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save coupon</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<div class="overlay" id="admin-overlay"></div>
+
+<script type="module" src="../assets/js/admin/coupons.js"></script>
+</body>
+</html>

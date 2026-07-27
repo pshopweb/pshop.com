@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shop All Products — PShop</title>
+<meta name="description" content="Browse thousands of products across electronics, fashion, home, beauty, sports and more. Filter by brand, price, rating and discount.">
+<meta name="keywords" content="shop online, all products, filter by price, brand filter, pshop shop">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/pages/shop.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="Shop All Products — PShop">
+<meta property="og:description" content="Browse thousands of products across electronics, fashion, home, beauty, sports and more. Filter by brand, price, rating and discount.">
+<meta property="og:image" content="../assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shop All Products — PShop">
+<meta name="twitter:description" content="Browse thousands of products across electronics, fashion, home, beauty, sports and more. Filter by brand, price, rating and discount.">
+<meta name="robots" content="index,follow">
+<!-- Icons & manifest -->
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icons/favicon.svg">
+<link rel="manifest" href="../manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/pages/shop.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span class="sep">/</span>
+      <span aria-current="page">Shop</span>
+    </nav>
+
+    <div class="catalog-head">
+      <div>
+        <h1 id="shop-title">All Products</h1>
+        <p class="count" id="result-count">Loading products…</p>
+      </div>
+      <div class="catalog-tools">
+        <div id="sort-mount"></div>
+      </div>
+    </div>
+
+    <div class="mobile-tools show-mobile">
+      <button class="btn btn-secondary btn-sm" id="btn-sort">Sort</button>
+      <button class="btn btn-secondary btn-sm" id="btn-filter">Filter
+        <span class="count-bubble" data-filter-count style="position:static;border:0"></span></button>
+    </div>
+
+    <div class="shell">
+      <aside class="sidebar" id="filter-sidebar" aria-label="Product filters"></aside>
+      <div>
+        <div class="chip-row" id="active-chips"></div>
+        <div class="product-grid" id="product-grid"></div>
+        <div class="pagination" id="pager"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="sheet-overlay"></div>
+  <div class="sheet" id="filter-sheet" role="dialog" aria-modal="true" aria-label="Filter products">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><strong>Filters</strong>
+      <button class="btn-icon btn-ghost" id="close-filter" aria-label="Close filters">&times;</button></div>
+    <div class="sheet-body" id="filter-sheet-body"></div>
+    <div class="drawer-foot"><button class="btn btn-primary btn-block" id="apply-filter">Show results</button></div>
+  </div>
+  <div class="sheet" id="sort-sheet" role="dialog" aria-modal="true" aria-label="Sort products">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head"><strong>Sort by</strong>
+      <button class="btn-icon btn-ghost" id="close-sort" aria-label="Close sort">&times;</button></div>
+    <div class="sheet-body" id="sort-sheet-body"></div>
+  </div>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="../assets/js/pages/shop.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PShop — Online Shopping for Electronics, Fashion, Home & More</title>
+<meta name="description" content="Shop 100% genuine products at India's friendliest marketplace. Flash sales, free delivery above ₹499, easy returns, COD, UPI and secure payments.">
+<meta name="keywords" content="online shopping, ecommerce india, electronics, fashion, home kitchen, flash sale, pshop">
+<meta name="author" content="PShop Retail India Pvt. Ltd.">
+<meta name="theme-color" content="#2563eb">
+<link rel="canonical" href="https://pshop.example/index.html">
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PShop">
+<meta property="og:title" content="PShop — Online Shopping for Electronics, Fashion, Home & More">
+<meta property="og:description" content="Shop 100% genuine products at India's friendliest marketplace. Flash sales, free delivery above ₹499, easy returns, COD, UPI and secure payments.">
+<meta property="og:image" content="assets/img/banners/banner-1.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PShop — Online Shopping for Electronics, Fashion, Home & More">
+<meta name="twitter:description" content="Shop 100% genuine products at India's friendliest marketplace. Flash sales, free delivery above ₹499, easy returns, COD, UPI and secure payments.">
+<meta name="robots" content="index,follow">
+<!-- Icons & manifest -->
+<link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/icons/favicon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- Fonts (async, non-blocking) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<!-- Styles -->
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/home.css">
+<!-- Apply saved theme before first paint to avoid a flash -->
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"PShop",
+ "url":"https://pshop.example/","potentialAction":{"@type":"SearchAction",
+ "target":"https://pshop.example/pages/search.html?q={search_term_string}",
+ "query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"PShop",
+ "url":"https://pshop.example/","logo":"https://pshop.example/assets/img/icons/logo.svg",
+ "contactPoint":{"@type":"ContactPoint","telephone":"+91-1800-209-7746",
+ "contactType":"customer service","areaServed":"IN","availableLanguage":["en","hi"]}}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="page-loader" role="status" aria-label="Loading PShop"><div class="ring"></div></div>
+
+<div id="site-header"></div>
+
+<main id="main" class="">
+  <!-- ============================ HERO SLIDER =========================== -->
+  <section class="hero" aria-label="Featured offers">
+    <div class="container hero-inner">
+      <aside class="hero-side desktop-only" aria-label="Shop by category">
+        <h4>Shop by category</h4>
+        <ul id="hero-cats" role="list"></ul>
+        <a class="btn btn-sm btn-outline btn-block mt-3" href="pages/category.html">All categories</a>
+      </aside>
+
+      <div class="hero-slider" id="hero-slider">
+        <div class="slides" id="hero-slides" aria-live="polite"></div>
+        <button class="slider-nav prev" id="hero-prev" aria-label="Previous slide"></button>
+        <button class="slider-nav next" id="hero-next" aria-label="Next slide"></button>
+        <div class="slider-dots" id="hero-dots" role="tablist" aria-label="Choose slide"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ USP STRIP ============================= -->
+  <section class="container">
+    <div class="usp-strip" id="usp-strip"></div>
+  </section>
+
+  <!-- =========================== CATEGORIES ============================= -->
+  <section class="section container" aria-labelledby="cat-title">
+    <div class="section-title">
+      <div><h2 id="cat-title">Shop by category</h2>
+        <p class="sub">Everything you need, neatly organised</p></div>
+      <a class="link" href="pages/category.html">View all</a>
+    </div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </section>
+
+  <!-- =========================== FLASH SALE ============================= -->
+  <section class="section container" aria-labelledby="flash-title">
+    <div class="flash-head">
+      <div>
+        <h2 id="flash-title">Flash Sale</h2>
+        <p class="sub">Extra 18% off &mdash; ends soon</p>
+      </div>
+      <div class="countdown" id="flash-timer" role="timer" aria-label="Flash sale ends in">
+        <span class="cd-box"><b id="cd-h">00</b><small>hrs</small></span>
+        <span class="cd-box"><b id="cd-m">00</b><small>min</small></span>
+        <span class="cd-box"><b id="cd-s">00</b><small>sec</small></span>
+      </div>
+      <a class="link" href="pages/shop.html?tag=flash">See all</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-nav prev" data-rail="flash-rail" aria-label="Scroll left"></button>
+      <div class="rail" id="flash-rail"></div>
+      <button class="rail-nav next" data-rail="flash-rail" aria-label="Scroll right"></button>
+    </div>
+  </section>
+
+  <!-- ========================= FEATURED PRODUCTS ======================== -->
+  <section class="section container" aria-labelledby="feat-title">
+    <div class="section-title">
+      <div><h2 id="feat-title">Featured products</h2>
+        <p class="sub">Hand-picked by our category experts</p></div>
+      <a class="link" href="pages/shop.html?tag=featured">View all</a>
+    </div>
+    <div class="product-grid" id="featured-grid"></div>
+  </section>
+
+  <!-- ============================= BANNER =============================== -->
+  <section class="container">
+    <div class="promo-duo">
+      <a class="promo-card" href="pages/category.html?cat=electronics">
+        <div><span class="badge badge-brand">Up to 60% off</span>
+          <h3>Electronics Fest</h3><p>Phones, laptops &amp; audio</p>
+          <span class="promo-cta">Shop now</span></div>
+      </a>
+      <a class="promo-card alt" href="pages/category.html?cat=fashion">
+        <div><span class="badge badge-warning">From &#8377;299</span>
+          <h3>Fashion Steals</h3><p>Trending styles for everyone</p>
+          <span class="promo-cta">Explore</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================ TRENDING ============================== -->
+  <section class="section container" aria-labelledby="trend-title">
+    <div class="section-title">
+      <div><h2 id="trend-title">Trending now</h2>
+        <p class="sub">What India is buying this week</p></div>
+      <a class="link" href="pages/shop.html?tag=trending">View all</a>
+    </div>
+    <div class="rail-wrap">
+      <button class="rail-nav prev" data-rail="trending-rail" aria-label="Scroll left"></button>
+      <div class="rail" id="trending-rail"></div>
+      <button class="rail-nav next" data-rail="trending-rail" aria-label="Scroll right"></button>
+    </div>
+  </section>
+
+  <!-- =========================== BEST SELLERS =========================== -->
+  <section class="section container" aria-labelledby="best-title">
+    <div class="section-title">
+      <div><h2 id="best-title">Best sellers</h2>
+        <p class="sub">Top-rated products loved by thousands</p></div>
+      <a class="link" href="pages/shop.html?tag=bestseller">View all</a>
+    </div>
+    <div class="product-grid" id="best-grid"></div>
+  </section>
+
+  <!-- ========================== RECENTLY VIEWED ========================= -->
+  <section class="section container" id="recent-section" hidden aria-labelledby="recent-title">
+    <div class="section-title">
+      <div><h2 id="recent-title">Recently viewed</h2>
+        <p class="sub">Pick up where you left off</p></div>
+      <button class="link" id="clear-recent">Clear history</button>
+    </div>
+    <div class="rail-wrap">
+      <div class="rail" id="recent-rail"></div>
+    </div>
+  </section>
+
+  <!-- =========================== RECOMMENDED ============================ -->
+  <section class="section container" aria-labelledby="rec-title">
+    <div class="section-title">
+      <div><h2 id="rec-title">Recommended for you</h2>
+        <p class="sub">Based on what you browse and buy</p></div>
+      <a class="link" href="pages/shop.html">View all</a>
+    </div>
+    <div class="product-grid" id="rec-grid"></div>
+  </section>
+
+  <!-- ============================ BRAND ROW ============================= -->
+  <section class="section container" aria-labelledby="brand-title">
+    <h2 id="brand-title" class="sr-only">Popular brands</h2>
+    <div class="brand-row" id="brand-row"></div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="bottom-nav"></div>
+
+<noscript>
+  <div style="padding:1rem;background:#fee2e2;color:#991b1b;text-align:center">
+    PShop needs JavaScript enabled to load products and manage your cart.
+  </div>
+</noscript>
+
+<script type="module" src="assets/js/pages/home.js"></script>
+</body>
+</html>

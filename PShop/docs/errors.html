@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Error Fixes — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html" class="">Setup Guide</a>
+    <a href="backend.html" class="">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html" class="">Upload & Messages</a>
+    <a href="fixes.html" class="">Recent Fixes</a>
+    <a href="errors.html" class="active">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Error Fixes</h1>
+      <p>Common errors aur solutions</p>
+    </div>
+    <article class="doc-body">
+<h1 id="fix-the-number-of-columns-in-the-range-must-be-at-least-1">Fix: "The number of columns in the range must be at least 1"</h1>
+<p>Aapko ye error aaya tha. Fix ho gaya hai.</p>
+<hr>
+<h2 id="aapke-sawaal-ka-seedha-jawab">Aapke sawaal ka seedha jawab</h2>
+<blockquote><strong>"Kaun sa function run kare ki Google Sheet connect ho jaye?"</strong></blockquote>
+<p><strong><code>setupDemoStore</code></strong> — bas yahi ek function.</p>
+<p>Function dropdown se choose karein → <strong>▶ Run</strong>.</p>
+<p>Ye khud hi sab kar deta hai: sheets banata hai, headers likhta hai, aur demo data bhar deta hai.</p>
+<blockquote>Connection ke liye koi alag function nahi hota. Connection to URL paste karne se hi ban jata hai (jo already ho chuka hai).</blockquote>
+<hr>
+<h2 id="error-kyun-aa-raha-tha">Error kyun aa raha tha</h2>
+<pre><code>
+The number of columns in the range must be at least 1
+</code></pre>
+<h3 id="wajah">Wajah</h3>
+<p>Agar koi sheet <strong>exist karti hai par uske headers nahi hain</strong> (blank tab), to Google Sheets ye deta hai:</p>
+<pre><code>
+sheet.getLastColumn()   // → 0
+</code></pre>
+<p>Aur phir code ye karta tha:</p>
+<pre><code>
+sheet.getRange(1, 1, 1, 0)   // ❌ CRASH — 0 columns allowed nahi
+</code></pre>
+<h3 id="kab-hota-tha">Kab hota tha</h3>
+<ul>
+<li>Sheet me manually koi blank tab bana diya ho</li>
+<li><code>setupDatabase()</code> beech me ruk gaya ho (timeout)</li>
+<li>Koi tab galti se delete karke naya bana diya ho</li>
+<li>Sheet bilkul nayi ho aur seed poora na chala ho</li>
+</ul>
+<hr>
+<h2 id="kya-fix-kiya">Kya fix kiya</h2>
+<p><strong>6 jagah</strong> guard lagaye:</p>
+<table><thead><tr><th>#</th><th>Function</th><th>Fix</th></tr></thead><tbody><tr><td>A</td><td><code>getSheet()</code></td><td>Headers na hon to <strong>schema se khud likh deta hai</strong></td></tr><tr><td>B</td><td><code>appendRow()</code></td><td>Naye <code>readHeaders()</code> se safe padhta hai</td></tr><tr><td>C</td><td><code>appendRows()</code></td><td>Wahi guard (bulk writes)</td></tr><tr><td>D</td><td><code>updateRow()</code></td><td>Khaali sheet par <code>false</code> return, crash nahi</td></tr><tr><td>E</td><td><code>deleteRow()</code></td><td>Wahi guard</td></tr><tr><td>F</td><td><code>readAll()</code></td><td>Khaali sheet par <code>[]</code> return</td></tr></tbody></table>
+<p>Plus <strong>3 aur jagah</strong> wahi risky pattern tha (<code>seedDemoProducts</code>,</p>
+<p><code>seedDemoReviews</code>, <code>importDemoProducts</code>) — wo bhi theek kiye.</p>
+<h3 id="naye-helper-functions">Naye helper functions</h3>
+<p><strong><code>readHeaders(sheet, sheetName)</code></strong> — headers safely padhta hai. Agar sheet khaali hai to schema se headers likh deta hai, phir return karta hai.</p>
+<p><strong><code>DB_SCHEMA()</code></strong> — poora database schema ab <strong>ek hi jagah</strong> hai. Pehle ye</p>
+<p><code>setupDatabase()</code> ke andar local variable tha, isliye <code>getSheet()</code> use nahi kar sakta tha. Ab dono same headers use karte hain — kabhi mismatch nahi hoga.</p>
+<h3 id="ab-kya-hota-hai">Ab kya hota hai</h3>
+<p>Crash ki jagah <strong>saaf message</strong> aata hai:</p>
+<pre><code>
+Sheet "Newsletter" me headers nahi hain.
+setupDatabase() ya setupDemoStore() ek baar run karein.
+</code></pre>
+<p>Aur schema-wali sheets me to headers <strong>khud ban jate hain</strong> — error aata hi nahi.</p>
+<hr>
+<h2 id="testing">Testing</h2>
+<p>Emulator ko <strong>real Apps Script jaisa strict</strong> banaya — ab wo bhi wahi error throw karta hai jo Google karta hai:</p>
+<pre><code>
+if (nc &lt; 1) throw new Error('The number of columns in the range must be at least 1.');
+if (nr &lt; 1) throw new Error('The number of rows in the range must be at least 1.');
+</code></pre>
+<p>Isse bug <strong>pehle reproduce hua</strong>, phir fix kiya, phir verify kiya.</p>
+<p><strong>192/192 tests pass</strong> (10 naye tests khaali-sheet ke liye):</p>
+<pre><code>
+node tests/backend.test.js      # 192 tests
+python3 tests/live-check.py     # aapka live URL — 13/13
+bash tests/run-web-test.sh      # website me data dikh raha ya nahi
+</code></pre>
+<hr>
+<h2 id="aapka-current-status">Aapka current status</h2>
+<p>Maine abhi aapka live backend check kiya:</p>
+<table><thead><tr><th>Check</th><th>Status</th></tr></thead><tbody><tr><td>Backend chal raha hai</td><td>✅</td></tr><tr><td>Sheet <code>pshopdb</code> judi</td><td>✅</td></tr><tr><td>Data</td><td>✅ <strong>199 rows</strong></td></tr><tr><td>Products</td><td>✅ 48</td></tr><tr><td>Login <code>demo@pshop.in</code></td><td>✅</td></tr><tr><td>Website me products dikh rahe</td><td>✅ <strong>48</strong></td></tr></tbody></table>
+<p><strong>Connection pehle se kaam kar raha hai.</strong> Website test me 12 Apps Script calls gayi aur 48 products render hue.</p>
+<hr>
+<h2 id="ab-kya-karna-hai">Ab kya karna hai</h2>
+<p>Ye fixes live karne ke liye:</p>
+<table><thead><tr><th>#</th><th>Kahan</th><th>Kya</th></tr></thead><tbody><tr><td>1</td><td>Apps Script</td><td>Purana code delete karke <code>backend/PShop-Complete.gs</code> <strong>dobara paste</strong></td></tr><tr><td>2</td><td>Apps Script</td><td><strong>Deploy → Manage deployments → ✏️ → New version → Deploy</strong></td></tr></tbody></table>
+<blockquote><code>setupDemoStore()</code> dobara chalane ki zaroorat <strong>nahi</strong> — data already hai. Sirf code update karna hai.</blockquote>
+<p>Agar error phir bhi aaye, to <strong><code>setupDemoStore</code></strong> ek baar run kar dein — ab wo khaali sheets ko khud theek kar deta hai.</p>
+<hr>
+<h2 id="agar-website-khaali-dikhe">Agar website khaali dikhe</h2>
+<p>Do sabse aam wajah:</p>
+<p><strong>1. File directly khol rahe hain</strong></p>
+<p>Address bar me <code>file:///C:/...</code> dikhe to kabhi kaam nahi karega — browser security block karti hai. Local server chahiye:</p>
+<pre><code>
+python3 -m http.server 8000
+</code></pre>
+<p>Phir browser me: <code>http://localhost:8000</code></p>
+<p><strong>2. Browser cache</strong> — <code>Ctrl + Shift + R</code> (hard refresh)</p>
+<p>Check karne ke liye website me <strong><code>connect-test.html</code></strong> kholein.</p>
+    </article>
+  </main>
+</div>
+</body>
+</html>

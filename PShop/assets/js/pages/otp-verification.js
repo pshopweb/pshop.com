@@ -40,10 +40,14 @@ async function sendOtp(id, btn) {
     $('#send-step').hidden = true;
     $('#verify-step').hidden = false;
 
+    // Show enhanced message based on whether it was sent via SMS or email
+    const isMobile = res.data.sentTo === 'mobile';
+    const sentViaLabel = isMobile ? 'SMS' : 'email';
+    const icon = isMobile ? '📱' : '📧';
     $('#otp-target').innerHTML =
-      `Code sent to <b>${esc(res.data.masked)}</b>` +
+      `${icon} Code sent via <b>${sentViaLabel}</b> to <b>${esc(res.data.masked)}</b>` +
       // The demo backend surfaces the code so the flow is testable end-to-end.
-      (res.data.demoCode ? `<br><span class="xs muted">Demo code: <b>${esc(res.data.demoCode)}</b></span>` : '');
+      (res.data.demoCode ? `<br><span class="xs muted" style="margin-top:.5rem;display:block">Demo code: <b style="color:var(--brand-600);font-size:1.1rem">${esc(res.data.demoCode)}</b></span>` : '');
 
     toast.success(res.message);
 

@@ -33,6 +33,12 @@ page(async () => {
   /* -------- password / OTP mode switch -------- */
   $('#tab-otp').addEventListener('click', () => {
     const id = $('#identifier').value.trim();
+    // Show a quick toast about OTP via SMS
+    if (id && /^\d{10}$/.test(id)) {
+      toast.info('📱 OTP will be sent via SMS to ' + id);
+    } else if (id && id.includes('@')) {
+      toast.info('📧 OTP will be sent to your email');
+    }
     location.href = url('pages/otp-verification.html') + (id ? `?id=${encodeURIComponent(id)}` : '');
   });
   $('#tab-pw').addEventListener('click', () => {

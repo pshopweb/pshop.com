@@ -53,7 +53,7 @@ document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
 
       <section id="send-step">
         <h1>Sign in with OTP</h1>
-        <p class="sub">No password needed — we will text or email you a one-time code.</p>
+        <p class="sub">No password needed — we'll send a one-time code to your mobile via SMS or email.</p>
         <form id="send-form" novalidate>
           <div class="field">
             <label for="identifier">Email or mobile number <span class="req">*</span></label>
@@ -64,6 +64,7 @@ document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
           </div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">Send OTP</button>
         </form>
+        <p class="xs muted text-center mt-4" style="margin-top:1rem">📱 SMS works best for quick access • No password to remember</p>
       </section>
 
       <section id="verify-step" hidden>

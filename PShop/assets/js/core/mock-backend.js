@@ -132,8 +132,16 @@ const handlers = {
       identifier: id, code, purpose,
       expires: Date.now() + CONFIG.OTP_TTL_SECONDS * 1000, attempts: 0
     });
-    return ok({ sentTo: isEmail ? 'email' : 'mobile', masked: maskId(id), demoCode: code },
-      `OTP sent to your ${isEmail ? 'email' : 'mobile'}.`);
+    const sentVia = isPhone ? 'SMS' : 'email';
+    const maskedTarget = maskId(id);
+    return ok({ 
+      sentTo: isEmail ? 'email' : 'mobile', 
+      masked: maskedTarget, 
+      demoCode: code,
+      message: isPhone 
+        ? `OTP sent via SMS to ${maskedTarget}. Check your messages.` 
+        : `OTP sent to your email ${maskedTarget}.`
+    }, `OTP sent via ${sentVia} to ${maskedTarget}.`);
   },
 
   async verifyOtp({ code }) {
@@ -555,8 +563,8 @@ function sortProducts(items, sort) {
 export async function mockRequest(action, payload = {}) {
   const fn = handlers[action];
   if (!fn) return fail(`Unknown action: ${action}`, 404);
-  // Small latency keeps skeleton loaders visible & realistic.
-  await sleep(120 + Math.random() * 180);
+  // Minimal latency — fast feel while still async-realistic.
+  await sleep(40 + Math.random() * 60);
   try { return await fn(payload); }
   catch (e) {
     console.error('[PShop mock]', action, e);

@@ -224,3 +224,60 @@ img{image-rendering:auto;}
   body{background:#fff;}
   .card-surface,.info-card{box-shadow:none;border:1px solid #ddd;}
 }
+
+/* ──────────────────────── Mobile Responsiveness ────────────────────────
+   Phone pe sab kuch sahi size me dikhe — buttons bade, text readable,
+   layout stable rahe. */
+@media (max-width:767px){
+  /* Typography scale down gracefully */
+  :root{
+    --fs-3xl:1.85rem;--fs-2xl:1.45rem;--fs-xl:1.2rem;--fs-lg:1rem;
+  }
+  /* Ensure all interactive elements are touch-friendly (min 44px) */
+  .btn,.select,.input,.textarea{min-height:44px;}
+  .select{padding:.65rem 1rem;font-size:var(--fs-base);}
+  .input{padding:.65rem 1rem;font-size:var(--fs-base);}
+  /* Header compact */
+  .header-main{gap:.4rem;}
+  .search-box input{font-size:var(--fs-sm);}
+  .h-action{padding:.35rem .45rem;min-width:40px;font-size:9.5px;}
+  .h-action svg{width:19px;height:19px;}
+  /* Page headers */
+  .page-head{padding:var(--sp-4) 0 var(--sp-3);}
+  .page-head h1{font-size:1.3rem;}
+  /* Product detail */
+  .pd-title{font-size:1.15rem;}
+  .pd-price{font-size:1.4rem;}
+  .pd-cta-row .btn{min-height:48px;font-size:var(--fs-base);}
+  /* Trust icons smaller */
+  .pd-trust{grid-template-columns:repeat(2,1fr);}
+  /* Home page */
+  .usp-strip{grid-template-columns:1fr 1fr;gap:var(--sp-2);}
+  .usp{padding:.65rem .75rem;}
+  .usp .ico{width:32px;height:32px;}
+  .usp b{font-size:var(--fs-xs);}
+  .usp span{font-size:10px;}
+  .brand-row{grid-template-columns:repeat(3,1fr);}
+  .promo-card{min-height:150px;padding:var(--sp-5) var(--sp-4);}
+  /* Footer */
+  .site-footer{padding-bottom:calc(var(--bottomnav-h) + 1rem);}
+  /* Modals full screen on mobile */
+  .modal-box{max-width:100%;border-radius:var(--r-lg) var(--r-lg) 0 0;
+    max-height:85vh;margin-top:auto;}
+  /* Forms */
+  .field{margin-bottom:var(--sp-3);}
+  .field label{font-size:var(--fs-sm);}
+  /* Action bar buttons */
+  .action-bar .btn{min-height:48px;font-size:var(--fs-base);font-weight:700;}
+  /* Account page */
+  .account-nav a{padding:.55rem .65rem;font-size:var(--fs-xs);}
+}
+/* Very small phones (SE, 5s etc) */
+@media (max-width:380px){
+  :root{--fs-base:.875rem;--fs-sm:.75rem;--fs-lg:.9375rem;}
+  .product-grid{gap:var(--sp-2);}
+  .pc-body{padding:var(--sp-2);}
+  .hero-slider{aspect-ratio:4/3;}
+  .cd-box{min-width:38px;padding:.25rem .35rem;}
+  .cd-box b{font-size:var(--fs-sm);}
+}

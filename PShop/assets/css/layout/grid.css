@@ -1,4 +1,9 @@
 /* ============================= Layout shells ============================== */
+/* Prevent layout shift on mobile */
+@media (max-width:767px){
+  html{overflow-x:hidden;}
+  body{overflow-x:hidden;}
+}
 /* Two-column shell: sticky sidebar + content (shop, category, search, account) */
 .shell{display:grid;grid-template-columns:270px 1fr;gap:var(--sp-6);align-items:start;}
 .shell > .sidebar{position:sticky;top:calc(var(--header-h) + var(--sp-4));max-height:calc(100vh - var(--header-h) - var(--sp-8));

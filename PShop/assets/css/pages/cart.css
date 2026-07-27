@@ -4,6 +4,14 @@
 .cart-shell .summary{position:sticky;top:calc(var(--header-h) + var(--sp-4));}
 @media (max-width:1023px){.cart-shell .summary{position:static;}}
 
+/* Mobile cart improvements */
+@media (max-width:640px){
+  .cart-item .ci-right{flex-direction:row;align-items:center;gap:var(--sp-3);}
+  .cart-item .ci-right .qty{width:100%;}
+  .cart-item .ci-right .qty button{width:44px;height:44px;}
+  .summary-card .btn{min-height:48px;font-size:var(--fs-base);}
+}
+
 /* Cart line item */
 .cart-item{display:grid;grid-template-columns:120px 1fr auto;gap:var(--sp-4);padding:var(--sp-4);
   background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);

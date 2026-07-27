@@ -32,6 +32,13 @@
 .btn-icon{padding:0;width:44px;height:44px;min-height:44px;border-radius:var(--r-full);}
 .btn-icon.btn-sm{width:36px;height:36px;}
 
+/* Mobile button improvements */
+@media (max-width:767px){
+  .btn{padding:.8rem 1.2rem;min-height:46px;font-size:var(--fs-base);}
+  .btn-sm{padding:.55rem 1rem;min-height:40px;font-size:var(--fs-sm);}
+  .btn-lg{padding:1rem 1.6rem;min-height:54px;font-size:var(--fs-md);}
+}
+
 /* Loading state */
 .btn.is-loading{color:transparent !important;pointer-events:none;position:relative;}
 .btn.is-loading::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;

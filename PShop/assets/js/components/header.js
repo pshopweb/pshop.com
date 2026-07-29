@@ -391,7 +391,6 @@ function buildMobileNav(user) {
 
     <div class="mnav-group">
       <h5>Help &amp; info</h5>
-      <a class="mnav-link" href="${P('about.html')}">${icon('info', 19)} About Us</a>
       <a class="mnav-link" href="${P('track-order.html')}">${icon('truck', 19)} Track Order</a>
       <a class="mnav-link" href="${P('faq.html')}">${icon('helpCircle', 19)} FAQ</a>
       <a class="mnav-link" href="${P('contact.html')}">${icon('mail', 19)} Contact</a>

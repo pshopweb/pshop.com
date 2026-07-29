@@ -26,7 +26,6 @@ const COLS = [
     ['Returns & Refunds', P('faq.html#returns')], ['Shipping Info', P('faq.html#delivery')]
   ]},
   { title: 'Company', links: [
-    ['About PShop', P('about.html')],
     ['Privacy Policy', P('privacy.html')],
     ['Terms of Use', P('terms.html')],
     ['Contact Us', P('contact.html')],

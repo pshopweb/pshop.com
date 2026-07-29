@@ -43,14 +43,15 @@
 .suggest-item svg{width:16px;height:16px;color:var(--text-3);flex:none;}
 
 /* Header action icons */
-.header-actions{display:flex;align-items:center;gap:.35rem;flex:none;margin-left:auto;}
+.header-actions{display:flex;align-items:center;gap:.2rem;flex:none;margin-left:auto;}
 .h-action{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:.45rem .6rem;border-radius:var(--r-md);color:var(--text-2);font-size:10.5px;font-weight:600;
-  transition:all var(--t) var(--ease);min-width:56px;}
+  padding:.35rem .45rem;border-radius:var(--r-md);color:var(--text-2);font-size:10px;font-weight:600;
+  transition:all var(--t) var(--ease);min-width:44px;}
 .h-action:hover{background:var(--surface-3);color:var(--brand-600);}
-.h-action svg{width:21px;height:21px;}
+.h-action svg{width:20px;height:20px;}
 .h-action .ico-wrap{position:relative;}
-@media (max-width:1023px){.h-action span.lbl{display:none;} .h-action{min-width:44px;}}
+@media (max-width:1023px){.h-action span.lbl{display:none;} .h-action{min-width:40px;padding:.3rem .35rem;}}
+@media (max-width:767px){.h-action{min-width:36px;padding:.25rem .3rem;} .h-action svg{width:19px;height:19px;}}
 
 /* Mobile/Desktop visibility helpers */
 .mobile-only{display:none;}

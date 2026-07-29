@@ -1,6 +1,36 @@
 /* ============================== Home page ================================= */
-/* Sticky search bar (Flipkart style) - Hidden -------------------------------------- */
-.home-search-sticky{display:none;}
+/* Sticky search bar --------------------------------------------------------- */
+.home-search-sticky{position:sticky;top:var(--header-h);z-index:var(--z-header);background:#fff;
+  padding:10px 0;border-bottom:1px solid #e0e0e0;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.home-search-sticky .hs-form{max-width:680px;margin:0 auto;background:#fff;border:2px solid #2874f0;
+  border-radius:4px;display:flex;align-items:center;box-shadow:0 2px 10px rgba(40,116,240,.12);}
+.home-search-sticky .hs-form:focus-within{box-shadow:0 4px 16px rgba(40,116,240,.2);}
+.home-search-sticky .hs-form svg{width:20px;height:20px;color:#2874f0;margin:8px 12px;flex:none;}
+.home-search-sticky .hs-form input{flex:1;border:0;outline:0;background:transparent;font-size:15px;
+  color:#333;padding:10px 0;min-height:auto;}
+.home-search-sticky .hs-form input::placeholder{color:#999;}
+.home-search-sticky .hs-form button{background:#2874f0;border:0;padding:10px 20px;cursor:pointer;
+  color:#fff;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.4px;
+  border-radius:0 2px 2px 0;transition:background .2s;}
+.home-search-sticky .hs-form button:hover{background:#1a5dc7;}
+
+/* Trending searches */
+.search-trending{display:flex;align-items:center;gap:6px;max-width:680px;margin:6px auto 0;
+  font-size:12px;color:#666;flex-wrap:wrap;}
+.search-trending span{font-weight:600;color:#333;}
+.search-trending a{color:#2874f0;text-decoration:none;padding:3px 8px;background:#f0f6ff;
+  border-radius:14px;font-size:11px;font-weight:500;transition:all .15s;}
+.search-trending a:hover{background:#2874f0;color:#fff;}
+
+@media (max-width:767px){
+  .home-search-sticky{padding:8px 10px;}
+  .home-search-sticky .hs-form{border-width:1.5px;}
+  .home-search-sticky .hs-form input{font-size:14px;padding:8px 0;}
+  .home-search-sticky .hs-form svg{width:18px;height:18px;margin:7px 10px;}
+  .home-search-sticky .hs-form button{padding:8px 14px;font-size:12px;}
+  .search-trending{margin-top:5px;gap:5px;font-size:11px;}
+  .search-trending a{padding:2px 6px;font-size:10px;}
+}
 
 /* Home search bar --------------------------------------------------------- */
 .home-search{margin-top:var(--sp-4);}

@@ -1,4 +1,9 @@
 /* ==================== Shop / Category / Search pages ====================== */
+/* Add padding for fixed mobile tools */
+@media (max-width:767px){
+  .mobile-tools + .shell,.mobile-tools ~ .shell{margin-top:52px;}
+}
+
 .catalog-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);
   flex-wrap:wrap;margin-bottom:var(--sp-4);}
 .catalog-head h1{font-size:clamp(1.3rem,2.8vw,1.9rem);}
@@ -23,10 +28,12 @@
 .price-range{width:100%;accent-color:var(--brand-600);height:4px;cursor:pointer;margin:.3rem 0;}
 
 /* Sticky mobile sort/filter bar */
-.mobile-tools{position:sticky;top:var(--header-h-mobile);z-index:var(--z-sticky);
-  display:flex;gap:.6rem;padding:.6rem 0;background:var(--bg);
-  border-bottom:1px solid var(--border);margin-bottom:var(--sp-3);}
-.mobile-tools .btn{flex:1;}
+.mobile-tools{position:fixed;left:0;right:0;top:var(--header-h);z-index:calc(var(--z-header) - 1);
+  display:flex;gap:.5rem;padding:.5rem 12px;background:#fff;
+  border-bottom:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.mobile-tools .btn{flex:1;font-size:13px;font-weight:600;padding:8px 12px;min-height:38px;
+  border-radius:4px;border:1.5px solid #e0e0e0;background:#fff;color:#333;}
+.mobile-tools .btn:hover{border-color:#2874f0;color:#2874f0;}
 @media (min-width:768px){.mobile-tools{display:none;}}
 
 /* Category hero banner */

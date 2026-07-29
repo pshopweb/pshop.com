@@ -1,11 +1,23 @@
 /* ============================== Home page ================================= */
 /* Sticky search bar (Flipkart style) -------------------------------------- */
 .home-search-sticky{position:sticky;top:var(--header-h);z-index:calc(var(--z-header) - 1);background:var(--bg);
-  padding:var(--sp-3) 0;border-bottom:1px solid var(--border);transition:all var(--t) var(--ease);}
-.home-search-sticky .hs-form{max-width:700px;margin:0 auto;}
+  padding:var(--sp-2) 0;border-bottom:1px solid var(--border);}
+.home-search-sticky .hs-form{max-width:700px;margin:0 auto;background:#fff;border:1px solid #e0e0e0;
+  border-radius:4px;display:flex;align-items:center;padding:0;box-shadow:none;}
+.home-search-sticky .hs-form:focus-within{border-color:#2874f0;box-shadow:0 0 0 2px rgba(40,116,240,.15);}
+.home-search-sticky .hs-form svg{width:20px;height:20px;color:#888;margin:8px 12px;flex:none;}
+.home-search-sticky .hs-form input{flex:1;border:0;outline:0;background:transparent;font-size:15px;
+  color:#333;padding:10px 0;min-height:auto;}
+.home-search-sticky .hs-form input::placeholder{color:#999;}
+.home-search-sticky .hs-form button{background:transparent;border:0;padding:8px 16px;cursor:pointer;
+  color:#2874f0;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.3px;}
+.home-search-sticky .hs-form button:hover{color:#1a5dc7;}
 @media (max-width:767px){
-  .home-search-sticky{padding:var(--sp-2) var(--sp-3);top:var(--header-h);}
-  .home-search-sticky .hs-form{max-width:none;}
+  .home-search-sticky{padding:8px 12px;}
+  .home-search-sticky .hs-form{border-radius:4px;}
+  .home-search-sticky .hs-form input{font-size:14px;padding:8px 0;}
+  .home-search-sticky .hs-form svg{width:18px;height:18px;margin:8px 10px;}
+  .home-search-sticky .hs-form button{padding:8px 12px;font-size:13px;}
 }
 
 /* Home search bar --------------------------------------------------------- */

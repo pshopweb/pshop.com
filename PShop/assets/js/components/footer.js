@@ -126,7 +126,8 @@ const BOTTOM = [
   { label: 'Shop',     href: P('shop.html'),     icon: 'grid',  match: ['shop', 'category', 'search', 'product-details'] },
   { label: 'Wishlist', href: P('wishlist.html'), icon: 'heart', match: ['wishlist'], badge: 'wish' },
   { label: 'Cart',     href: P('cart.html'),     icon: 'cart',  match: ['cart', 'checkout', 'payment'], badge: 'cart' },
-  { label: 'Account',  href: P('profile.html'),  icon: 'user',  match: ['profile', 'orders', 'settings', 'login', 'address'] }
+  { label: 'Account',  href: P('profile.html'),  icon: 'user',  sheet: true,
+    match: ['profile', 'orders', 'settings', 'login', 'address', 'edit-profile', 'notifications', 'messages'] }
 ];
 
 export function renderBottomNav(activeKey = '') {
@@ -138,12 +139,22 @@ export function renderBottomNav(activeKey = '') {
     <nav class="bottom-nav" aria-label="Primary mobile navigation">
       ${BOTTOM.map(b => `
         <a class="bn-item ${b.match.includes(page) ? 'active' : ''}" href="${b.href}"
+           ${b.sheet ? 'data-open-account-sheet' : ''}
            ${b.match.includes(page) ? 'aria-current="page"' : ''}>
           <span class="ico-wrap">${icon(b.icon, 22)}
             ${b.badge ? `<span class="count-bubble" data-${b.badge}-count aria-hidden="true"></span>` : ''}</span>
           <span>${b.label}</span>
         </a>`).join('')}
     </nav>`;
+
+  // "Account" tab phone par seedha page kholne ke bajay account sheet
+  // kholta hai — ek tap me saare account shortcuts saamne aa jate hain.
+  mount.querySelector('[data-open-account-sheet]')?.addEventListener('click', e => {
+    if (!window.matchMedia('(max-width:767px)').matches) return;
+    if (typeof window.__pshopAccountSheet !== 'function') return;   // header abhi ready nahi
+    e.preventDefault();
+    window.__pshopAccountSheet(true);
+  });
 
   // Scroll-to-top helper is part of the same layer.
   if (!$('.to-top')) {

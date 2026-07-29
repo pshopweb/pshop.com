@@ -32,6 +32,7 @@ page(async () => {
 
   $('#pay-shell').hidden = false;
   $('#secure-badge').innerHTML = `${icon('lock', 12)} Secure`;
+  $('#cod-fee').textContent = money(CONFIG.COD_FEE);
 
   renderMethods();
   renderAddress();
@@ -51,7 +52,7 @@ function renderMethods() {
       <input type="radio" name="pay" value="${m.id}" ${method === m.id ? 'checked' : ''}>
       <img src="${url(m.icon)}" alt="" width="120" height="48">
       <span class="txt"><b>${esc(m.label)}</b><span>${esc(m.desc)}</span></span>
-      ${m.id === 'cod' ? `<span class="badge badge-success">FREE</span>` : ''}
+      ${m.id === 'cod' ? `<span class="badge badge-warning">+${money(CONFIG.COD_FEE)}</span>` : ''}
     </label>`).join('') +
     (!codOk ? `<div class="pay-detail" style="margin-top:.7rem">
       <p class="xs" style="color:var(--warning)">${icon('info', 12)}
@@ -102,7 +103,7 @@ function renderMethods() {
   const total = totalWithFee();
   btn.textContent = method === 'cod' ? `Place order · ${money(total)}` : `Pay ${money(total)} securely`;
   $('#pay-note').innerHTML = method === 'cod'
-    ? `${icon('truck', 12)} Pay in cash at your doorstep — FREE, no extra charges.`
+    ? `${icon('truck', 12)} Pay in cash when your order arrives.`
     : `${icon('lock', 12)} Your payment is encrypted and processed securely.`;
 }
 
@@ -151,63 +152,54 @@ async function onPay() {
   $('#processing').hidden = false;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  try {
-    // Simulate gateway round-trip. COD always succeeds; online payments use a
-    // deterministic check so the demo can exercise the failure path too.
-    await sleep(800);
+  // Simulate gateway round-trip. COD always succeeds; online payments use a
+  // deterministic check so the demo can exercise the failure path too.
+  await sleep(1800);
 
-    const reference = uid('TXN');
-    const failed = method !== 'cod' && shouldFail();
+  const reference = uid('TXN');
+  const failed = method !== 'cod' && shouldFail();
 
-    if (failed) {
-      Store.set('pshop_last_attempt', { reference, method, amount: totalWithFee(), at: new Date().toISOString() });
-      location.href = url('pages/payment-failed.html?ref=' + reference);
-      return;
-    }
+  if (failed) {
+    Store.set('pshop_last_attempt', { reference, method, amount: totalWithFee(), at: new Date().toISOString() });
+    location.href = url('pages/payment-failed.html?ref=' + reference);
+    return;
+  }
 
-    const payment = {
-      method,
-      label: CONFIG.PAYMENT_METHODS.find(m => m.id === method)?.label || method,
-      reference,
-      app: method === 'upi' ? upiApp : null,
-      last4: method === 'razorpay' ? $('#card-num').value.replace(/\D/g, '').slice(-4) : null
-    };
+  const payment = {
+    method,
+    label: CONFIG.PAYMENT_METHODS.find(m => m.id === method)?.label || method,
+    reference,
+    app: method === 'upi' ? upiApp : null,
+    last4: method === 'razorpay' ? $('#card-num').value.replace(/\D/g, '').slice(-4) : null
+  };
 
-    const totals = { ...draft.totals, total: totalWithFee(),
-                     codFee: method === 'cod' ? CONFIG.COD_FEE : 0 };
+  const totals = { ...draft.totals, total: totalWithFee(),
+                   codFee: method === 'cod' ? CONFIG.COD_FEE : 0 };
 
-    const res = await API.placeOrder({
-      userId: Auth.id(), items: draft.items, address: draft.address,
-      payment, totals, coupon: draft.coupon, contact: draft.contact, shipMode: draft.shipMode
-    });
+  const res = await API.placeOrder({
+    userId: Auth.id(), items: draft.items, address: draft.address,
+    payment, totals, coupon: draft.coupon, contact: draft.contact, shipMode: draft.shipMode
+  });
 
-    if (!res.success) {
-      $('#processing').hidden = true;
-      $('#pay-shell').hidden = false;
-      btn.classList.remove('is-loading');
-      btn.disabled = false;
-      return toast.error(res.message);
-    }
-
-    await API.savePayment({
-      orderId: res.data.order.id, method, amount: totals.total,
-      reference, status: method === 'cod' ? 'Pending' : 'Paid'
-    });
-
-    // Order placed — clear the working state.
-    Cart.clear();
-    Store.remove(CONFIG.KEYS.COUPON);
-    Store.remove(CONFIG.KEYS.CHECKOUT);
-
-    location.href = url('pages/payment-success.html?id=' + res.data.order.id);
-  } catch (err) {
+  if (!res.success) {
     $('#processing').hidden = true;
     $('#pay-shell').hidden = false;
     btn.classList.remove('is-loading');
     btn.disabled = false;
-    toast.error('Payment failed. Please try again.');
-    console.error('[PShop] payment error:', err);
+    return toast.error(res.message);
   }
+
+  await API.savePayment({
+    orderId: res.data.order.id, method, amount: totals.total,
+    reference, status: method === 'cod' ? 'Pending' : 'Paid'
+  });
+
+  // Order placed — clear the working state.
+  Cart.clear();
+  Store.remove(CONFIG.KEYS.COUPON);
+  Store.remove(CONFIG.KEYS.CHECKOUT);
+
+  location.href = url('pages/payment-success.html?id=' + res.data.order.id);
 }
 
 function validateMethod() {

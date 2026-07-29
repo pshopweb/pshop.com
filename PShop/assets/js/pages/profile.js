@@ -20,20 +20,27 @@ page(async () => {
 
   const user = Auth.user();
 
+  // Avatar na ho to naam se initials bana lete hain — grey placeholder
+  // image se yeh phone par kaafi behtar dikhta hai.
+  const initials = esc(user.name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase());
+
   $('#profile-hero').innerHTML = `
-    <img src="${user.avatar || url('assets/img/misc/avatar.svg')}" alt="Your profile photo" width="72" height="72">
-    <div>
-      <h1>${esc(user.name)}</h1>
-      <p>${esc(user.email)}</p>
-      <div class="meta">
-        <span>${icon('phone', 11)} ${esc(user.phone || 'No number added')}</span>
-        <span>${icon('calendar', 11)} Member since ${fmtDate(user.createdAt, { day: undefined })}</span>
-        ${user.verified ? `<span>${icon('checkCircle', 11)} Verified</span>` : ''}
+    <div class="ph-top">
+      ${user.avatar
+        ? `<img src="${esc(user.avatar)}" alt="Your profile photo" width="84" height="84">`
+        : `<div class="ph-avatar" aria-hidden="true">${initials}</div>`}
+      <div style="min-width:0">
+        <h1>${esc(user.name)}</h1>
+        <p class="truncate">${esc(user.email)}</p>
       </div>
-      ${user.phone ? `<div class="meta" style="margin-top:.25rem"><span style="background:rgba(255,255,255,.2);padding:.15rem .5rem;border-radius:20px;font-weight:700">${icon('phone', 10)} ${esc(user.phone)}</span></div>` : ''}
+    </div>
+    <div class="meta">
+      <span>${icon('phone', 13)} ${esc(user.phone || 'No number added')}</span>
+      <span>${icon('calendar', 13)} Since ${fmtDate(user.createdAt, { day: undefined })}</span>
+      ${user.verified ? `<span>${icon('checkCircle', 13)} Verified</span>` : ''}
     </div>
     <div class="actions"><a class="btn btn-sm" style="background:#fff;color:var(--brand-700)"
-      href="edit-profile.html">Edit profile</a></div>`;
+      href="edit-profile.html">${icon('edit', 15)} Edit profile</a></div>`;
 
   /* quick stats */
   const orderRes = await API.getOrders({ userId: Auth.id() });
@@ -85,17 +92,15 @@ page(async () => {
     });
   } else {
     host.innerHTML = orders.slice(0, 3).map(o => `
-      <a class="flex items-center gap-3" href="order-details.html?id=${o.id}"
-         style="padding:.85rem 0;border-bottom:1px solid var(--border)">
-        <img src="${url(o.items[0].image)}" alt="" width="48" height="48"
-             style="border-radius:10px;object-fit:cover;background:var(--surface-3)">
-        <div style="flex:1;min-width:0">
-          <div class="semi small truncate">${esc(o.items[0].name)}
+      <a class="ro-item" href="order-details.html?id=${o.id}">
+        <img src="${url(o.items[0].image)}" alt="" width="52" height="52" loading="lazy">
+        <div class="ro-mid">
+          <div class="ro-name">${esc(o.items[0].name)}
             ${o.items.length > 1 ? `<span class="muted">+${o.items.length - 1} more</span>` : ''}</div>
-          <div class="xs muted">${o.id} · ${fmtDate(o.placedAt)}</div>
+          <div class="ro-sub">${o.id} · ${fmtDate(o.placedAt)}</div>
         </div>
-        <div class="text-right">
-          <div class="semi small">${money(o.totals.total)}</div>
+        <div class="ro-right">
+          <div class="amt">${money(o.totals.total)}</div>
           <span class="badge ${statusBadge(o.status)}">${esc(o.status)}</span>
         </div>
       </a>`).join('');

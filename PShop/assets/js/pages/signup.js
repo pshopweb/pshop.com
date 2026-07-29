@@ -37,37 +37,24 @@ page(async () => {
     const btn = $('#btn-submit');
     btn.classList.add('is-loading'); btn.disabled = true;
 
-    // Safety timeout — 15s baad loading state auto-hat jaye agar API hang ho
-    const safetyTimer = setTimeout(() => {
-      btn.classList.remove('is-loading'); btn.disabled = false;
-    }, 15000);
+    const res = await Auth.signup({
+      name: $('#name').value.trim(),
+      email: $('#email').value.trim().toLowerCase(),
+      phone: $('#phone').value.trim(),
+      password: $('#password').value
+    });
 
-    try {
-      const res = await Auth.signup({
-        name: $('#name').value.trim(),
-        email: $('#email').value.trim().toLowerCase(),
-        phone: $('#phone').value.trim(),
-        password: $('#password').value
-      });
-      clearTimeout(safetyTimer);
+    btn.classList.remove('is-loading'); btn.disabled = false;
 
-      btn.classList.remove('is-loading'); btn.disabled = false;
-
-      if (!res.success) {
-        toast.error(res.message);
-        if (/email/i.test(res.message)) setError('email', true, res.message);
-        else if (/mobile|number/i.test(res.message)) setError('phone', true, res.message);
-        return;
-      }
-
-      toast.success('Welcome to PShop! Your account is ready.');
-      setTimeout(() => location.href = url('pages/profile.html'), 800);
-    } catch (err) {
-      clearTimeout(safetyTimer);
-      btn.classList.remove('is-loading'); btn.disabled = false;
-      toast.error('Signup failed. Please try again.');
-      console.error('[PShop] signup error:', err);
+    if (!res.success) {
+      toast.error(res.message);
+      if (/email/i.test(res.message)) setError('email', true, res.message);
+      else if (/mobile|number/i.test(res.message)) setError('phone', true, res.message);
+      return;
     }
+
+    toast.success('Welcome to PShop! Your account is ready.');
+    setTimeout(() => location.href = url('pages/profile.html'), 800);
   });
 
   ['name', 'email', 'phone', 'password', 'confirm'].forEach(id =>

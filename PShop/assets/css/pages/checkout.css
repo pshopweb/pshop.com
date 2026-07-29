@@ -13,15 +13,6 @@
 .cs-line{width:44px;height:2px;background:var(--border);border-radius:2px;}
 @media (max-width:640px){.cs-step span.lbl{display:none;} .cs-line{width:26px;}}
 
-/* Mobile checkout improvements */
-@media (max-width:640px){
-  .co-body{padding:var(--sp-4);}
-  .co-panel > header{padding:var(--sp-3) var(--sp-4);}
-  .pay-option{padding:var(--sp-3);}
-  .pay-option .txt b{font-size:var(--fs-sm);}
-  .result-actions .btn{width:100%;min-height:48px;}
-}
-
 /* Panels */
 .co-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
   margin-bottom:var(--sp-4);overflow:hidden;}

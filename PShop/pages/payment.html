@@ -7,7 +7,7 @@
 <meta name="description" content="Complete your PShop order with UPI, card, netbanking or cash on delivery.">
 <meta name="keywords" content="payment, upi, razorpay, cash on delivery">
 <meta name="author" content="PShop Retail India Pvt. Ltd.">
-<meta name="theme-color" content="#f4f6fb">
+<meta name="theme-color" content="#2563eb">
 <link rel="canonical" href="https://pshop.example/pages/payment.html">
 <!-- Open Graph / social -->
 <meta property="og:type" content="website">
@@ -36,7 +36,7 @@
 <script>
 (function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
 var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.dataset.theme=d?'dark':'light';var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',d?'#0b1120':'#f4f6fb');}catch(e){}})();
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
 </script>
 </head>
 <body>
@@ -106,8 +106,8 @@ document.documentElement.dataset.theme=d?'dark':'light';var m=document.querySele
 
             <!-- COD -->
             <div class="pay-detail" id="detail-cod" hidden>
-              <p class="small">Pay in cash when your order is delivered.
-                <b style="color:var(--success)">Cash on Delivery is FREE</b> — no extra charges.</p>
+              <p class="small">Pay in cash when your order is delivered. A convenience fee of
+                <b id="cod-fee"></b> applies to cash-on-delivery orders.</p>
               <p class="xs muted mt-2">Please keep exact change ready. Our delivery partner also accepts UPI at the door.</p>
             </div>
           </div>
@@ -154,9 +154,5 @@ document.documentElement.dataset.theme=d?'dark':'light';var m=document.querySele
 </noscript>
 
 <script type="module" src="../assets/js/pages/payment.js"></script>
-<script>
-setTimeout(function(){var l=document.querySelector('.page-loader');if(l&&!l.classList.contains('done')){l.classList.add('done');setTimeout(function(){l.remove()},500)}},5000);
-setTimeout(function(){document.querySelectorAll('.is-loading').forEach(function(b){b.classList.remove('is-loading');b.disabled=false})},16000);
-</script>
 </body>
 </html>

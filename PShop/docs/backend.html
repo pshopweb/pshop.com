@@ -11,7 +11,7 @@
 <script>
 (function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
 var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.dataset.theme=d?'dark':'light';var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',d?'#0b1120':'#f4f6fb');}catch(e){}})();
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
 </script>
 </head>
 <body>
@@ -25,6 +25,7 @@ document.documentElement.dataset.theme=d?'dark':'light';var m=document.querySele
     <a href="backend.html" class="active">Backend Reference</a>
     <a href="connection.html">Connection &amp; Design</a>
     <a href="upload.html" class="">Upload & Messages</a>
+    <a href="mobile-account.html">Mobile Account UI</a>
     <a href="fixes.html" class="">Recent Fixes</a>
     <a href="errors.html" class="">Error Fixes</a>
     <div class="doc-nav-title">Tools</div>

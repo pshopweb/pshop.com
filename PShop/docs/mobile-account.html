@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mobile Account Redesign — PShop Docs</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/img/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="docs.css">
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('pshop_theme')||'"auto"');
+var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.dataset.theme=d?'dark':'light';}catch(e){}})();
+</script>
+</head>
+<body>
+<div class="doc-shell">
+  <aside class="doc-nav">
+    <a class="doc-brand" href="../index.html">
+      <img src="../assets/img/icons/logo.svg" alt="PShop" width="150" height="38">
+    </a>
+    <div class="doc-nav-title">Documentation</div>
+    <a href="setup.html">Setup Guide</a>
+    <a href="backend.html">Backend Reference</a>
+    <a href="connection.html">Connection &amp; Design</a>
+    <a href="upload.html">Upload &amp; Messages</a>
+    <a href="mobile-account.html" class="active">Mobile Account UI</a>
+    <a href="fixes.html">Recent Fixes</a>
+    <a href="errors.html">Error Fixes</a>
+    <div class="doc-nav-title">Tools</div>
+    <a href="../connect-test.html">Connection test</a>
+    <a href="../tests/index.html">Test suite</a>
+    <a href="../index.html">Back to store</a>
+  </aside>
+  <main class="doc-main">
+    <div class="doc-head">
+      <h1>Mobile Account Redesign</h1>
+      <p>Account button, account sheet aur profile page — phone ke liye dobara design</p>
+    </div>
+    <article class="doc-body">
+
+<h2 id="problem">Problem kya thi</h2>
+<p>Phone par login karne ke baad <strong>Account button</strong> dabane par jo dropdown khulta tha wo
+desktop wala hi tha — chhota, screen ke kinare se chipka hua, aur uske andar ke links itne
+patle the ke ungli se tap karna mushkil tha. <strong>Profile page</strong> bhi desktop layout ko
+hi sikod kar dikhata tha.</p>
+
+<p>Testing me ek asli bug bhi mila: <strong>profile/orders/settings jaise saare account pages
+phone par horizontally scroll ho rahe the</strong> — content viewport se bahar nikal jaata tha.</p>
+
+<hr>
+
+<h2 id="fix-1">1. Naya mobile Account Sheet</h2>
+<p>Ab phone (&le;767px) par Account button dropdown ki jagah ek <strong>bottom sheet</strong> kholta hai.
+Desktop par kuch nahi badla — wahan purana dropdown hi chalta hai.</p>
+
+<table>
+<thead><tr><th>Hissa</th><th>Kya hai</th></tr></thead>
+<tbody>
+<tr><td>Gradient header</td><td>Bada avatar (naam ke initials se bana), poora naam, email aur role chip</td></tr>
+<tr><td>Do CTA buttons</td><td><em>View profile</em> aur <em>Edit</em> — dono 44px se bade</td></tr>
+<tr><td>6 tiles</td><td>Orders, Wishlist, Cart, Addresses, Alerts, Messages — live count badges ke saath</td></tr>
+<tr><td>5 rows</td><td>Track order, Compare, Coupons, Settings, Help centre</td></tr>
+<tr><td>Dark mode toggle</td><td>Sheet band kiye bina theme badal sakte hain</td></tr>
+<tr><td>Logout</td><td>Alag red button, galti se dabne ka chance kam</td></tr>
+</tbody>
+</table>
+
+<h3>Band karne ke 4 tarike</h3>
+<ul>
+  <li>Upar wale <strong>&times;</strong> button se</li>
+  <li>Peeche wale <strong>overlay</strong> par tap karke</li>
+  <li><strong>Neeche swipe</strong> karke (90px se zyada kheenchne par band)</li>
+  <li>Keyboard par <strong>Escape</strong> se</li>
+</ul>
+
+<h3>Bottom-nav ka Account tab</h3>
+<p>Pehle wo seedha <code>profile.html</code> khol deta tha. Ab phone par wahi sheet kholta hai —
+ek tap me saare account shortcuts saamne. Desktop par (ya agar header abhi load nahi hua)
+purana behaviour hi rehta hai, yaani link normally chalta hai.</p>
+
+<pre><code>
+// footer.js
+mount.querySelector('[data-open-account-sheet]')?.addEventListener('click', e =&gt; {
+  if (!window.matchMedia('(max-width:767px)').matches) return;
+  if (typeof window.__pshopAccountSheet !== 'function') return;
+  e.preventDefault();
+  window.__pshopAccountSheet(true);
+});
+</code></pre>
+
+<hr>
+
+<h2 id="fix-2">2. Profile page ka mobile layout</h2>
+
+<table>
+<thead><tr><th>Pehle</th><th>Ab</th></tr></thead>
+<tbody>
+<tr><td>Grey placeholder avatar image</td><td>Naam se bane initials wala gradient avatar</td></tr>
+<tr><td>Hero me plain text meta</td><td>Phone / member-since / verified — pill chips me</td></tr>
+<tr><td>Chhota "Edit profile" button</td><td>Full-width, 42px height</td></tr>
+<tr><td>4 stat cards ek line me squeeze</td><td>2&times;2 grid, icon upar + bada number</td></tr>
+<tr><td>Info label upar, value neeche (lambi list)</td><td>Label left, value right — ek line me, aadhi jagah</td></tr>
+<tr><td>Account nav scroll hoke gayab</td><td>Header ke neeche <strong>sticky pill chips</strong></td></tr>
+<tr><td>Duplicate "My Profile" heading</td><td>Visually hidden (screen readers ke liye DOM me hai)</td></tr>
+<tr><td>Breadcrumb jagah kha raha tha</td><td>Account pages par mobile me hidden</td></tr>
+</tbody>
+</table>
+
+<p>Settings page par bhi theme picker ke teen buttons screen se bahar nikal rahe the —
+ab wo apni poori row leke barabar-barabar bat jate hain.</p>
+
+<hr>
+
+<h2 id="fix-3">3. Asli bug — horizontal overflow</h2>
+
+<p>CSS grid ke children ka default <code>min-width</code> <code>auto</code> hota hai. Iska matlab
+child apne content se chhota ho hi nahi sakta. <code>.shell-account</code> ke andar
+<code>.account-nav</code> horizontally scroll karti hai, to uska content ~1076px chauda tha —
+aur poora page utna hi chauda ho gaya.</p>
+
+<pre><code>
+Mobile viewport : 390px
+document.scrollWidth : 1088px    &larr; 698px extra!
+</code></pre>
+
+<p>Har account page affected tha — profile, orders, settings, address, edit-profile,
+notifications. Right side ka content screen se bahar chala jaata tha.</p>
+
+<h3>Fix</h3>
+<pre><code>
+/* grid.css */
+.shell-account > * { min-width: 0; }
+.shell > *         { min-width: 0; }
+</code></pre>
+
+<p>Do lines, saara overflow khatam. Verify kiya gaya:</p>
+
+<table>
+<thead><tr><th>Viewport</th><th>Pehle</th><th>Ab</th></tr></thead>
+<tbody>
+<tr><td>Mobile 390px</td><td>1088px (overflow)</td><td>390px ✅</td></tr>
+<tr><td>Tablet 768px</td><td>ok</td><td>768px ✅</td></tr>
+<tr><td>Desktop 1440px</td><td>ok</td><td>1440px ✅</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2 id="files">Kaun si files badli</h2>
+
+<table>
+<thead><tr><th>File</th><th>Kya hua</th></tr></thead>
+<tbody>
+<tr><td><code>assets/css/components/account-sheet.css</code></td><td><strong>Naya</strong> — poori sheet ka CSS</td></tr>
+<tr><td><code>assets/css/main.css</code></td><td>Naya file import kiya</td></tr>
+<tr><td><code>assets/js/components/header.js</code></td><td><code>accountSheet()</code>, <code>wireAccountSheet()</code>, <code>isMobile()</code> add; dropdown ab mobile par sheet kholta hai</td></tr>
+<tr><td><code>assets/js/components/footer.js</code></td><td>Bottom-nav ka Account tab sheet se joda</td></tr>
+<tr><td><code>assets/css/pages/account.css</code></td><td>Poora mobile block — hero, stats, info rows, sticky nav, settings</td></tr>
+<tr><td><code>assets/css/layout/grid.css</code></td><td><code>min-width:0</code> overflow fix</td></tr>
+<tr><td><code>assets/js/pages/profile.js</code></td><td>Initials avatar, naya hero markup, <code>.ro-item</code> order rows</td></tr>
+<tr><td><code>assets/js/pages/_account-nav.js</code></td><td><code>body.acct-page</code> marker class</td></tr>
+<tr><td><code>pages/orders.html</code>, <code>pages/track-order.html</code></td><td><code>account.css</code> link add kiya (missing tha)</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2 id="tests">Test results</h2>
+<ul>
+  <li>Backend: <strong>242/242 passed</strong></li>
+  <li>72 JS modules — syntax clean</li>
+  <li>Overflow check: mobile / tablet / desktop teeno par <strong>0 issues</strong></li>
+  <li>Console errors: <strong>0</strong> (14 pages &times; 3 viewports)</li>
+  <li>Sheet ke saare tap targets <strong>&ge;40px</strong></li>
+  <li>Mobile par dropdown nahi khulta, sheet khulti hai ✅</li>
+  <li>Desktop par sheet <code>display:none</code>, dropdown hover + click dono par khulta hai ✅</li>
+  <li>Dark mode: sheet, hero, tiles, rows — sab sahi ✅</li>
+</ul>
+
+    </article>
+  </main>
+</div>
+</body>
+</html>

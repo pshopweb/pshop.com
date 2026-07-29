@@ -21,9 +21,8 @@ export const Theme = {
   apply(theme = this.get()) {
     const actual = theme === 'auto' ? (mq.matches ? 'dark' : 'light') : theme;
     document.documentElement.dataset.theme = actual;
-    // Status bar color matches page background for seamless look
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', actual === 'dark' ? '#0b1120' : '#f4f6fb');
+      ?.setAttribute('content', actual === 'dark' ? '#0b1120' : '#2563eb');
     this.syncButtons(actual);
     window.dispatchEvent(new CustomEvent('pshop:theme', { detail: { theme: actual, mode: theme } }));
   },

@@ -31,6 +31,13 @@ export async function renderHeader(active = '') {
 
   mount.innerHTML = `
   <header class="site-header" id="header">
+    <div class="announce">
+      ${icon('zap', 13)}
+      <span>Free delivery above ${CONFIG.CURRENCY}${CONFIG.FREE_SHIP_ABOVE}
+        &middot; Easy returns &amp; COD available</span>
+      <a href="${P('shop.html?tag=flash')}">Shop deals</a>
+    </div>
+
     <div class="container header-main">
       <button class="hamburger" id="btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         ${icon('menu', 24)}
@@ -102,12 +109,15 @@ export async function renderHeader(active = '') {
       <button class="btn-icon btn-ghost" id="btn-close-menu" aria-label="Close menu">${icon('close', 20)}</button>
     </div>
     <div class="drawer-body" id="mnav-body"></div>
-  </aside>`;
+  </aside>
+
+  ${accountSheet(user)}`;
 
   buildMobileNav(user);
   wireSearch();
   wireDropdown();
   wireDrawer();
+  wireAccountSheet();
   updateBadges();
   Theme.syncButtons();
   loadMega();
@@ -174,6 +184,175 @@ function accountMenu(user) {
     <hr>
     <button id="btn-logout" role="menuitem">${icon('logout', 17)} Logout</button>`;
 }
+
+/* ==========================================================================
+   Mobile account sheet
+   Phone par dropdown chhota aur adhoora lagta tha — isliye mobile ke liye
+   ek proper bottom-sheet banaya gaya hai: bada avatar, naam, tile grid aur
+   thumb-friendly tap targets. Desktop par ye sheet kabhi nahi dikhti
+   (CSS me @media min-width:768px se hide hai).
+   ========================================================================== */
+
+/** Sheet ke andar dikhne wale shortcut tiles. */
+const SHEET_TILES = [
+  ['package',  'Orders',    P('orders.html'),        null],
+  ['heart',    'Wishlist',  P('wishlist.html'),      'wish'],
+  ['cart',     'Cart',      P('cart.html'),          'cart'],
+  ['mapPin',   'Addresses', P('address.html'),       null],
+  ['bell',     'Alerts',    P('notifications.html'), 'notif'],
+  ['chat',     'Messages',  P('messages.html'),      null]
+];
+
+/** Sheet ke neeche wali list rows. */
+const SHEET_ROWS = [
+  ['truck',      'Track your order', P('track-order.html')],
+  ['compare',    'Compare products', P('compare.html')],
+  ['tag',        'Coupons & offers', P('shop.html?tag=flash')],
+  ['settings',   'Settings',         P('settings.html')],
+  ['headphones', 'Help centre',      P('contact.html')]
+];
+
+function accountSheet(user) {
+  const initials = user
+    ? esc(user.name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase())
+    : '';
+
+  return `
+  <div class="overlay" id="acct-overlay"></div>
+  <aside class="sheet acct-sheet" id="acct-sheet" role="dialog" aria-modal="true"
+         aria-label="Account menu" tabindex="-1">
+    <div class="sheet-grip" id="acct-grip"></div>
+
+    ${user ? `
+      <div class="as-head">
+        <div class="as-avatar" aria-hidden="true">
+          ${user.avatar
+            ? `<img src="${esc(user.avatar)}" alt="">`
+            : `<span>${initials}</span>`}
+        </div>
+        <div class="as-id">
+          <div class="as-name">${esc(user.name)}</div>
+          <div class="as-mail">${esc(user.email)}</div>
+          ${user.role === 'admin'
+            ? '<span class="as-chip">Administrator</span>'
+            : '<span class="as-chip">PShop member</span>'}
+        </div>
+        <button class="as-close" id="acct-sheet-close" aria-label="Close">${icon('close', 20)}</button>
+      </div>
+
+      <div class="as-cta">
+        <a class="btn btn-sm btn-block as-primary" href="${P('profile.html')}">
+          ${icon('user', 16)} View profile</a>
+        <a class="btn btn-sm btn-block as-secondary" href="${P('edit-profile.html')}">
+          ${icon('edit', 16)} Edit</a>
+      </div>
+    ` : `
+      <div class="as-head guest">
+        <div class="as-avatar" aria-hidden="true">${icon('user', 26)}</div>
+        <div class="as-id">
+          <div class="as-name">Hello, Guest</div>
+          <div class="as-mail">Sign in for orders &amp; faster checkout</div>
+        </div>
+        <button class="as-close" id="acct-sheet-close" aria-label="Close">${icon('close', 20)}</button>
+      </div>
+
+      <div class="as-cta">
+        <a class="btn btn-sm btn-block as-primary" href="${P('login.html')}">${icon('lock', 16)} Login</a>
+        <a class="btn btn-sm btn-block as-secondary" href="${P('signup.html')}">${icon('plus', 16)} Sign up</a>
+      </div>
+    `}
+
+    <div class="sheet-body">
+      <div class="as-tiles">
+        ${SHEET_TILES.map(([ic, label, href, badge]) => `
+          <a class="as-tile" href="${href}">
+            <span class="as-tile-ico">${icon(ic, 21)}
+              ${badge ? `<span class="count-bubble" data-${badge}-count aria-hidden="true"></span>` : ''}</span>
+            <span>${label}</span>
+          </a>`).join('')}
+      </div>
+
+      <div class="as-rows">
+        ${SHEET_ROWS.map(([ic, label, href]) => `
+          <a class="as-row" href="${href}">${icon(ic, 19)}<span>${label}</span>
+            ${icon('chevronRight', 17)}</a>`).join('')}
+
+        <button class="as-row" id="acct-sheet-theme" type="button">
+          ${icon('moon', 19)}<span>Dark mode</span>
+          <span class="switch" style="margin-left:auto">
+            <input type="checkbox" id="acct-theme-input" tabindex="-1" aria-label="Toggle dark mode">
+          </span>
+        </button>
+
+        ${user?.role === 'admin'
+          ? `<a class="as-row" href="${url('admin/dashboard.html')}">${icon('barChart', 19)}
+              <span>Admin dashboard</span>${icon('chevronRight', 17)}</a>` : ''}
+      </div>
+
+      ${user
+        ? `<button class="as-logout" id="acct-sheet-logout">${icon('logout', 18)} Logout</button>`
+        : ''}
+
+      <p class="xs muted text-center mt-3">PShop v${CONFIG.VERSION}</p>
+    </div>
+  </aside>`;
+}
+
+/** Sheet kholne/band karne ki wiring — swipe-down se bhi band hoti hai. */
+function wireAccountSheet() {
+  const sheet = $('#acct-sheet'), ov = $('#acct-overlay');
+  if (!sheet || !ov) return;
+
+  const setOpen = state => {
+    sheet.classList.toggle('open', state);
+    ov.classList.toggle('open', state);
+    document.body.classList.toggle('no-scroll', state);
+    if (state) sheet.focus();
+  };
+  // Doosre modules (jaise bottom-nav ka Account tab) bhi sheet khol sakein.
+  window.__pshopAccountSheet = setOpen;
+
+  $('#acct-sheet-close')?.addEventListener('click', () => setOpen(false));
+  ov.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && sheet.isConnected) setOpen(false);
+  });
+  on(sheet, 'click', 'a', () => setOpen(false));
+
+  // Theme row
+  const themeInput = $('#acct-theme-input');
+  if (themeInput) {
+    themeInput.checked = Theme.resolved() === 'dark';
+    $('#acct-sheet-theme').addEventListener('click', () => {
+      const dark = !themeInput.checked;
+      themeInput.checked = dark;
+      Theme.set(dark ? 'dark' : 'light');
+    });
+  }
+  $('#acct-sheet-logout')?.addEventListener('click', () => { setOpen(false); doLogout(); });
+
+  // Swipe down to dismiss — mobile par natural gesture.
+  let startY = null;
+  sheet.addEventListener('touchstart', e => {
+    if (sheet.querySelector('.sheet-body').scrollTop > 0) return;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  sheet.addEventListener('touchmove', e => {
+    if (startY === null) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 0) sheet.style.transform = `translateY(${dy}px)`;
+  }, { passive: true });
+  sheet.addEventListener('touchend', e => {
+    if (startY === null) return;
+    const dy = (e.changedTouches[0].clientY - startY);
+    sheet.style.transform = '';
+    if (dy > 90) setOpen(false);
+    startY = null;
+  });
+}
+
+/** Mobile hai ya nahi — sheet vs dropdown decide karne ke liye. */
+function isMobile() { return window.matchMedia('(max-width:767px)').matches; }
 
 function buildMobileNav(user) {
   const body = $('#mnav-body');
@@ -361,8 +540,20 @@ function wireDropdown() {
     dd.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', String(open));
   };
-  btn.addEventListener('click', e => { e.stopPropagation(); toggle(!dd.classList.contains('open')); });
-  dd.addEventListener('mouseenter', () => { if (window.matchMedia('(hover:hover)').matches) toggle(true); });
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    // Phone par dropdown ki jagah full-width bottom sheet kholte hain —
+    // wahan tap targets bade hain aur content kata hua nahi dikhta.
+    if (isMobile() && window.__pshopAccountSheet) {
+      toggle(false);
+      window.__pshopAccountSheet(true);
+      return;
+    }
+    toggle(!dd.classList.contains('open'));
+  });
+  dd.addEventListener('mouseenter', () => {
+    if (!isMobile() && window.matchMedia('(hover:hover)').matches) toggle(true);
+  });
   dd.addEventListener('mouseleave', () => toggle(false));
   document.addEventListener('click', e => {
     if (dd.isConnected && !dd.contains(e.target)) toggle(false);

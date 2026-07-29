@@ -23,6 +23,9 @@ const LINKS = [
 export function renderAccountNav(activeFile) {
   const host = $('#account-nav');
   if (!host) return;
+  // Body par marker class — mobile CSS isse account pages ko pehchanta hai
+  // (breadcrumb hide karna, spacing tighten karna waghera).
+  document.body.classList.add('acct-page');
   const user = Auth.user();
   const counts = {
     'wishlist.html': Wishlist.count(),
@@ -33,7 +36,7 @@ export function renderAccountNav(activeFile) {
   host.innerHTML = `
     ${user ? `
       <div class="account-head">
-        <img src="${user.avatar || url('assets/img/misc/avatar.svg')}" alt="" width="40" height="40">
+        <img src="${user.avatar || url('assets/img/misc/avatar.svg')}" alt="" width="48" height="48">
         <div style="min-width:0">
           <div class="bold truncate">${esc(user.name)}</div>
           <div class="xs muted truncate">${esc(user.email)}</div>
@@ -43,13 +46,13 @@ export function renderAccountNav(activeFile) {
       const n = counts[href] || 0;
       return `<a href="${href}" class="${href === activeFile ? 'active' : ''}"
         ${href === activeFile ? 'aria-current="page"' : ''}>
-        ${icon(ic, 15)}<span>${label}</span>
+        ${icon(ic, 18)}<span>${label}</span>
         ${n ? `<span class="badge badge-brand" style="margin-left:auto">${n > 99 ? '99+' : n}</span>` : ''}
       </a>`;
     }).join('')}
     ${user?.role === 'admin'
-      ? `<a href="${url('admin/dashboard.html')}">${icon('barChart', 15)}<span>Admin Panel</span></a>` : ''}
-    <a href="#" id="nav-logout">${icon('logout', 15)}<span>Logout</span></a>`;
+      ? `<a href="${url('admin/dashboard.html')}">${icon('barChart', 18)}<span>Admin Panel</span></a>` : ''}
+    <a href="#" id="nav-logout">${icon('logout', 18)}<span>Logout</span></a>`;
 
   $('#nav-logout')?.addEventListener('click', async e => {
     e.preventDefault();

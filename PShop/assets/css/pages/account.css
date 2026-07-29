@@ -1,43 +1,24 @@
 /* ======================= Account area (profile etc.) ====================== */
-.profile-hero{display:flex;align-items:center;gap:var(--sp-5);padding:var(--sp-5);
-  border-radius:var(--r-xl);margin-bottom:var(--sp-4);color:#fff;position:relative;overflow:hidden;
+.profile-hero{display:flex;align-items:center;gap:var(--sp-5);padding:var(--sp-6);
+  border-radius:var(--r-xl);margin-bottom:var(--sp-5);color:#fff;position:relative;overflow:hidden;
   background:linear-gradient(120deg,var(--brand-700),var(--accent-600));}
 .profile-hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;
   background:rgba(255,255,255,.12);right:-70px;top:-90px;}
-.profile-hero img{width:72px;height:72px;border-radius:50%;border:3px solid rgba(255,255,255,.6);flex:none;}
-.profile-hero h1{font-size:clamp(1.15rem,2.2vw,1.5rem);}
+.profile-hero img{width:84px;height:84px;border-radius:50%;border:3px solid rgba(255,255,255,.6);flex:none;}
+.profile-hero h1{font-size:clamp(1.3rem,2.6vw,1.8rem);}
 .profile-hero p{opacity:.9;font-size:var(--fs-sm);}
-.profile-hero .meta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem;font-size:var(--fs-xs);opacity:.9;}
+.profile-hero .meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:var(--fs-xs);opacity:.9;}
 .profile-hero .actions{margin-left:auto;position:relative;z-index:1;}
-@media (max-width:767px){
-  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-2);padding:var(--sp-3);border-radius:var(--r-lg);margin-bottom:var(--sp-3);}
-  .profile-hero::after{width:160px;height:160px;right:-40px;top:-50px;}
-  .profile-hero img{width:56px;height:56px;border-width:2px;}
-  .profile-hero h1{font-size:1.1rem;}
-  .profile-hero p{font-size:11px;}
-  .profile-hero .meta{gap:.5rem;font-size:9px;margin-top:.3rem;}
-  .profile-hero .actions{margin:0;}
-  .profile-hero .actions .btn{padding:.4rem .8rem;min-height:32px;font-size:11px;}
-}
-
-.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-4);}
-@media (max-width:900px){.quick-stats{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:767px){
-  .quick-stats{grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-3);}
-  .quick-stats .stat-card{padding:var(--sp-2) var(--sp-3);gap:var(--sp-2);border-radius:var(--r-md);}
-  .quick-stats .stat-card .ico{width:32px;height:32px;border-radius:var(--r-sm);}
-  .quick-stats .stat-card .ico svg{width:16px;height:16px;}
-  .quick-stats .stat-card .val{font-size:var(--fs-base);}
-  .quick-stats .stat-card .lbl{font-size:9px;}
-}
-
-.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);}
 @media (max-width:640px){
-  .info-grid{grid-template-columns:1fr;gap:var(--sp-2);}
-  .info-row{padding:.4rem 0;}
-  .info-row .k{font-size:9px;}
-  .info-row .v{font-size:var(--fs-sm);}
+  .profile-hero{flex-direction:column;text-align:center;gap:var(--sp-3);padding:var(--sp-5);}
+  .profile-hero .actions{margin:0;} .profile-hero .meta{justify-content:center;}
 }
+
+.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin-bottom:var(--sp-5);}
+@media (max-width:900px){.quick-stats{grid-template-columns:repeat(2,1fr);}}
+
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-4);}
+@media (max-width:640px){.info-grid{grid-template-columns:1fr;}}
 .info-row{padding:.7rem 0;border-bottom:1px solid var(--border);}
 .info-row:last-child{border-bottom:0;}
 .info-row .k{font-size:var(--fs-xs);color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;}
@@ -62,21 +43,6 @@
   min-height:190px;border:2px dashed var(--border-strong);border-radius:var(--r-lg);
   color:var(--text-3);font-weight:600;transition:all var(--t) var(--ease);background:transparent;}
 .addr-add:hover{border-color:var(--brand-500);color:var(--brand-600);background:var(--brand-50);}
-
-/* Mobile account improvements */
-@media (max-width:767px){
-  .info-card{padding:var(--sp-3) !important;border-radius:var(--r-md);margin-bottom:var(--sp-3) !important;}
-  .info-card h3{font-size:var(--fs-sm);}
-  .info-card .btn-sm{padding:.35rem .7rem;min-height:30px;font-size:10px;}
-  .info-card .flex.justify-between{margin-bottom:var(--sp-2) !important;}
-  .mb-6{margin-bottom:var(--sp-3) !important;}
-  .mb-4{margin-bottom:var(--sp-2) !important;}
-  .addr-card{padding:var(--sp-3);border-radius:var(--r-md);}
-  .addr-card h4{font-size:var(--fs-sm);}
-  .addr-card address{font-size:var(--fs-xs);}
-  .setting-row{padding:var(--sp-3);flex-direction:column;align-items:flex-start;gap:var(--sp-2);}
-  .setting-row .txt b{font-size:var(--fs-sm);}
-}
 
 /* Notifications & messages */
 .notif-item{display:flex;gap:var(--sp-3);padding:var(--sp-4);border-radius:var(--r-md);
@@ -147,3 +113,179 @@
 .theme-picker button{padding:.5rem .9rem;border-radius:var(--r-full);border:1.5px solid var(--border);
   font-size:var(--fs-sm);font-weight:600;color:var(--text-2);transition:all var(--t) var(--ease);}
 .theme-picker button.active{background:var(--brand-600);border-color:var(--brand-600);color:#fff;}
+
+/* ==========================================================================
+   MOBILE ACCOUNT REDESIGN (<=767px)
+   Phone par profile page pehle desktop layout ko hi sikoda hua tha —
+   chhota hero, 4 stat cards ek line me, aur horizontal scroll wali nav.
+   Neeche sab kuch mobile-first dobara design kiya gaya hai.
+   ========================================================================== */
+@media (max-width: 767px) {
+
+  /* Breadcrumb phone par sirf jagah khaata hai — bottom-nav aur back gesture
+     se navigation waise hi ho jata hai, isliye account pages par hide. */
+  body.acct-page .breadcrumb { display: none; }
+
+  /* Hero khud hi bada naam dikhata hai, to duplicate "My Profile" heading
+     hata dete hain. Screen readers ke liye .sr-only rakh dete hain. */
+  body.acct-page .shell-account .page-head { padding: 0 0 .55rem; }
+  .shell-account .page-head h1 { font-size: 1.2rem; }
+  /* Profile page par hero already bada naam dikhata hai — duplicate H1 ko
+     visually hide karte hain (DOM me rehta hai, SEO/screen-reader safe). */
+  body.acct-page .page-head:has(+ .profile-hero) {
+    position: absolute; width: 1px; height: 1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
+  /* -------------------------- Hero card --------------------------------- */
+  .profile-hero {
+    display: block; text-align: left;
+    padding: var(--sp-5) var(--sp-4) var(--sp-4);
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--brand-700) 0%, var(--brand-600) 48%, var(--accent-500) 100%);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, .3);
+  }
+  .profile-hero::after { width: 200px; height: 200px; right: -60px; top: -80px; }
+  /* Doosra soft blob — depth ke liye. */
+  .profile-hero::before {
+    content: ""; position: absolute; left: -50px; bottom: -80px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: rgba(255, 255, 255, .09);
+  }
+
+  /* Avatar + naam ek row me, baaki neeche. */
+  .profile-hero .ph-top {
+    display: flex; align-items: center; gap: .85rem;
+    position: relative; z-index: 1;
+  }
+  .profile-hero img,
+  .profile-hero .ph-avatar {
+    width: 62px; height: 62px; flex: none;
+    border-radius: 50%; border: 2.5px solid rgba(255, 255, 255, .55);
+    display: grid; place-items: center; overflow: hidden;
+    background: rgba(255, 255, 255, .2);
+    font-weight: 800; font-size: 1.15rem; color: #fff;
+  }
+  .profile-hero h1 { font-size: 1.2rem; line-height: 1.25; }
+  .profile-hero p { font-size: 12px; }
+
+  /* Meta chips — plain text ki jagah pill badges. */
+  .profile-hero .meta {
+    justify-content: flex-start; gap: .4rem; margin-top: .75rem;
+    position: relative; z-index: 1;
+  }
+  .profile-hero .meta > span {
+    display: inline-flex; align-items: center; gap: .3rem;
+    padding: .28rem .6rem; border-radius: var(--r-full);
+    background: rgba(255, 255, 255, .18);
+    font-size: 11px; font-weight: 600;
+  }
+  .profile-hero .meta svg { width: 12px; height: 12px; }
+
+  /* Full-width edit button. */
+  .profile-hero .actions { margin: .85rem 0 0; }
+  .profile-hero .actions .btn {
+    width: 100%; min-height: 42px; font-weight: 700;
+    background: #fff; color: var(--brand-700);
+  }
+
+  /* ------------------------- Quick stats -------------------------------- */
+  .quick-stats { grid-template-columns: repeat(2, 1fr); gap: .6rem; margin-bottom: var(--sp-4); }
+  .quick-stats .stat-card {
+    flex-direction: column; align-items: flex-start; gap: .5rem;
+    padding: .85rem .8rem; border-radius: var(--r-md);
+  }
+  .quick-stats .stat-card .ico { width: 36px; height: 36px; border-radius: var(--r-sm); }
+  .quick-stats .stat-card .ico svg { width: 18px; height: 18px; }
+  .quick-stats .stat-card .val { font-size: 1.3rem; }
+  .quick-stats .stat-card .lbl { font-size: 10px; letter-spacing: .03em; }
+  .quick-stats .stat-card:active { transform: scale(.97); }
+
+  /* --------------------------- Info cards -------------------------------- */
+  .shell-account .info-card { padding: var(--sp-4); border-radius: var(--r-md); }
+  .shell-account .info-card h3 { font-size: var(--fs-md); }
+  .info-grid { grid-template-columns: 1fr; gap: 0; }
+  .info-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; padding: .65rem 0;
+  }
+  .info-row .k { font-size: 11px; flex: none; }
+  .info-row .v {
+    margin-top: 0; text-align: right; font-size: var(--fs-sm);
+    overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* -------------------------- Account nav -------------------------------- */
+  /* Horizontal scroll wali nav ko pill-chips ki tarah dikhate hain. */
+  .account-nav {
+    padding: .35rem; border-radius: var(--r-full);
+    margin: 0 0 var(--sp-3);
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    /* Header ke neeche chipki rehti hai — scroll karte waqt section
+       switch karna ek tap door rehta hai. */
+    position: sticky; top: 4px; z-index: 5;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    box-shadow: var(--sh-sm);
+  }
+  /* Sidebar wrapper apne aap me sticky context tod deta tha. */
+  .shell-account > aside { position: sticky; top: 0; z-index: 5; }
+  .shell-account { gap: 0; }
+  .account-nav a {
+    padding: .5rem .85rem; border-radius: var(--r-full);
+    font-size: 12.5px; font-weight: 600; scroll-snap-align: start;
+  }
+  .account-nav a svg { width: 16px; height: 16px; }
+  .account-nav a.active {
+    background: linear-gradient(120deg, var(--brand-600), var(--accent-500));
+    color: #fff;
+  }
+  .account-nav a.active svg { color: #fff; }
+  /* Logout link ko nav se hata dete hain — sheet aur settings me already hai. */
+  .account-nav #nav-logout { display: none; }
+
+  /* ---------------------------- Settings --------------------------------- */
+  .settings-group > h3 { padding: var(--sp-4); font-size: var(--fs-base); }
+  .setting-row { padding: var(--sp-4); gap: var(--sp-3); }
+  .setting-row .txt b { font-size: var(--fs-base); }
+  .setting-row .txt span { display: block; margin-top: .1rem; line-height: 1.45; }
+  /* Jin rows me toggle hai wo side-by-side theek hain. Lekin jin me
+     multi-button control hai (theme picker) wahan buttons squeeze ho ke
+     screen se bahar nikal jate the — unhe apni poori row de dete hain. */
+  .setting-row:has(.theme-picker) { flex-direction: column; align-items: stretch; }
+  .theme-picker { width: 100%; }
+  .theme-picker button { flex: 1; padding: .55rem .3rem; white-space: nowrap; }
+  /* Toggle ko sikudne nahi dete. */
+  .setting-row .switch { flex: none; }
+
+  /* --------------------------- Address card ------------------------------ */
+  .addr-card { padding: var(--sp-4); }
+  .addr-card .tag { top: var(--sp-3); right: var(--sp-3); }
+
+  /* --------------------------- Recent orders ----------------------------- */
+  .ro-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .7rem 0; border-bottom: 1px solid var(--border);
+  }
+  .ro-item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .ro-item img {
+    width: 52px; height: 52px; flex: none;
+    border-radius: var(--r-sm); object-fit: cover; background: var(--surface-3);
+  }
+}
+
+/* Recent-order row (desktop + mobile dono ke liye base styles) */
+.ro-item { display: flex; align-items: center; gap: .85rem;
+  padding: .85rem 0; border-bottom: 1px solid var(--border); }
+.ro-item:last-child { border-bottom: 0; }
+.ro-item img { width: 48px; height: 48px; border-radius: 10px;
+  object-fit: cover; background: var(--surface-3); flex: none; }
+.ro-item .ro-mid { flex: 1; min-width: 0; }
+.ro-item .ro-name { font-weight: 600; font-size: var(--fs-sm);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ro-item .ro-sub { font-size: var(--fs-xs); color: var(--text-3); margin-top: .1rem; }
+.ro-item .ro-right { text-align: right; flex: none; }
+.ro-item .ro-right .amt { font-weight: 700; font-size: var(--fs-sm); }
+.ro-item .ro-right .badge { margin-top: .2rem; }

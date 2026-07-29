@@ -3,30 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PShop — Online Shopping</title>
+<title>PShop — Loading...</title>
 <meta http-equiv="refresh" content="0;url=PShop/index.html">
-<link rel="icon" href="PShop/assets/img/icons/favicon.svg" type="image/svg+xml">
 <style>
-body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;
-min-height:100vh;margin:0;background:#f0f4ff;color:#1e293b;text-align:center}
-.wrap{padding:2rem}
-a{color:#2563eb;text-decoration:none;font-weight:600;font-size:1.1rem}
-a:hover{text-decoration:underline}
-p{margin:.5rem 0;color:#64748b;font-size:.9rem}
-.spinner{width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:#2563eb;
-border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
-@keyframes spin{to{transform:rotate(360deg)}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;
+  font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6fb;color:#0f172a;}
+.box{text-align:center;padding:2rem;}
+.box h1{font-size:1.5rem;margin-bottom:.5rem;}
+.box p{color:#64748b;margin-bottom:1.5rem;}
+.box a{display:inline-block;padding:.7rem 1.5rem;background:#2563eb;color:#fff;
+  text-decoration:none;border-radius:8px;font-weight:600;}
+.box a:hover{background:#1d4ed8;}
 </style>
-<script>
-// Instant redirect for browsers that ignore meta refresh
-window.location.replace('PShop/index.html');
-</script>
 </head>
 <body>
-<div class="wrap">
-  <div class="spinner"></div>
-  <p>Redirecting to PShop...</p>
-  <a href="PShop/index.html">Click here if not redirected</a>
+<div class="box">
+  <h1>PShop</h1>
+  <p>Redirecting to store...</p>
+  <a href="PShop/index.html">Open PShop</a>
 </div>
+<script>
+// Auto redirect
+window.location.replace('PShop/index.html');
+</script>
 </body>
 </html>

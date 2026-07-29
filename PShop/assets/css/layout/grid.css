@@ -1,22 +1,20 @@
 /* ============================= Layout shells ============================== */
-/* Prevent layout shift on mobile */
-@media (max-width:767px){
-  html{overflow-x:hidden;}
-  body{overflow-x:hidden;}
-}
 /* Two-column shell: sticky sidebar + content (shop, category, search, account) */
 .shell{display:grid;grid-template-columns:270px 1fr;gap:var(--sp-6);align-items:start;}
+.shell > *{min-width:0;}   /* overflow guard — dekho .shell-account ka note */
 .shell > .sidebar{position:sticky;top:calc(var(--header-h) + var(--sp-4));max-height:calc(100vh - var(--header-h) - var(--sp-8));
   overflow-y:auto;padding-right:.35rem;}
 @media (max-width:1023px){
   .shell{grid-template-columns:1fr;}
   .shell > .sidebar{display:none;}
 }
-.shell-account{display:grid;grid-template-columns:220px 1fr;gap:var(--sp-5);align-items:start;}
-@media (max-width:1023px){.shell-account{grid-template-columns:1fr;gap:var(--sp-3);}}
-@media (min-width:1024px) and (max-width:1279px){
-  .shell-account{grid-template-columns:200px 1fr;gap:var(--sp-4);}
-}
+.shell-account{display:grid;grid-template-columns:250px 1fr;gap:var(--sp-6);align-items:start;}
+/* Grid items ka default `min-width:auto` hota hai — iski wajah se andar ka
+   horizontally-scrolling .account-nav poore page ko chauda kar deta tha
+   (mobile par right side ka content viewport se bahar chala jaata tha).
+   min-width:0 lagate hi child apne track me hi rehta hai. */
+.shell-account > *{min-width:0;}
+@media (max-width:1023px){.shell-account{grid-template-columns:1fr;}}
 
 /* Checkout shell: form + sticky summary */
 .shell-checkout{display:grid;grid-template-columns:1fr 380px;gap:var(--sp-6);align-items:start;}
@@ -38,45 +36,34 @@
 
 /* Account nav */
 .account-nav{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:var(--sp-2);position:sticky;top:calc(var(--header-h) + var(--sp-4));}
-.account-nav a{display:flex;align-items:center;gap:.6rem;padding:.55rem .65rem;border-radius:var(--r-sm);
+  padding:var(--sp-3);position:sticky;top:calc(var(--header-h) + var(--sp-4));}
+.account-nav a{display:flex;align-items:center;gap:.7rem;padding:.65rem .75rem;border-radius:var(--r-sm);
   font-size:var(--fs-sm);font-weight:500;color:var(--text-2);transition:all var(--t-fast) var(--ease);}
 .account-nav a:hover{background:var(--surface-3);}
 .account-nav a.active{background:var(--brand-50);color:var(--brand-700);font-weight:700;}
-.account-nav a svg{width:16px;height:16px;flex:none;}
-.account-head{display:flex;align-items:center;gap:.7rem;padding:var(--sp-3) var(--sp-2);
+.account-nav a svg{width:18px;height:18px;flex:none;}
+.account-head{display:flex;align-items:center;gap:.8rem;padding:var(--sp-4) var(--sp-3);
   border-bottom:1px solid var(--border);margin-bottom:var(--sp-2);}
-.account-head img{width:40px;height:40px;border-radius:50%;}
+.account-head img{width:48px;height:48px;border-radius:50%;}
 @media (max-width:1023px){
-  .account-nav{position:static;display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;
-    padding:var(--sp-2);border-radius:var(--r-md);margin-bottom:var(--sp-2);}
+  .account-nav{position:static;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;}
   .account-nav::-webkit-scrollbar{display:none;}
   .account-nav .account-head{display:none;}
-  .account-nav a{flex:none;white-space:nowrap;padding:.4rem .6rem;font-size:11px;border-radius:var(--r-full);
-    border:1px solid var(--border);gap:.35rem;}
-  .account-nav a.active{background:var(--brand-600);color:#fff;border-color:var(--brand-600);}
-  .account-nav a svg{width:14px;height:14px;}
+  .account-nav a{flex:none;white-space:nowrap;}
 }
 
 /* Breadcrumb */
 .breadcrumb{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;font-size:var(--fs-xs);
-  color:var(--text-3);padding:var(--sp-3) 0;}
+  color:var(--text-3);padding:var(--sp-4) 0;}
 .breadcrumb a{transition:color var(--t-fast) var(--ease);}
 .breadcrumb a:hover{color:var(--brand-600);}
 .breadcrumb .sep{opacity:.5;}
 .breadcrumb [aria-current]{color:var(--text);font-weight:600;}
-@media (max-width:767px){
-  .breadcrumb{padding:var(--sp-2) 0;font-size:10px;gap:.25rem;}
-}
 
 /* Page header band */
-.page-head{padding:var(--sp-4) 0 var(--sp-3);}
-.page-head h1{font-size:clamp(1.2rem,2.5vw,1.6rem);letter-spacing:-.02em;}
-.page-head p{color:var(--text-3);font-size:var(--fs-sm);margin-top:.2rem;}
-@media (max-width:767px){
-  .page-head{padding:var(--sp-2) 0 var(--sp-2);}
-  .page-head h1{font-size:1.15rem;}
-}
+.page-head{padding:var(--sp-6) 0 var(--sp-4);}
+.page-head h1{font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.02em;}
+.page-head p{color:var(--text-3);font-size:var(--fs-sm);margin-top:.3rem;}
 
 /* Sticky action bar (mobile buy bar) */
 .action-bar{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-sticky);display:flex;gap:.6rem;

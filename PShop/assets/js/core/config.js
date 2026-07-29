@@ -19,7 +19,7 @@ export const CONFIG = Object.freeze({
 
      Bas neeche quotes ke andar paste kar dein. Bas itna hi kaam hai.
      ====================================================================== */
-  API_BASE_URL: 'https://script.google.com/macros/s/AKfycbzPf0l9oYhHLCt-iC50o9NPw5MP-wmE4uZXyy--kVtxGM2AyG7HcE0aNmc602p0R2cb/exec',
+  API_BASE_URL: 'https://script.google.com/macros/s/AKfycbxoXbHd5wLLpSF0GppqGpqLVyU2yv547Lu4knDFNJbxgnwXuvTsOck8lsxIk7aWLONV/exec',
   /* ⬆⬆⬆  Khaali chhoda to website demo data par chalegi (kuch tootega nahi) ⬆⬆⬆ */
 
   API_TIMEOUT: 15000,
@@ -33,7 +33,7 @@ export const CONFIG = Object.freeze({
   SHIPPING_FEE: 79,
   EXPRESS_FEE: 129,
   TAX_RATE: 0.18,           // GST shown as inclusive breakdown
-  COD_FEE: 0,
+  COD_FEE: 29,
   MAX_QTY_PER_ITEM: 10,
   MAX_COMPARE: 4,
 

@@ -24,22 +24,20 @@ page(async () => {
     const btn = e.target.querySelector('button');
     btn.classList.add('is-loading');
     const id = $('#identifier').value.trim();
-    try {
-      const res = await API.sendOtp({ identifier: id, purpose: 'reset' });
-      btn.classList.remove('is-loading');
-      if (!res.success) { toast.error(res.message); setError('identifier', true, res.message); return; }
-      identifier = id;
-      goStep(2);
-      $('#otp-target').innerHTML = `Code sent to <b>${esc(res.data.masked)}</b>` +
-        (res.data.demoCode ? `<br><span class="xs muted">Demo code: <b>${esc(res.data.demoCode)}</b></span>` : '');
-      toast.success(res.message);
-      otp = buildOtpInputs('otp-group', () => $('#verify-form').requestSubmit());
-      otp.focus();
-      startTimer();
-    } catch (err) {
-      btn.classList.remove('is-loading');
-      toast.error('Request failed. Please try again.');
-    }
+    const res = await API.sendOtp({ identifier: id, purpose: 'reset' });
+    btn.classList.remove('is-loading');
+
+    if (!res.success) { toast.error(res.message); setError('identifier', true, res.message); return; }
+
+    identifier = id;
+    goStep(2);
+    $('#otp-target').innerHTML = `Code sent to <b>${esc(res.data.masked)}</b>` +
+      (res.data.demoCode ? `<br><span class="xs muted">Demo code: <b>${esc(res.data.demoCode)}</b></span>` : '');
+    toast.success(res.message);
+
+    otp = buildOtpInputs('otp-group', () => $('#verify-form').requestSubmit());
+    otp.focus();
+    startTimer();
   });
 
   /* ---------------------------- step 2 ---------------------------------- */
@@ -49,18 +47,13 @@ page(async () => {
     if (code.length !== CONFIG.OTP_LENGTH) return toast.warn('Please enter the complete 6-digit code.');
     const btn = e.target.querySelector('button[type="submit"]');
     btn.classList.add('is-loading');
-    try {
-      const res = await API.verifyOtp({ code });
-      btn.classList.remove('is-loading');
-      if (!res.success) { toast.error(res.message); otp.clear(); return; }
-      timer?.stop();
-      toast.success('Identity verified.');
-      goStep(3);
-      $('#new-pw').focus();
-    } catch (err) {
-      btn.classList.remove('is-loading');
-      toast.error('Verification failed. Please try again.');
-    }
+    const res = await API.verifyOtp({ code });
+    btn.classList.remove('is-loading');
+    if (!res.success) { toast.error(res.message); otp.clear(); return; }
+    timer?.stop();
+    toast.success('Identity verified.');
+    goStep(3);
+    $('#new-pw').focus();
   });
 
   $('#resend').addEventListener('click', async () => {
@@ -85,16 +78,12 @@ page(async () => {
 
     const btn = e.target.querySelector('button');
     btn.classList.add('is-loading');
-    try {
-      const res = await API.resetPassword({ identifier, password: $('#new-pw').value });
-      btn.classList.remove('is-loading');
-      if (!res.success) return toast.error(res.message);
-      toast.success(res.message);
-      setTimeout(() => location.href = url('pages/login.html'), 900);
-    } catch (err) {
-      btn.classList.remove('is-loading');
-      toast.error('Reset failed. Please try again.');
-    }
+    const res = await API.resetPassword({ identifier, password: $('#new-pw').value });
+    btn.classList.remove('is-loading');
+
+    if (!res.success) return toast.error(res.message);
+    toast.success(res.message);
+    setTimeout(() => location.href = url('pages/login.html'), 900);
   });
 
   ['new-pw', 'confirm-pw', 'identifier'].forEach(id =>

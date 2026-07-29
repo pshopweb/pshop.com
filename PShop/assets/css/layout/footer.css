@@ -1,5 +1,6 @@
-/* ================================= Footer - Hidden ================================= */
-.site-footer{display:none;}
+/* ================================= Footer ================================= */
+.site-footer{margin-top:var(--sp-12);background:var(--surface);border-top:1px solid var(--border);}
+@media (max-width:767px){.site-footer{padding-bottom:var(--bottomnav-h);}}
 
 /* Trust strip */
 .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4);
@@ -49,6 +50,16 @@
 }
 .pay-marks{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:var(--sp-3);}
 .pay-marks img{height:30px;width:auto;}
+
+/* App download badges */
+.app-badges{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:var(--sp-4);}
+.app-badge{display:block;border-radius:var(--r-md);overflow:hidden;transition:transform var(--t) var(--ease);}
+.app-badge:hover{transform:scale(1.05);}
+.app-badge svg{display:block;}
+@media (max-width:640px){
+  .app-badges{margin-top:var(--sp-3);}
+  .app-badge svg{width:100px;height:34px;}
+}
 
 .footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);
   padding:var(--sp-4) 0;border-top:1px solid var(--border);font-size:var(--fs-xs);color:var(--text-3);flex-wrap:wrap;}

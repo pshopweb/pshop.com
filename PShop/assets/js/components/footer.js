@@ -26,6 +26,7 @@ const COLS = [
     ['Returns & Refunds', P('faq.html#returns')], ['Shipping Info', P('faq.html#delivery')]
   ]},
   { title: 'Company', links: [
+    ['About PShop', P('about.html')],
     ['Privacy Policy', P('privacy.html')],
     ['Terms of Use', P('terms.html')],
     ['Contact Us', P('contact.html')],
@@ -87,6 +88,14 @@ export function renderFooter({ newsletter = true } = {}) {
             <img src="${url('assets/img/icons/pay-razorpay.svg')}" alt="Razorpay accepted" width="120" height="48">
             <img src="${url('assets/img/icons/pay-visa.svg')}" alt="Visa accepted" width="120" height="48">
             <img src="${url('assets/img/icons/pay-cod.svg')}" alt="Cash on delivery available" width="120" height="48">
+          </div>
+          <div class="app-badges">
+            <a href="#" class="app-badge" aria-label="Download on App Store">
+              <svg viewBox="0 0 120 40" width="120" height="40"><rect width="120" height="40" rx="6" fill="#000"/><text x="60" y="15" text-anchor="middle" fill="#fff" font-size="8" font-family="system-ui">Download on the</text><text x="60" y="28" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="system-ui">App Store</text></svg>
+            </a>
+            <a href="#" class="app-badge" aria-label="Get it on Google Play">
+              <svg viewBox="0 0 120 40" width="120" height="40"><rect width="120" height="40" rx="6" fill="#000"/><text x="60" y="15" text-anchor="middle" fill="#fff" font-size="8" font-family="system-ui">GET IT ON</text><text x="60" y="28" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="system-ui">Google Play</text></svg>
+            </a>
           </div>
         </div>
         ${COLS.map(c => `

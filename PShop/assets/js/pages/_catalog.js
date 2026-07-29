@@ -7,7 +7,7 @@ import { CONFIG, url } from '../core/config.js';
 import { $, $$, el, esc, money, qs, qsAll, setQuery, debounce, clamp, compact } from '../core/utils.js';
 import { API } from '../core/api.js';
 import { renderProducts } from '../components/product-card.js';
-import { skeletonCards, emptyState } from '../components/lazy-load.js';
+import { emptyState } from '../components/lazy-load.js';
 import { icon } from '../components/icons.js';
 import { toast } from '../components/toast.js';
 
@@ -45,7 +45,6 @@ export function createCatalog(cfg) {
 
   /* ------------------------------ data flow ----------------------------- */
   async function load({ scroll = false } = {}) {
-    if (!scroll) skeletonCards(CONFIG.PAGE_SIZE, grid);
     const params = {
       q: state.q || undefined,
       category: state.category || undefined,

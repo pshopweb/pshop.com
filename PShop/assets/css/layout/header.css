@@ -13,33 +13,11 @@
 .logo img{height:38px;width:auto;}
 @media (max-width:767px){.logo img{height:32px;}}
 
-/* Search */
-.search-box{position:relative;flex:1;max-width:660px;}
-.search-box input{width:100%;padding:.72rem 3rem .72rem 2.9rem;min-height:46px;
-  border:1.5px solid var(--border);border-radius:var(--r-full);background:var(--surface);
-  transition:all var(--t) var(--ease);}
-.search-box input:focus{outline:0;border-color:var(--brand-500);box-shadow:0 0 0 4px rgba(59,130,246,.14);}
-.search-box .s-ico{position:absolute;left:1.05rem;top:50%;transform:translateY(-50%);color:var(--text-3);}
-.search-box .s-ico svg{width:19px;height:19px;}
-.search-box .s-btn{position:absolute;right:5px;top:50%;transform:translateY(-50%);
-  width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(120deg,var(--brand-600),var(--accent-500));color:#fff;}
-.search-box .s-btn svg{width:17px;height:17px;}
+/* Search - removed from header, only on home page */
+.search-box{display:none;}
 
-/* Suggestions */
-.suggest{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--sh-lg);overflow:hidden;
-  max-height:70vh;overflow-y:auto;z-index:var(--z-sticky);display:none;}
-.suggest.open{display:block;animation:fadeUp .2s var(--ease-out);}
-.suggest-head{padding:.55rem .9rem;font-size:var(--fs-xs);font-weight:700;color:var(--text-3);
-  text-transform:uppercase;letter-spacing:.05em;background:var(--surface-2);}
-.suggest-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .9rem;cursor:pointer;
-  transition:background var(--t-fast) var(--ease);}
-.suggest-item:hover,.suggest-item.active{background:var(--surface-3);}
-.suggest-item img{width:40px;height:40px;border-radius:var(--r-sm);object-fit:cover;flex:none;background:var(--surface-3);}
-.suggest-item .si-name{font-size:var(--fs-sm);font-weight:600;}
-.suggest-item .si-meta{font-size:var(--fs-xs);color:var(--text-3);}
-.suggest-item svg{width:16px;height:16px;color:var(--text-3);flex:none;}
+/* Suggestions - disabled */
+.suggest{display:none !important;}
 
 /* Header action icons */
 .header-actions{display:flex;align-items:center;gap:.35rem;flex:none;margin-left:auto;}

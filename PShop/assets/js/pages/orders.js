@@ -10,7 +10,7 @@ import { renderAccountNav } from './_account-nav.js';
 import { statusBadge } from './_order-ui.js';
 import { icon } from '../components/icons.js';
 import { toast } from '../components/toast.js';
-import { emptyState, skeletonRows, lazyImages } from '../components/lazy-load.js';
+import { emptyState, lazyImages } from '../components/lazy-load.js';
 
 let allOrders = [], filter = 'all', term = '';
 
@@ -20,7 +20,6 @@ page(async () => {
 
   renderAccountNav('orders.html');
   $('#ico-search').innerHTML = icon('search', 18);
-  skeletonRows(4, $('#orders-list'));
 
   const res = await API.getOrders({ userId: Auth.id() });
   allOrders = res.success ? res.data.items : [];

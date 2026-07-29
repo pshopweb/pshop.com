@@ -59,9 +59,5 @@
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .25s var(--ease-out),transform .25s var(--ease-out);}
 .reveal.visible{opacity:1;transform:none;}
 
-/* Page loader */
-.page-loader{position:fixed;inset:0;z-index:var(--z-loader);display:grid;place-items:center;
-  background:var(--bg);transition:opacity .25s ease,visibility .25s;}
-.page-loader.done{opacity:0;visibility:hidden;}
-.page-loader .ring{width:44px;height:44px;border-radius:50%;border:3px solid var(--brand-100);
-  border-top-color:var(--brand-600);animation:spin .6s linear infinite;}
+/* Page loader - disabled */
+.page-loader{display:none;}

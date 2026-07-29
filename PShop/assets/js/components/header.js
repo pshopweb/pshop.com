@@ -40,15 +40,6 @@ export async function renderHeader(active = '') {
         <img src="${url('assets/img/icons/logo.svg')}" alt="PShop" width="220" height="56">
       </a>
 
-      <form class="search-box" id="search-form" role="search" autocomplete="off">
-        <span class="s-ico">${icon('search', 19)}</span>
-        <label class="sr-only" for="q">Search products</label>
-        <input type="search" id="q" name="q" placeholder="Search for products, brands and more"
-               aria-label="Search products" aria-expanded="false" aria-controls="suggest" role="combobox">
-        <button class="s-btn" type="submit" aria-label="Search">${icon('search', 17)}</button>
-        <div class="suggest" id="suggest" role="listbox" aria-label="Search suggestions"></div>
-      </form>
-
       <nav class="header-actions" aria-label="Account and cart">
         <button class="h-action" data-theme-toggle aria-label="Toggle theme"></button>
 
@@ -107,7 +98,6 @@ export async function renderHeader(active = '') {
   ${accountSheet(user)}`;
 
   buildMobileNav(user);
-  wireSearch();
   wireDropdown();
   wireDrawer();
   wireAccountSheet();
@@ -387,6 +377,7 @@ function buildMobileNav(user) {
 
     <div class="mnav-group">
       <h5>Help &amp; info</h5>
+      <a class="mnav-link" href="${P('about.html')}">${icon('info', 19)} About Us</a>
       <a class="mnav-link" href="${P('track-order.html')}">${icon('truck', 19)} Track Order</a>
       <a class="mnav-link" href="${P('faq.html')}">${icon('helpCircle', 19)} FAQ</a>
       <a class="mnav-link" href="${P('contact.html')}">${icon('mail', 19)} Contact</a>

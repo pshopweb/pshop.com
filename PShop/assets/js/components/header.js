@@ -40,6 +40,15 @@ export async function renderHeader(active = '') {
         <img src="${url('assets/img/icons/logo.svg')}" alt="PShop" width="220" height="56">
       </a>
 
+      <form class="search-box" id="search-form" role="search" autocomplete="off">
+        <span class="s-ico">${icon('search', 19)}</span>
+        <label class="sr-only" for="q">Search products</label>
+        <input type="search" id="q" name="q" placeholder="Search for products, brands and more"
+               aria-label="Search products" aria-expanded="false" aria-controls="suggest" role="combobox">
+        <button class="s-btn" type="submit" aria-label="Search">${icon('search', 17)}</button>
+        <div class="suggest" id="suggest" role="listbox" aria-label="Search suggestions"></div>
+      </form>
+
       <nav class="header-actions" aria-label="Account and cart">
         <button class="h-action" data-theme-toggle aria-label="Toggle theme"></button>
 
@@ -98,6 +107,7 @@ export async function renderHeader(active = '') {
   ${accountSheet(user)}`;
 
   buildMobileNav(user);
+  wireSearch();
   wireDropdown();
   wireDrawer();
   wireAccountSheet();
@@ -383,14 +393,6 @@ function buildMobileNav(user) {
       <a class="mnav-link" href="${P('contact.html')}">${icon('mail', 19)} Contact</a>
       <a class="mnav-link" href="${P('privacy.html')}">${icon('shield', 19)} Privacy Policy</a>
       <a class="mnav-link" href="${P('terms.html')}">${icon('file', 19)} Terms of Use</a>
-    </div>
-
-    <div class="mnav-group">
-      <h5>Follow Us</h5>
-      <a class="mnav-link" href="#">${icon('youtube', 19)} YouTube</a>
-      <a class="mnav-link" href="#">${icon('instagram', 19)} Instagram</a>
-      <a class="mnav-link" href="#">${icon('facebook', 19)} Facebook</a>
-      <a class="mnav-link" href="#">${icon('whatsapp', 19)} WhatsApp</a>
     </div>
 
     <div class="mnav-group">

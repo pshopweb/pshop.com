@@ -1,9 +1,7 @@
 /* ============================ Loading skeletons =========================== */
 .skeleton{position:relative;overflow:hidden;background:var(--surface-3);border-radius:var(--r-sm);}
-.skeleton::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-  animation:shimmer 1.4s infinite;}
-[data-theme="dark"] .skeleton::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);}
+/* Shimmer removed for speed */
+[data-theme="dark"] .skeleton::after{background:transparent;}
 @keyframes shimmer{100%{transform:translateX(100%);}}
 .sk-text{height:12px;margin-bottom:.5rem;border-radius:var(--r-full);}
 .sk-text.w-40{width:40%;} .sk-text.w-60{width:60%;} .sk-text.w-80{width:80%;} .sk-text.w-100{width:100%;}
@@ -22,8 +20,8 @@
 }
 .sk-row{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) 0;}
 
-/* Lazy image fade-in */
-img.lazy{opacity:0;transition:opacity .45s var(--ease);background:var(--surface-3);}
+/* Lazy image fade-in — instant for speed */
+img.lazy{opacity:0;transition:opacity .2s ease;background:var(--surface-3);}
 img.lazy.loaded{opacity:1;}
 
 /* Empty state */

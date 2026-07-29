@@ -37,11 +37,17 @@
 .footer-col a{display:block;padding:.28rem 0;font-size:var(--fs-sm);color:var(--text-3);
   transition:color var(--t-fast) var(--ease);}
 .footer-col a:hover{color:var(--brand-600);}
-.socials{display:flex;gap:.5rem;margin-top:var(--sp-4);}
-.socials a{width:38px;height:38px;border-radius:var(--r-full);display:grid;place-items:center;
-  background:var(--surface-3);color:var(--text-2);transition:all var(--t) var(--ease);}
-.socials a:hover{background:var(--brand-600);color:#fff;transform:translateY(-3px);}
-.socials svg{width:18px;height:18px;}
+.socials{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:var(--sp-4);}
+.socials a{display:flex;align-items:center;gap:.4rem;padding:.45rem .8rem;border-radius:var(--r-full);
+  background:var(--surface-3);color:var(--text-2);font-size:var(--fs-xs);font-weight:600;
+  transition:all var(--t) var(--ease);}
+.socials a:hover{background:var(--brand-600);color:#fff;transform:translateY(-2px);box-shadow:var(--sh-sm);}
+.socials svg{width:16px;height:16px;flex:none;}
+@media (max-width:640px){
+  .socials a span{display:none;}
+  .socials a{width:38px;height:38px;padding:0;justify-content:center;}
+  .socials svg{width:18px;height:18px;}
+}
 .pay-marks{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:var(--sp-3);}
 .pay-marks img{height:30px;width:auto;}
 

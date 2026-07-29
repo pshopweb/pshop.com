@@ -5,12 +5,7 @@
   border-bottom:1px solid var(--border);transition:box-shadow var(--t) var(--ease);}
 .site-header.scrolled{box-shadow:var(--sh-md);}
 
-/* Announcement strip */
-.announce{background:linear-gradient(90deg,var(--brand-700),var(--accent-600));color:#fff;
-  font-size:var(--fs-xs);font-weight:600;text-align:center;padding:.42rem var(--sp-4);
-  display:flex;align-items:center;justify-content:center;gap:.5rem;}
-.announce a{text-decoration:underline;text-underline-offset:2px;}
-@media (max-width:767px){.announce{font-size:10.5px;padding:.35rem .6rem;}}
+/* Announcement strip — removed */
 
 /* Main bar */
 .header-main{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3) 0;}

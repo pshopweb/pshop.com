@@ -1,4 +1,24 @@
 /* ============================== Home page ================================= */
+/* Home search bar --------------------------------------------------------- */
+.home-search{margin-top:var(--sp-4);}
+.hs-form{display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem .6rem 1.2rem;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-full);
+  box-shadow:var(--sh-sm);transition:all var(--t) var(--ease);}
+.hs-form:focus-within{border-color:var(--brand-500);box-shadow:0 0 0 4px rgba(59,130,246,.12);}
+.hs-form svg{width:20px;height:20px;color:var(--text-3);flex:none;}
+.hs-form input{flex:1;border:0;outline:0;background:transparent;font-size:var(--fs-base);
+  color:var(--text);min-height:40px;}
+.hs-form input::placeholder{color:var(--text-3);}
+.hs-form button{padding:.55rem 1.4rem;border-radius:var(--r-full);border:0;
+  background:var(--brand-600);color:#fff;font-weight:700;font-size:var(--fs-sm);
+  cursor:pointer;transition:background var(--t) var(--ease);white-space:nowrap;}
+.hs-form button:hover{background:var(--brand-700);}
+@media (max-width:767px){
+  .home-search{margin-top:var(--sp-3);}
+  .hs-form{padding:.5rem .6rem .5rem 1rem;border-radius:var(--r-lg);}
+  .hs-form button{padding:.5rem 1rem;font-size:var(--fs-xs);}
+}
+
 /* Hero ------------------------------------------------------------------- */
 .hero{padding-top:var(--sp-5);}
 .hero-inner{display:grid;grid-template-columns:250px 1fr;gap:var(--sp-4);align-items:stretch;}
@@ -18,7 +38,7 @@
 .hero-slider{position:relative;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-md);
   background:var(--surface-3);aspect-ratio:1600/620;}
 @media (max-width:767px){.hero-slider{aspect-ratio:16/10;border-radius:var(--r-lg);}}
-.hero-slider .slides{display:flex;height:100%;transition:transform .6s var(--ease-out);}
+.hero-slider .slides{display:flex;height:100%;transition:transform .35s var(--ease-out);}
 .hero-slide{position:relative;min-width:100%;height:100%;}
 .hero-slide img{width:100%;height:100%;object-fit:cover;}
 .hero-copy{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;

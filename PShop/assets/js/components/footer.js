@@ -26,9 +26,11 @@ const COLS = [
     ['Returns & Refunds', P('faq.html#returns')], ['Shipping Info', P('faq.html#delivery')]
   ]},
   { title: 'Company', links: [
-    ['About PShop', P('about.html')], ['Privacy Policy', P('privacy.html')],
-    ['Terms of Use', P('terms.html')], ['Careers', P('about.html#careers')],
-    ['Press', P('about.html#press')], ['Sitemap', P('shop.html')]
+    ['Privacy Policy', P('privacy.html')],
+    ['Terms of Use', P('terms.html')],
+    ['Contact Us', P('contact.html')],
+    ['FAQ', P('faq.html')],
+    ['Sitemap', P('shop.html')]
   ]}
 ];
 
@@ -74,11 +76,11 @@ export function renderFooter({ newsletter = true } = {}) {
           <img src="${url('assets/img/icons/logo.svg')}" alt="PShop" width="220" height="56">
           <p>${CONFIG.TAGLINE}. Genuine products, honest prices and delivery to 19,000+ pincodes across India.</p>
           <div class="socials">
-            <a href="#" aria-label="PShop on Facebook">${icon('facebook', 18)}</a>
-            <a href="#" aria-label="PShop on Twitter">${icon('twitter', 18)}</a>
-            <a href="#" aria-label="PShop on Instagram">${icon('instagram', 18)}</a>
-            <a href="#" aria-label="PShop on YouTube">${icon('youtube', 18)}</a>
-            <a href="#" aria-label="PShop on WhatsApp">${icon('whatsapp', 18)}</a>
+            <a href="#" aria-label="PShop on Facebook">${icon('facebook', 20)}<span>Facebook</span></a>
+            <a href="#" aria-label="PShop on Instagram">${icon('instagram', 20)}<span>Instagram</span></a>
+            <a href="#" aria-label="PShop on YouTube">${icon('youtube', 20)}<span>YouTube</span></a>
+            <a href="#" aria-label="PShop on Twitter">${icon('twitter', 20)}<span>Twitter</span></a>
+            <a href="#" aria-label="PShop on WhatsApp">${icon('whatsapp', 20)}<span>WhatsApp</span></a>
           </div>
           <div class="pay-marks" aria-label="Accepted payment methods">
             <img src="${url('assets/img/icons/pay-upi.svg')}" alt="UPI accepted" width="120" height="48">

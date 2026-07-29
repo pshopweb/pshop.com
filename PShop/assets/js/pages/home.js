@@ -9,7 +9,6 @@ import { $, $$, esc, compact, unique } from '../core/utils.js';
 import { API } from '../core/api.js';
 import { Recent } from '../core/state.js';
 import { renderProducts, renderRail } from '../components/product-card.js';
-import { skeletonCards } from '../components/lazy-load.js';
 import { icon } from '../components/icons.js';
 import { toast } from '../components/toast.js';
 
@@ -19,13 +18,6 @@ const remember = list => { list.forEach(p => cache.set(p.id, p)); return list; }
 
 page(async () => {
   await initApp({ page: 'index', nav: 'home', getProduct: id => cache.get(id) });
-
-  // Show skeletons immediately so the layout never jumps.
-  skeletonCards(6, $('#featured-grid'));
-  skeletonCards(6, $('#best-grid'));
-  skeletonCards(6, $('#rec-grid'));
-  $('#flash-rail').innerHTML = skeletonCards(6);
-  $('#trending-rail').innerHTML = skeletonCards(6);
 
   renderUSP();
   startCountdown();

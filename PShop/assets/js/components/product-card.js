@@ -91,7 +91,7 @@ export function renderProducts(container, products, opts = {}) {
   container.innerHTML = products.map(p => productCard(p, opts)).join('');
   lazyImages(container);
   requestAnimationFrame(() => $$('.reveal', container).forEach((n, i) => {
-    setTimeout(() => n.classList.add('visible'), Math.min(i * 35, 400));
+    setTimeout(() => n.classList.add('visible'), Math.min(i * 15, 150));
   }));
 }
 

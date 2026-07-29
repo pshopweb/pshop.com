@@ -31,13 +31,6 @@ export async function renderHeader(active = '') {
 
   mount.innerHTML = `
   <header class="site-header" id="header">
-    <div class="announce">
-      ${icon('zap', 13)}
-      <span>Free delivery above ${CONFIG.CURRENCY}${CONFIG.FREE_SHIP_ABOVE}
-        &middot; Easy returns &amp; COD available</span>
-      <a href="${P('shop.html?tag=flash')}">Shop deals</a>
-    </div>
-
     <div class="container header-main">
       <button class="hamburger" id="btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         ${icon('menu', 24)}
@@ -396,10 +389,17 @@ function buildMobileNav(user) {
       <h5>Help &amp; info</h5>
       <a class="mnav-link" href="${P('track-order.html')}">${icon('truck', 19)} Track Order</a>
       <a class="mnav-link" href="${P('faq.html')}">${icon('helpCircle', 19)} FAQ</a>
-      <a class="mnav-link" href="${P('about.html')}">${icon('info', 19)} About Us</a>
       <a class="mnav-link" href="${P('contact.html')}">${icon('mail', 19)} Contact</a>
       <a class="mnav-link" href="${P('privacy.html')}">${icon('shield', 19)} Privacy Policy</a>
       <a class="mnav-link" href="${P('terms.html')}">${icon('file', 19)} Terms of Use</a>
+    </div>
+
+    <div class="mnav-group">
+      <h5>Follow Us</h5>
+      <a class="mnav-link" href="#">${icon('youtube', 19)} YouTube</a>
+      <a class="mnav-link" href="#">${icon('instagram', 19)} Instagram</a>
+      <a class="mnav-link" href="#">${icon('facebook', 19)} Facebook</a>
+      <a class="mnav-link" href="#">${icon('whatsapp', 19)} WhatsApp</a>
     </div>
 
     <div class="mnav-group">

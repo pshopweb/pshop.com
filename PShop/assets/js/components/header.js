@@ -50,6 +50,10 @@ export async function renderHeader(active = '') {
       </form>
 
       <nav class="header-actions" aria-label="Account and cart">
+        <a class="h-action mobile-only" href="${P('search.html')}" aria-label="Search">
+          <span class="ico-wrap">${icon('search', 21)}</span>
+          <span class="lbl">Search</span>
+        </a>
         <button class="h-action" data-theme-toggle aria-label="Toggle theme"></button>
 
         <a class="h-action" href="${P('notifications.html')}" aria-label="Notifications">

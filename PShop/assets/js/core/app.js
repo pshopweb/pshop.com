@@ -39,8 +39,8 @@ export async function initApp(opts = {}) {
   registerServiceWorker();
   wireShortcuts();
   wireGlobalA11y();
-  wireSyncIndicator();
-  initConnectionWatch();   // backend down ho to user ko saaf dikhe
+  // wireSyncIndicator(); // disabled - no sync indicator
+  // initConnectionWatch(); // disabled - no connection indicator
   hideLoader();
   updateBadges();
 

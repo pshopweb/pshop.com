@@ -217,6 +217,9 @@ img{image-rendering:auto;}
   .field.error .input{animation:none;}
 }
 
+/* ──────────────────────── Hide indicators ────────────────────────────────*/
+.conn-bar,.sync-pill{display:none !important;}
+
 /* ──────────────────────── Print-friendly ────────────────────────────────*/
 @media print{
   .site-header,.site-footer,.bottom-nav,.to-top,.conn-bar,

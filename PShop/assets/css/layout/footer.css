@@ -1,6 +1,5 @@
-/* ================================= Footer ================================= */
-.site-footer{margin-top:var(--sp-12);background:var(--surface);border-top:1px solid var(--border);}
-@media (max-width:767px){.site-footer{padding-bottom:var(--bottomnav-h);}}
+/* ================================= Footer - Hidden ================================= */
+.site-footer{display:none;}
 
 /* Trust strip */
 .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4);

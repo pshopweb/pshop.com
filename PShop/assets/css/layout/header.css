@@ -52,6 +52,10 @@
 .h-action .ico-wrap{position:relative;}
 @media (max-width:1023px){.h-action span.lbl{display:none;} .h-action{min-width:44px;}}
 
+/* Mobile/Desktop visibility helpers */
+.mobile-only{display:none;}
+@media (max-width:767px){.mobile-only{display:flex;} .desktop-only{display:none;}}
+
 /* Nav row */
 .header-nav{border-top:1px solid var(--border);background:transparent;}
 .nav-list{display:flex;align-items:center;gap:.15rem;padding:.15rem 0;overflow-x:auto;scrollbar-width:none;}

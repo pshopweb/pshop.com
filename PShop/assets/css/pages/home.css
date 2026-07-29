@@ -1,10 +1,10 @@
 /* ============================== Home page ================================= */
 /* Sticky search bar (Flipkart style) -------------------------------------- */
-.home-search-sticky{position:sticky;top:0;z-index:var(--z-sticky);background:var(--bg);
+.home-search-sticky{position:sticky;top:var(--header-h);z-index:calc(var(--z-header) - 1);background:var(--bg);
   padding:var(--sp-3) 0;border-bottom:1px solid var(--border);transition:all var(--t) var(--ease);}
 .home-search-sticky .hs-form{max-width:700px;margin:0 auto;}
 @media (max-width:767px){
-  .home-search-sticky{padding:var(--sp-2) var(--sp-3);}
+  .home-search-sticky{padding:var(--sp-2) var(--sp-3);top:var(--header-h);}
   .home-search-sticky .hs-form{max-width:none;}
 }
 
@@ -24,8 +24,10 @@
 .hs-form button:hover{background:var(--brand-700);}
 @media (max-width:767px){
   .home-search{margin-top:var(--sp-3);}
-  .hs-form{padding:.5rem .6rem .5rem 1rem;border-radius:var(--r-lg);}
-  .hs-form button{padding:.5rem 1rem;font-size:var(--fs-xs);}
+  .hs-form{padding:.45rem .5rem .45rem .9rem;border-radius:var(--r-lg);gap:.4rem;}
+  .hs-form svg{width:18px;height:18px;}
+  .hs-form input{font-size:var(--fs-sm);min-height:36px;}
+  .hs-form button{padding:.4rem .8rem;font-size:var(--fs-xs);min-height:32px;}
 }
 
 /* Hero ------------------------------------------------------------------- */

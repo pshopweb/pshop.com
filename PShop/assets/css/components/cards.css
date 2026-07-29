@@ -45,7 +45,8 @@
   .pc-img{width:132px;flex:none;aspect-ratio:auto;}
   .pc-body{padding:var(--sp-3);}
   .pc-name{min-height:auto;font-size:var(--fs-sm);}
-  .pc-cta .btn{font-size:var(--fs-xs);min-height:38px;}
+  .pc-cta{gap:.3rem;margin-top:.4rem;}
+  .pc-cta .btn{font-size:11px;min-height:32px;padding:.35rem .5rem;}
   .pc-actions{opacity:1;transform:none;}
   .product-card:hover{transform:none;}
 }

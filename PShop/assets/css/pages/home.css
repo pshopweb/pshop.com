@@ -1,37 +1,6 @@
 /* ============================== Home page ================================= */
-/* Sticky search bar (Flipkart style) -------------------------------------- */
-.home-search-sticky{position:sticky;top:var(--header-h);z-index:var(--z-header);background:#fff;
-  padding:12px 0;border-bottom:1px solid #e0e0e0;box-shadow:0 2px 8px rgba(0,0,0,.06);}
-.home-search-sticky .hs-form{max-width:700px;margin:0 auto;background:#fff;border:2px solid #2874f0;
-  border-radius:4px;display:flex;align-items:center;padding:0;box-shadow:0 2px 12px rgba(40,116,240,.15);}
-.home-search-sticky .hs-form:focus-within{border-color:#2874f0;box-shadow:0 4px 20px rgba(40,116,240,.25);}
-.home-search-sticky .hs-form svg{width:22px;height:22px;color:#2874f0;margin:10px 14px;flex:none;}
-.home-search-sticky .hs-form input{flex:1;border:0;outline:0;background:transparent;font-size:16px;
-  color:#333;padding:12px 0;min-height:auto;}
-.home-search-sticky .hs-form input::placeholder{color:#999;font-size:15px;}
-.home-search-sticky .hs-form button{background:#2874f0;border:0;padding:10px 24px;cursor:pointer;
-  color:#fff;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.5px;
-  border-radius:0 2px 2px 0;transition:all .2s;}
-.home-search-sticky .hs-form button:hover{background:#1a5dc7;}
-@media (max-width:767px){
-  .home-search-sticky{padding:10px 12px;}
-  .home-search-sticky .hs-form{border-radius:4px;border-width:1.5px;}
-  .home-search-sticky .hs-form input{font-size:14px;padding:10px 0;}
-  .home-search-sticky .hs-form svg{width:20px;height:20px;margin:8px 12px;}
-  .home-search-sticky .hs-form button{padding:10px 16px;font-size:13px;}
-}
-
-/* Trending searches */
-.search-trending{display:flex;align-items:center;gap:8px;max-width:700px;margin:8px auto 0;
-  font-size:13px;color:#666;flex-wrap:wrap;}
-.search-trending span{font-weight:600;color:#333;}
-.search-trending a{color:#2874f0;text-decoration:none;padding:4px 10px;background:#f0f6ff;
-  border-radius:16px;font-size:12px;font-weight:500;transition:all .2s;}
-.search-trending a:hover{background:#2874f0;color:#fff;}
-@media (max-width:767px){
-  .search-trending{margin-top:6px;gap:6px;font-size:12px;}
-  .search-trending a{padding:3px 8px;font-size:11px;}
-}
+/* Sticky search bar (Flipkart style) - Hidden -------------------------------------- */
+.home-search-sticky{display:none;}
 
 /* Home search bar --------------------------------------------------------- */
 .home-search{margin-top:var(--sp-4);}
